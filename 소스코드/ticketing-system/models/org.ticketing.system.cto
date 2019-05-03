@@ -18,30 +18,25 @@
 
 namespace org.ticketing.system
 
-//ticket identified by ticket_id
-asset Ticket identified by ticket_id {
-  o Integer ticket_id
-  o String section_id
-  o Integer row_id
-  o Integer seat_id
-  -->Owner owner
-  o Integer gig_id
-  o String QRcode
-
-}
-
 //owner identified by id
 participant Owner identified by owner_id {
-  o Integer owner_id
+  o String owner_id
   o String owner_name
 }
 
+//ticket identified by ticket_id
+asset Ticket identified by ticket_id {
+  o String ticket_id
+  o String section_id
+  o Integer row_id
+  o Integer seat_id
+  o Integer gig_id
+  -->Owner owner
+}
 
 //points earned
 transaction ChangeOwner {
    --> Ticket ticket
    --> Owner newOwner
 }
-
-
 
