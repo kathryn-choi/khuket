@@ -37,6 +37,27 @@ function get_my_tickets(id,cb){
         }
     });
 }
+
+//티켓 resell하기
+function resell_ticket(id,current_time, starting_time, max_price, current_price, starting_price,cb){
+    connection.query("INSERT INTO bidding SET ?;",
+        {current_time : current_time,
+            starting_time : starting_time,
+            ticket_owner_index: id,
+            max_price: max_price,
+            current_price: current_price,
+            starting_price: starting_price,
+            bidder_index: -1,},function (err) {
+            if(err) {
+                throw err;
+                console.log("비딩 추가중 에러!")
+            } else{
+                // alert("추가되었습니다.")
+                cb();
+            }
+        });
+}
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
     if(!req.isAuthenticated()){

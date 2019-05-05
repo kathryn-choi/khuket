@@ -15,6 +15,7 @@ var gigs =require('./routes/gigs');
 var seats =require('./routes/seats');
 var sections =require('./routes/sections');
 var mypage = require('./routes/mypage');
+var reselling = require('./routes/reselling');
 
 var passport = require('passport');
 var setting = require('./routes/setting');
@@ -78,6 +79,8 @@ app.use('/seats', seats);
 app.use('/bidding', bidding);
 app.use('/setting', setting);
 app.use('/mypage', mypage);
+app.use('/reselling', reselling);
+
 app.use(express.static('views'));
 
 // catch 404 and forward to error handler

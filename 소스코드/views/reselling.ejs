@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reselling!</title>
+</head>
+<body>
+
+<%if (bidding.length==0){
+%>
+    <th>현재 Reselling하는 티켓이 없습니다!</th>
+<%}%>
+<% for(i=0;i
+<bidding.length; i++){
+%>
+    <tr>
+
+        <td class="cell100 column1"><image src="<%= bidding[i].starting_time%>" /></td>
+        <td class="cell100 column2"><%= bidding[i].ticket_id %></td>
+        // 티켓 정보 출력하기!!
+
+    </tr>
+<%  }  %>
+</table>
+
+
+
+</body>
+</html>

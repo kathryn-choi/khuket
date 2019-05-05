@@ -18,6 +18,26 @@ function get_my_info(id,cb){
     });
 }
 
+
+//비딩 추가하기
+function add_reselling_ticket(id,current_time, starting_time, max_price, current_price, starting_price,cb){
+    connection.query("INSERT INTO bidding SET ?;",
+        {current_time : current_time,
+            starting_time : starting_time,
+            ticket_owner_index: id,
+            max_price: max_price,
+            current_price: current_price,
+            starting_price: starting_price,
+            bidder_index: -1,},function (err) {
+            if(err) {
+                throw err;
+                console.log("리셀링 추가중 에러!")
+            } else{
+                // alert("추가되었습니다.")
+                cb();
+            }
+        });
+}
 router.get('/', function(req, res, next) {
     get_my_info(1,function (myinfo) {
    // get_my_info(req.user.user_id,function (myinfo) {
