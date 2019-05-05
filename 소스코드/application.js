@@ -14,19 +14,20 @@ var organizers =require('./routes/organizers');
 var gigs =require('./routes/gigs');
 var seats =require('./routes/seats');
 var sections =require('./routes/sections');
+var mypage = require('./routes/mypage');
 
 var passport = require('passport');
 var setting = require('./routes/setting');
 var session = require('express-session');
 
 //port
-passport.serializeUser(function(buyers, done) {
+passport.serializeUser(function(user, done) {
     console.log('serialized');
-    done(null, buyers);
+    done(null, user);
 });
-passport.deserializeUser(function(buyers, done) {
+passport.deserializeUser(function(user, done) {
     console.log('deserialized');
-    done(null, buyers);
+    done(null, user);
 });
 
 var app = express();
@@ -37,10 +38,10 @@ app.set('view engine', 'ejs');
 
 
 //mount path
-app.get('/', function (req, res) {
+/*app.get('/', function (req, res) {
     console.log(app.mountpath);
     res.send('App Homepage');
-});
+});*/
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -76,6 +77,7 @@ app.use('/sections', sections);
 app.use('/seats', seats);
 app.use('/bidding', bidding);
 app.use('/setting', setting);
+app.use('/mypage', mypage);
 app.use(express.static('views'));
 
 // catch 404 and forward to error handler

@@ -5,6 +5,24 @@
     <title>MY PAGE</title>
 </head>
 <body>
+<li>My Page</li>
+<li><a href="/">Home</a>
+<li><a href="/gigs/">Gigs</a>
+<li><a href="/auth/logout/kakao" >Logout</a></li>
+    <h2>내 정보</h2>
+    <hr>
+            <table>
+     <tr>
+            <td class="cell100 column2">이름 : <%= mypage.buyer_name %></td>
+            <td class="cell100 column3">아이디 : <%= mypage.buyer_id%></td>
+            <td class="cell100 column4">이메일 : <%= mypage.buyer_email %></td>
+            <td class="cell100 column5">연락처: <%= mypage.buyer_contact %></td>
+            <td class="cell100 column6">계좌 : <%= mypage.buyer_account %></td>
+            </td>
+
+        </tr>
+            </table>
+    <h2>내 티켓 리스트</h2>
 
 </body>
 </html>

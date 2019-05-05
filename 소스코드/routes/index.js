@@ -64,7 +64,10 @@ router.get('/',
             console.log("(!)이미 로그인");
         }else{
             console.log("(!)로그인세션 없음");
+            res.render('index',{
+                title: "Ticketing Service"
 
+            });
         }
     });
 
