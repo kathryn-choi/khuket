@@ -17,25 +17,25 @@
  */
 rule EverybodyCanReadEverything {
     description: "Allow all participants read access to all resources"
-    participant: "org.ticketing.system.SampleParticipant"
+    participant: "org.ticketing.system.User"
     operation: READ
-    resource: "org.ticketing.system.*"
+    resource: "org.ticketing.system.User"
     action: ALLOW
 }
 
 rule EverybodyCanSubmitTransactions {
     description: "Allow all participants to submit transactions"
-    participant: "org.ticketing.system.SampleParticipant"
+    participant: "org.ticketing.system.User"
     operation: CREATE
-    resource: "org.ticketing.system.SampleTransaction"
+    resource: "org.ticketing.system.ChangeOwner"
     action: ALLOW
 }
 
 rule OwnerHasFullAccessToTheirAssets {
     description: "Allow all participants full access to their assets"
-    participant(p): "org.ticketing.system.SampleParticipant"
+    participant(p): "org.ticketing.system.User"
     operation: ALL
-    resource(r): "org.ticketing.system.SampleAsset"
+    resource(r): "org.ticketing.system.Ticket"
     condition: (r.owner.getIdentifier() === p.getIdentifier())
     action: ALLOW
 }
