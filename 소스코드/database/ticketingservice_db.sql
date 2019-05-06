@@ -60,7 +60,7 @@ CREATE TABLE `bidding` (
   `bidder_index` int(11) DEFAULT NULL,
   `ticket_id` int(11) NOT NULL,
   `starting_price` int(11) NOT NULL,
-  `end_time` varchar(45) NOT NULL,
+  `end_time` datetime NOT NULL,
   PRIMARY KEY (`bidding_index`),
   CONSTRAINT `b_index` FOREIGN KEY (`bidding_index`) REFERENCES `buyer` (`buyer_index`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -238,4 +238,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-05-06 11:57:44
+-- Dump completed on 2019-05-06 12:07:33
