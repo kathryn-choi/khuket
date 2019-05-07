@@ -244,7 +244,7 @@ module.exports = {
       const buyer = await buyerRegistry.get(user_id);
 
       //disconnect
-      await businessNetworkConnection.disconnect(caruser_iddId);
+      await businessNetworkConnection.disconnect(user_id);
 
       //return buyer object
       return buyer;
@@ -337,4 +337,32 @@ module.exports = {
     }
   },
 
+  get_ticket_info_by_user : async function (user_id) {
+
+    try {
+      //connect to network with user_id
+      businessNetworkConnection = new BusinessNetworkConnection();
+      await businessNetworkConnection.connect(user_id);
+    
+      //get buyer from the network
+      const buyerRegistry = await businessNetworkConnection.getParticipantRegistry(namespace + '.Buyer');
+      const buyer = await buyerRegistry.get(user_id);
+
+      //query all tickets from the network
+      const allTickets = await businessNetworkConnection.query('select_ticket_by_user', {inputValue: buyer});
+
+      //disconnect
+      await businessNetworkConnection.disconnect(user_id);
+
+      //return all tickets object
+      return allTickets;
+    }
+    catch(err) {
+      //print and return error
+      console.log(err);
+      var error = {};
+      error.error = err.message;
+      return error
+    }
+  }
 }

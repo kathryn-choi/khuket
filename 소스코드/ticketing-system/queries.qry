@@ -25,3 +25,10 @@ query select_ticket_by_gig {
       SELECT org.ticketing.system.Ticket
       WHERE (gig_id == _$gig_id)
 }
+
+query select_ticket_by_user{
+  description: "Select ticket that matches owner"
+  statement:
+      SELECT org.ticketing.system.Ticket
+      WHERE (owner == _$owner)
+}
