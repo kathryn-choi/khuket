@@ -26,7 +26,11 @@
 <br>
 <h2>My Notifications</h2>
 <%=for (i =0; i<my_notices.length; i++) { %>
-        <%=my_notices[i].notification_index%> . <%= my_notices[i].notice_buyer_text%> <br>
+        <%=my_notices[i].notification_index%> . <%= my_notices[i].notice_buyer_text%>
+        <form action="/notification" method="post">
+        <button type="submit"  name="notification_index"value="<%==my_notices[i].notification_index%>" >Delete</button>
+        </form>
+<br>
 <%  }  %>
 <br>
 <h2>My Ticket List</h2>
