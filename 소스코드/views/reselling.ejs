@@ -5,25 +5,30 @@
     <title>Reselling!</title>
 </head>
 <body>
+<li>My Page</li>
+<li><a href="/">Home</a>
+<li><a href="/gigs">Gigs</a>
+<li><a href="/mypage">My Page</a></li>
+<li><a href="/auth/logout/kakao" >Logout</a></li>
 
-<%if (bidding.length==0){
-%>
-    <th>현재 Reselling하는 티켓이 없습니다!</th>
+<%if (reselling_list.length==0){ %>
+    <th>현재 Reselling 하는 티켓이 없습니다!</th>
 <%}%>
-<% for(i=0;i
-<bidding.length; i++){
-%>
+<% for(i=0;i<reselling_list.length; i++){ %>
     <tr>
-
-        <td class="cell100 column1"><image src="<%= bidding[i].starting_time%>" /></td>
-        <td class="cell100 column2"><%= bidding[i].ticket_id %></td>
-        // 티켓 정보 출력하기!!
-
+        <td class="cell100 column1"> Start Time: <%= reselling_list[i].starting_time%> - End Time :   <%= reselling_list[i].end_time%>"</td>
+        <td class="cell100 column2"> Current Bidding Price:  <%= reselling_list[i].current_price%></td>
+        <td class="cell100 column3"> Ticket Info: <%= reselling_list[i].ticket_id %>
+        Gig Name : <%=reselling_ticket_list[i].gig_name%> <br>
+        Gig Venue : <%=reselling_ticket_list[i].gig_venue%> <br>
+        Gig Time : <%=reselling_ticket_list[i].gig_time%> <br>
+        Gig Date : <%=reselling_ticket_list[i].gig_date%> <br> </td>
+        <form action="/bidding" method="get">
+            <button name="bidding" type="submit" value = <%=i%>>I Want to Bid</button>
+        </form>
     </tr>
 <%  }  %>
 </table>
-
-
 
 </body>
 </html>

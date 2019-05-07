@@ -139,6 +139,30 @@ LOCK TABLES `gig` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `notification`
+--
+
+DROP TABLE IF EXISTS `notification`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `notification` (
+  `notification_index` int(11) NOT NULL AUTO_INCREMENT,
+  `notice_buyer_index` int(11) NOT NULL,
+  `notice_buyer_text` longtext NOT NULL,
+  PRIMARY KEY (`notification_index`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `notification`
+--
+
+LOCK TABLES `notification` WRITE;
+/*!40000 ALTER TABLE `notification` DISABLE KEYS */;
+/*!40000 ALTER TABLE `notification` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `organizer`
 --
 
@@ -238,4 +262,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-05-06 12:07:33
+-- Dump completed on 2019-05-07 20:14:41
