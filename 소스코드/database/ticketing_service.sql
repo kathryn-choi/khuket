@@ -54,11 +54,11 @@ CREATE TABLE `bidding` (
   `bidding_index` int(11) NOT NULL AUTO_INCREMENT,
   `current_time` datetime NOT NULL,
   `starting_time` datetime NOT NULL,
-  `ticket_owner_index` int(11) NOT NULL,
+  `ticket_owner_id` varchar(45) NOT NULL,
   `max_price` int(11) NOT NULL,
   `current_price` int(11) NOT NULL,
-  `bidder_index` int(11) DEFAULT NULL,
-  `ticket_id` int(11) NOT NULL,
+  `bidder_id` varchar(45) DEFAULT NULL,
+  `ticket_id` varchar(45) NOT NULL,
   `starting_price` int(11) NOT NULL,
   `end_time` datetime NOT NULL,
   PRIMARY KEY (`bidding_index`),
@@ -201,18 +201,16 @@ DROP TABLE IF EXISTS `seat`;
 CREATE TABLE `seat` (
   `seat_index` int(11) NOT NULL AUTO_INCREMENT,
   `gig_index` int(11) NOT NULL,
-  `section_index` int(11) DEFAULT NULL,
-  `seat_location` varchar(45) DEFAULT NULL,
+  `section_id` varchar(45) DEFAULT NULL,
   `seat_row_index` int(11) DEFAULT NULL,
   PRIMARY KEY (`seat_index`),
   KEY `gig_index_idx` (`gig_index`),
-  KEY `section_index_idx` (`section_index`),
+  KEY `section_index_idx` (`section_id`),
   KEY `gig_idx` (`gig_index`),
-  KEY `section_idx` (`section_index`),
+  KEY `section_idx` (`section_id`),
   KEY `gig_index` (`gig_index`),
-  KEY `section_index` (`section_index`),
-  CONSTRAINT `gig_index_idx` FOREIGN KEY (`gig_index`) REFERENCES `gig` (`gig_index`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `section_index_idx` FOREIGN KEY (`section_index`) REFERENCES `section` (`section_index`)
+  KEY `section_index` (`section_id`),
+  CONSTRAINT `gig_index_idx` FOREIGN KEY (`gig_index`) REFERENCES `gig` (`gig_index`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -237,7 +235,7 @@ CREATE TABLE `section` (
   `gig_index` int(11) NOT NULL,
   `seat_index` int(11) DEFAULT NULL,
   `seat_price` int(11) NOT NULL,
-  `section_name` varchar(45) DEFAULT NULL,
+  `section_id` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`section_index`),
   KEY `gig_index_idx` (`gig_index`),
   CONSTRAINT `gig_index` FOREIGN KEY (`gig_index`) REFERENCES `gig` (`gig_index`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -262,4 +260,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-05-07 20:14:41
+-- Dump completed on 2019-05-08 15:39:37
