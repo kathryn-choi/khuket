@@ -15,6 +15,17 @@
 /**
  * Sample access control list.
  */
+
+
+//  rule BuyerSeeThemselvesOnly {
+//   description: "Trader can see and update their own record only"
+//   participant(t): "org.ticketing.system.Buyer"
+//   operation: READ
+//   resource(v): "org.ticketing.system.Buyer"
+//   condition: (v.getIdentifier() == t.getIdentifier())
+//   action: ALLOW
+// }
+
 rule EverybodyCanReadEverything {
     description: "Allow all participants read access to all resources"
     participant: "org.ticketing.system.User"

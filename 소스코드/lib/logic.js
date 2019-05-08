@@ -16,8 +16,10 @@ async function CreateTicket(createTicket) {
     ticket.seat_id = createTicket.seat_id
   	ticket.gig_id = createTicket.gig_id
   	ticket.owner = createTicket.owner
-    ticket.ticket_price = createTicket.ticket_price;
-    ticket.gig_datetime = createTicket.gig_datetime;
+    ticket.ticket_price = createTicket.ticket_price
+    ticket.gig_datetime = createTicket.gig_datetime
+    ticket.gig_name = createTicket.gig_name 
+    ticket.gig_venue = createTicket.gig_venue
     await ticketRegistry.add(ticket)
 
 }

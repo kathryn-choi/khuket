@@ -162,14 +162,16 @@ module.exports = {
       factory = businessNetworkConnection.getBusinessNetwork().getFactory();
 
       //create transaction
-      const creatTicket = factory.newTransaction(namespace, 'CreateTicket');
-      creatTicket.ticket_id = ticket_id;
-      creatTicket.section_id = section_id;
-      creatTicket.row_id = row_id;
-      creatTicket.seat_id = seat_id;
-      creatTicket.gig_id = gig_id;
-      creatTicket.ticket_price = ticket_price;
-      creatTicket.gig_datetime = gig_datetime;
+      const createTicket = factory.newTransaction(namespace, 'CreateTicket');
+      createTicket.ticket_id = ticket_id;
+      createTicket.section_id = section_id;
+      createTicket.row_id = row_id;
+      createTicket.seat_id = seat_id;
+      createTicket.gig_id = gig_id;
+      createTicket.ticket_price = ticket_price;
+      createTicket.gig_datetime = gig_datetime;
+      createTicket.gig_name = gig_name;
+      createTicket.gig_venue = gig_venue
       creatTicket.owner = factory.newRelationship(namespace, 'TicketAdmin', user_id);
 
       //submit transaction
