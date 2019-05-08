@@ -35,18 +35,19 @@ function check_bidding_valid(bidding_index, bidding_price, right_now_time, cb) {
     });
 }
 
+
 //alert 직전 비더
 function alert_former_bidder(bidding_index, cb) {
     var sqlquery = "SELECT  * FROM bidding b WHERE b.bidding_index = ?";
     connection.query(sqlquery, bidding_index, function (err, res) {
         if (!err) {
             if (res.bidder_index != -1) {
-                var gig_venue = network.get_ticket_info_by_id(res.bidder_index, res.ticket_id).gig_venue;
-                var gig_name =  network.get_ticket_info_by_id(res.bidder_index, res.ticket_id).gig_name;
-                var gig_time =  network.get_ticket_info_by_id(res.bidder_index, res.ticket_id).gig_time;
-                var section_id= network.get_ticket_info_by_id(res.bidder_index, res.ticket_id).section_id;
-                var row_id=network.get_ticket_info_by_id(res.bidder_index, res.ticket_id).row_id;
-                var seat_id=network.get_ticket_info_by_id(res.bidder_index, res.ticket_id).seat_id;
+                var gig_venue = network.get_ticket_info_by_id(res.bidder_id, res.ticket_id).gig_venue;
+                var gig_name =  network.get_ticket_info_by_id(res.bidder_id, res.ticket_id).gig_name;
+                var gig_time =  network.get_ticket_info_by_id(res.bidder_id, res.ticket_id).gig_time;
+                var section_id= network.get_ticket_info_by_id(res.bidder_id, res.ticket_id).section_id;
+                var row_id=network.get_ticket_info_by_id(res.bidder_id, res.ticket_id).row_id;
+                var seat_id=network.get_ticket_info_by_id(res.bidder_id, res.ticket_id).seat_id;
                 var notice= res.ticket_id.toString() + '. Gig name: ' + gig_name.toString() + '\n at ' + 'Venue : ' + gig_venue.toString()
                     + '\n Time : ' + gig_time.toString() + '\n Section/Row/Seat' + section_id.toString() + row_id.toString() + seat_id.toString();
                 connection.query("INSERT INTO notification SET ?;", {
@@ -82,8 +83,8 @@ router.post('/bidding', function (req, res, next) {
         //직전 비더에게 알리기
         if (alert_former_bidder(bidding_index) == true) {
             //비딩 가능하면 테이블에 정보 수정하기
-            var sql = "UPDATE bidding SET current_price = ?, bidder_index=?  WHERE bidding_index = ?";
-            connection.query(sql, [bidder_bidding_price, bidder_index, bidding_index], function (err) {
+            var sql = "UPDATE bidding SET current_price = ?, bidder_id=?  WHERE bidding_index = ?";
+            connection.query(sql, [bidder_bidding_price, bidder_id, bidding_index], function (err) {
                 if (err) throw err;
                 console.log("비딩 정보 수정완료");
             });
@@ -94,29 +95,6 @@ router.post('/bidding', function (req, res, next) {
     } else {
         console.log("비딩 불가!");
         res.render('bidding');
-    }
-});
-
-
-//수정할 예정
-router.get('/bidding', function(req, res, next) {
-    if(!req.isAuthenticated()){
-        res.redirect('/');
-    }else{
-        async.series(
-            [
-                function(callback){
-                    get_bidding_list(id, function (myinfo_list) {
-                        callback(null,myinfo_list);
-                    });
-                }
-            ],
-            function(err, results){
-                res.render('bidding', {
-                    bidding: results[0]
-                });
-            }
-        );
     }
 });
 
