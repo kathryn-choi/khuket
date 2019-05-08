@@ -39,6 +39,7 @@ asset Ticket identified by ticket_id {
   o Integer seat_id
   o Integer gig_id
   o Integer ticket_price
+  o DateTime gig_datetime
   -->User owner
 }
 
@@ -59,3 +60,8 @@ transaction ChangeOwner {
    --> User newOwner
 }
 
+
+//delete ticket
+transaction DeleteTicket {
+   --> Ticket ticket
+}

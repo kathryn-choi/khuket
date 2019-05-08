@@ -30,5 +30,5 @@ query select_ticket_by_user{
   description: "Select ticket that matches owner"
   statement:
       SELECT org.ticketing.system.Ticket
-      WHERE (owner == _$owner)
+      WHERE (owner.user_id == _$user_id)
 }

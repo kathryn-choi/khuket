@@ -38,7 +38,7 @@ async function importCardForIdentity(cardName, identity) {
   };
 
   //get connectionProfile from json, create Idcard
-  const connectionProfile = require('./local_connection.json');
+  const connectionProfile = require('./local_connection.json.js');
   const card = new IdCard(metadata, connectionProfile);
 
   //import card
@@ -152,7 +152,7 @@ module.exports = {
 
   },
 
-  create_ticket: async function (user_id,ticket_id,section_id,row_id,seat_id,ticket_pricegig_id,ticket_price) {
+  create_ticket: async function (user_id,ticket_id,section_id,row_id,seat_id,ticket_price,gig_id,ticket_price,gig_datetime) {
     try {
       //connect to network with user_id
       businessNetworkConnection = new BusinessNetworkConnection();
@@ -169,6 +169,7 @@ module.exports = {
       creatTicket.seat_id = seat_id;
       creatTicket.gig_id = gig_id;
       creatTicket.ticket_price = ticket_price;
+      creatTicket.gig_datetime = gig_datetime;
       creatTicket.owner = factory.newRelationship(namespace, 'TicketAdmin', user_id);
 
       //submit transaction
@@ -227,6 +228,38 @@ module.exports = {
       var error = {};
       error.error = err.message;
       return error
+    }
+
+  },
+
+  delete_ticket: async function (user_id,ticket_id) {
+    try {
+      //connect to network with user_id
+      businessNetworkConnection = new BusinessNetworkConnection();
+      await businessNetworkConnection.connect(user_id);
+
+      //get the factory for the business network.
+      factory = businessNetworkConnection.getBusinessNetwork().getFactory();
+
+      //create transaction
+      const deleteTicket = factory.newTransaction(namespace, 'DeleteTicket');
+
+
+      //submit transaction
+      await businessNetworkConnection.submitTransaction(deleteTicket);
+      deleteTicket.ticket = factory.newRelationship(namespace, 'Ticket', ticket_id);
+
+      //disconnect
+      await businessNetworkConnection.disconnect(user_id);
+
+      return true;
+    }
+    catch(err) {
+      //print and return error
+      console.log(err);
+      var error = {};
+      error.error = err.message;
+      return error;
     }
 
   },
@@ -345,11 +378,11 @@ module.exports = {
       await businessNetworkConnection.connect(user_id);
     
       //get buyer from the network
-      const buyerRegistry = await businessNetworkConnection.getParticipantRegistry(namespace + '.Buyer');
-      const buyer = await buyerRegistry.get(user_id);
+      // const buyerRegistry = await businessNetworkConnection.getParticipantRegistry(namespace + '.Buyer');
+      // const buyer = await buyerRegistry.get(user_id);
 
       //query all tickets from the network
-      const allTickets = await businessNetworkConnection.query('select_ticket_by_user', {inputValue: buyer});
+      const allTickets = await businessNetworkConnection.query('select_ticket_by_user', {inputValue: user_id});
 
       //disconnect
       await businessNetworkConnection.disconnect(user_id);
