@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MY PAGE</title>
+</head>
+<body>
+<li>My Page</li>
+<li><a href="/">Home</a>
+<li><a href="/gigs">Gigs</a>
+<li><a href="/reselling">Reselling</a></li>
+<li><a href="/auth/logout/kakao" >Logout</a></li>
+<br>
+<h2>My Personal Info</h2>
+<hr>
+<table>
+    <tr>
+        <td class="cell100 column2">이름 : <%= myinfo.buyer_name %></td>
+        <td class="cell100 column3">아이디 : <%= myinfo.buyer_id%></td>
+        <td class="cell100 column4">이메일 : <%= myinfo.buyer_email %></td>
+        <td class="cell100 column5">연락처: <%= myinfo.buyer_contact %></td>
+        <td class="cell100 column6">계좌 : <%= myinfo.buyer_account %></td>
+        </td>
+    </tr>
+</table>+
+<br>
+<h2>My Notifications</h2>
+<%=for (i =0; i<my_notices.length; i++) { %>
+        <%=my_notices[i].notification_index%> . <%= my_notices[i].notice_buyer_text%>
+        <form action="/notification" method="post">
+        <button type="submit"  name="notification_index"value="<%==my_notices[i].notification_index%>" >Delete</button>
+        </form>
+<br>
+<%  }  %>
+<br>
+<h2>My Ticket List</h2>
+    <%=for (i =0; i<my_tickets.length; i++) { %>
+        Gig Name : <%=my_tickets[i].gig_name%> <br>
+        Gig Venue : <%=my_tickets[i].gig_venue%> <br>
+        Gig Time :<%=my_tickets[i].gig_time%> <br>
+        Gig Date :<%=my_tickets[i].gig_date%> <br>
+        Ticket Id :<%=my_tickets[i].ticket_id%> <br>
+        Section/ Row/ Seat : <%=my_tickets[i].section_id%> / <%= my_tickets[i].row_id %> / <%=my_tickets[i].seat_id%> <br>
+        Ticket Price: <%=my_tickets[i].ticket_price%> <br>
+        <form action="/reselling" method="post">
+            <button name="resell" type="submit" value = <%=i%>>Resell</button>
+        </form>
+        <form action="/refund" method="post">
+            <input type="hidden" name ="ticket_id"value="<%=my_tickets[i].ticket_id%>">
+            <input type="hidden" name ="gig_name"value="<%=my_tickets[i].gig_name%>">
+            <input type="hidden" name ="gig_venue"value="<%=my_tickets[i].gig_venue%>">
+            <input type="hidden" name ="gig_time"value="<%=my_tickets[i].gig_time%>">
+            <input type="hidden" name ="gig_date"value="<%=my_tickets[i].gig_date%>">
+            <input type="hidden" name ="gig_section_id"value="<%=my_tickets[i].section_id%>">
+            <input type="hidden" name ="gig_row_id"value="<%=my_tickets[i].row_id%>">
+            <input type="hidden" name ="gig_seat_id"value="<%=my_tickets[i].seat_id%>">
+            <input type="hidden" name ="ticket_price"value="<%=my_tickets[i].ticket_price%>">
+            <script>
+                var current_date = new Date();
+                var right_now_time = current_date.getDate() + "/"
+                    + (current_date.getMonth() + 1) + "/"
+                    + current_date.getFullYear() + " @ "
+                    + current_date.getHours() + ":"
+                    + current_date.getMinutes() + ":"
+                    + current_date.getSeconds();
+            </script>
+            <input type="hidden" name ="right_now_time"value="<%=right_now_time%>">
+            <button type="submit" >Resell</button>
+        </form>
+    <%  }  %>
+</body>
+</html>
