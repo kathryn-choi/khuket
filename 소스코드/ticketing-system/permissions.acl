@@ -53,11 +53,19 @@ rule BuyersSeeOwnHistoryOnly {
   action: DENY
 }
 
-rule AdminCanDoEveruthing {
+rule AdminCanDoEverything {
     description: "Allow all participants to submit transactions"
     participant: "org.ticketing.system.TicketAdmin"
     operation: ALL
     resource: "org.ticketing.system.*"
+    action: ALLOW
+}
+
+rule OrganizerOnlySeeTicket {
+    description: "Allow Organizer see tickets"
+    participant: "org.ticketing.system.Organizer"
+    operation: READ
+    resource: "org.ticketing.system.Ticket"
     action: ALLOW
 }
 

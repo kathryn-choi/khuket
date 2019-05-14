@@ -31,6 +31,10 @@ participant Buyer extends User {
 participant TicketAdmin extends User {
 }
 
+//TicketAdmin identified by owner_id
+participant Organizer extends User {
+}
+
 //ticket identified by ticket_id
 asset Ticket identified by ticket_id {
   o String ticket_id
