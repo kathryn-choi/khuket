@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>비딩 참여하기</title>
+</head>
+<body>
+//비딩
+<form method="post" action="/reselling">
+    <input type="hidden" name="bidding_index", value="<%=id%>" >
+    <input type="hidden" name="bidder_index", value="<%=user.id%>" >
+    가격: <input type="number" name="bidder_bidding_price">
+    <input type="submit" value="Submit">
+</form>
+
+</body>
+</html>
