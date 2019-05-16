@@ -7,7 +7,7 @@ var router = express.Router();
 console.log("mypage!");
 function get_my_info(id,cb){
     console.log(id);
-    var sqlquery = "SELECT  * FROM buyer WHERE buyer_id = ?";
+    var sqlquery = "SELECT  * FROM buyers WHERE buyer_id = ?";
     var my_registration_info=new Array();
     var my_notifications=new Array();
     var myinfo= new Array();
@@ -132,7 +132,20 @@ router.post('/update', function(req, res, next) {
 
 router.get('/', function(req, res, next) {
     if(!req.isAuthenticated()){
-        res.redirect('/');
+        async.series(
+            [
+                function(callback){
+                    get_my_info(req.session.buyer_id, function (myinfo_list) {
+                        callback(null,myinfo_list);
+                    });
+                }
+            ],
+            function(err, results){
+                res.render('mypage', {
+                    myinfo: results[0]
+                });
+            }
+        );
     }else{
         async.series(
             [

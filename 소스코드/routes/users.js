@@ -87,12 +87,13 @@ router.post("/buyer_login", function(req,res,next){
       let inputPassword = body.buyer_pw;
       let salt = result.dataValues.salt;
       let hashPassword = crypto.createHash("sha512").update(inputPassword + salt).digest("hex");
-     
+      console.log(hashPassword);
+      console.log(dbPassword);
       if(dbPassword === hashPassword){
           console.log("비밀번호 일치");
           // 세션 설정
           req.session.buyer_id = body.buyer_id;
-          res.redirect("/users/buyer_login");
+          res.redirect("/mypage");
       }
       else{
           console.log("비밀번호 불일치");
