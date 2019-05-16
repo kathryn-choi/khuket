@@ -110,7 +110,7 @@ module.exports = {
 
   /*
   * Create Ticket Admin participant and import card for identity
-  * @param {String} user_id Import user id for buyer & as identifier on network
+  * @param {String} user_id Import user id for admin & as identifier on network
   * @param {String} user_name Ticket Admin name
   */
   register_admin: async function (user_id, user_name) {
@@ -152,6 +152,49 @@ module.exports = {
 
   },
 
+ /*
+  * Create Organizer participant and import card for identity
+  * @param {String} user_id Import user id for organizer & as identifier on network
+  * @param {String} user_name Organizer name
+  */
+ register_admin: async function (user_id, user_name) {
+  try {
+
+    //connect as admin
+    businessNetworkConnection = new BusinessNetworkConnection();
+    await businessNetworkConnection.connect('admin@ticketing-system');
+
+    //get the factory for the business network.
+    factory = businessNetworkConnection.getBusinessNetwork().getFactory();
+
+    //create partner participant
+    const ticket_admin = factory.newResource(namespace, 'Organizer', user_id);
+    ticket_admin.user_name = user_name;
+
+    //add partner participant
+    const participantRegistry = await businessNetworkConnection.getParticipantRegistry(namespace + '.Organizer');
+    await participantRegistry.add(ticket_admin);
+
+    //issue identity
+    const identity = await businessNetworkConnection.issueIdentity(namespace + '.Organizer#' + user_id, user_id);
+
+    //import card for identity
+    await importCardForIdentity(user_id, identity);
+
+    //disconnect
+    await businessNetworkConnection.disconnect('admin@ticketing-system');
+
+    return true;
+  }
+  catch(err) {
+    //print and return error
+    console.log(err);
+    var error = {};
+    error.error = err.message;
+    return error;
+  }
+
+},
   create_ticket: async function (user_id,ticket_id,section_id,row_id,seat_id,ticket_price,gig_id,ticket_price,gig_datetime) {
     try {
       //connect to network with user_id

@@ -26,28 +26,46 @@
 //   action: ALLOW
 // }
 
-rule EverybodyCanReadEverything {
-    description: "Allow all participants read access to all resources"
-    participant: "org.ticketing.system.User"
-    operation: READ
-    resource: "org.ticketing.system.User"
-    action: ALLOW
+rule BuyerSeeThemselvesOnly {
+  description: "Buyer can see their own record only"
+   participant(t): "org.ticketing.system.Buyer"
+   operation: READ
+   resource(v): "org.ticketing.system.User"
+   condition: (v.getIdentifier() == t.getIdentifier())
+   action: ALLOW
+ }
+
+rule BuyerSeeOwnAssetOnly {
+  description: "Buyer can see their own ticket only"
+   participant(t): "org.ticketing.system.Buyer"
+   operation: READ
+   resource(v): "org.ticketing.system.Ticket"
+   condition: (v.owner.getIdentifier() == t.getIdentifier())
+   action: ALLOW
+ }
+
+rule BuyersSeeOwnHistoryOnly {
+  description: "Buyers should be able to see the history of their own transactions only"
+  participant(t): "org.ticketing.system.Buyer"
+  operation: READ
+  resource(v): "org.hyperledger.composer.system.HistorianRecord"
+  condition: (v.participantInvoking.getIdentifier() != t.getIdentifier())
+  action: DENY
 }
 
-rule EverybodyCanSubmitTransactions {
+rule AdminCanDoEverything {
     description: "Allow all participants to submit transactions"
-    participant: "org.ticketing.system.User"
-    operation: CREATE
-    resource: "org.ticketing.system.ChangeOwner"
+    participant: "org.ticketing.system.TicketAdmin"
+    operation: ALL
+    resource: "org.ticketing.system.*"
     action: ALLOW
 }
 
-rule OwnerHasFullAccessToTheirAssets {
-    description: "Allow all participants full access to their assets"
-    participant(p): "org.ticketing.system.User"
-    operation: ALL
-    resource(r): "org.ticketing.system.Ticket"
-    condition: (r.owner.getIdentifier() === p.getIdentifier())
+rule OrganizerOnlySeeTicket {
+    description: "Allow Organizer see tickets"
+    participant: "org.ticketing.system.Organizer"
+    operation: READ
+    resource: "org.ticketing.system.Ticket"
     action: ALLOW
 }
 

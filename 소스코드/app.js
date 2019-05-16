@@ -1,26 +1,32 @@
+// module
+var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
+var session = require('express-session');
 var cookieParser = require('cookie-parser');
+var logger = require('morgan');
+var favicon = require('serve-favicon');
 var bodyParser = require('body-parser');
-var mysql      = require('mysql');
+var mysql = require('mysql');
 var request = require('request');
+var passport = require('passport');
+var session = require('express-session');
+
+// routing
 var index = require('./routes/index');
+var users = require('./routes/users');
 var buyers = require('./routes/buyers');
 var bidding = require('./routes/bidding');
-var administrators =require('./routes/administrators');
-var organizers =require('./routes/organizers');
-var gigs =require('./routes/gigs');
-var seats =require('./routes/seats');
-var sections =require('./routes/sections');
+var administrators = require('./routes/administrators');
+var organizers = require('./routes/organizers');
+var gigs = require('./routes/gigs');
+var seats = require('./routes/seats');
+var sections = require('./routes/sections');
 var mypage = require('./routes/mypage');
 var reselling = require('./routes/reselling');
 var refund = require('./routes/refund');
-
-var passport = require('passport');
 var setting = require('./routes/setting');
-var session = require('express-session');
+
 
 //port
 passport.serializeUser(function(user, done) {
@@ -57,20 +63,38 @@ app.use(express.static(path.join(__dirname, 'public')));
 connection = mysql.createConnection({
     host     : 'localhost',
     user     : 'root',
-    password : 'password',
+    password : '',
     port     : 3306,
-    database : 'ticketing_service'
+    database : 'ticketing_service',
+    //insecureAuth : true
 });
 
+/*
 app.use(session({
     secret: 'secrettexthere',
     saveUninitialized: true,
     resave: true
 }));
+*/
+
+app.use(session({
+    key: 'sid', 
+    secret: 'secret',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      maxAge: 1000 * 60 * 60 // 쿠키 유효기간 1시간
+    }
+  }))
+
+app.use(express.static('public'));
+app.use(express.static('views'));
 
 app.use(passport.initialize());
 app.use(passport.session());
+
 app.use('/', index);
+app.use('/users', users);
 app.use('/buyers', buyers);
 app.use('/administrators', administrators);
 app.use('/organizers', organizers);
@@ -83,7 +107,6 @@ app.use('/mypage', mypage);
 app.use('/reselling', reselling);
 app.use('/refund', refund);
 
-app.use(express.static('views'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -93,6 +116,7 @@ app.use(function(req, res, next) {
 });
 
 // error handler
+
 app.use(function(err, req, res, next) {
     // set locals, only providing error in development
     res.locals.message = err.message;
@@ -103,6 +127,7 @@ app.use(function(err, req, res, next) {
     res.render('error');
 });
 
-var server = app.listen(3000);
 module.exports = app;
-console.log("hi");
+
+// npm start
+// or nodemon start (npm install -g nodemon)
