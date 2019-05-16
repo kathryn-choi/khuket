@@ -38,6 +38,7 @@ function add_reselling_ticket(id,current_time, starting_time, max_price, current
             }
         });
 }
+/*
 router.get('/', function(req, res, next) {
     get_my_info(id,function (myinfo) {
    // get_my_info(req.user.user_id,function (myinfo) {
@@ -46,5 +47,5 @@ router.get('/', function(req, res, next) {
         });
     })
 });
-
+*/
 module.exports = router;

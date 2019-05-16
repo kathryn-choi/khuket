@@ -2,8 +2,9 @@
   "name": "ticketing_system",
   "version": "1.0.0",
   "description": "",
-  "main": "application.js",
+  "private": true,
   "scripts": {
+    "start": "node ./bin/www",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

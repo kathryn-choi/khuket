@@ -1,72 +1,342 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>MY PAGE</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Varsity | Course</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon">
+
+    <!-- Font awesome -->
+    <link href="assets/css/font-awesome.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <!-- Slick slider -->
+    <link rel="stylesheet" type="text/css" href="assets/css/slick.css">
+    <!-- Fancybox slider -->
+    <link rel="stylesheet" href="assets/css/jquery.fancybox.css" type="text/css" media="screen" />
+    <!-- Theme color -->
+    <link id="switcher" href="assets/css/theme-color/default-theme.css" rel="stylesheet">
+
+    <!-- Main style sheet -->
+    <link href="assets/css/style.css" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,400italic,300,300italic,500,700' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <title>My Page </title>
+    <![endif]-->
+
 </head>
 <body>
-<li>My Page</li>
-<li><a href="/">Home</a>
-<li><a href="/gigs">Gigs</a>
-<li><a href="/reselling">Reselling</a></li>
-<li><a href="/auth/logout/kakao" >Logout</a></li>
-<br>
-<h2>My Personal Info</h2>
-<hr>
-<table>
-    <tr>
-        <td class="cell100 column2">이름 : <%= myinfo.buyer_name %></td>
-        <td class="cell100 column3">아이디 : <%= myinfo.buyer_id%></td>
-        <td class="cell100 column4">이메일 : <%= myinfo.buyer_email %></td>
-        <td class="cell100 column5">연락처: <%= myinfo.buyer_contact %></td>
-        <td class="cell100 column6">계좌 : <%= myinfo.buyer_account %></td>
-        </td>
-    </tr>
-</table>+
-<br>
-<h2>My Notifications</h2>
-<%=for (i =0; i<my_notices.length; i++) { %>
-        <%=my_notices[i].notification_index%> . <%= my_notices[i].notice_buyer_text%>
-        <form action="/notification" method="post">
-        <button type="submit"  name="notification_index"value="<%==my_notices[i].notification_index%>" >Delete</button>
-        </form>
-<br>
-<%  }  %>
-<br>
-<h2>My Ticket List</h2>
-    <%=for (i =0; i<my_tickets.length; i++) { %>
-        Gig Name : <%=my_tickets[i].gig_name%> <br>
-        Gig Venue : <%=my_tickets[i].gig_venue%> <br>
-        Gig Time :<%=my_tickets[i].gig_time%> <br>
-        Gig Date :<%=my_tickets[i].gig_date%> <br>
-        Ticket Id :<%=my_tickets[i].ticket_id%> <br>
-        Section/ Row/ Seat : <%=my_tickets[i].section_id%> / <%= my_tickets[i].row_id %> / <%=my_tickets[i].seat_id%> <br>
-        Ticket Price: <%=my_tickets[i].ticket_price%> <br>
-        <form action="/reselling" method="post">
-            <button name="resell" type="submit" value = <%=i%>>Resell</button>
-        </form>
-        <form action="/refund" method="post">
-            <input type="hidden" name ="ticket_id"value="<%=my_tickets[i].ticket_id%>">
-            <input type="hidden" name ="gig_name"value="<%=my_tickets[i].gig_name%>">
-            <input type="hidden" name ="gig_venue"value="<%=my_tickets[i].gig_venue%>">
-            <input type="hidden" name ="gig_time"value="<%=my_tickets[i].gig_time%>">
-            <input type="hidden" name ="gig_date"value="<%=my_tickets[i].gig_date%>">
-            <input type="hidden" name ="gig_section_id"value="<%=my_tickets[i].section_id%>">
-            <input type="hidden" name ="gig_row_id"value="<%=my_tickets[i].row_id%>">
-            <input type="hidden" name ="gig_seat_id"value="<%=my_tickets[i].seat_id%>">
-            <input type="hidden" name ="ticket_price"value="<%=my_tickets[i].ticket_price%>">
-            <script>
-                var current_date = new Date();
-                var right_now_time = current_date.getDate() + "/"
-                    + (current_date.getMonth() + 1) + "/"
-                    + current_date.getFullYear() + " @ "
-                    + current_date.getHours() + ":"
-                    + current_date.getMinutes() + ":"
-                    + current_date.getSeconds();
-            </script>
-            <input type="hidden" name ="right_now_time"value="<%=right_now_time%>">
-            <button type="submit" >Resell</button>
-        </form>
-    <%  }  %>
+<!-- Start menu -->
+<section id="mu-menu">
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <!-- FOR MOBILE VIEW COLLAPSED BUTTON -->
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!-- LOGO -->
+                <!-- TEXT BASED LOGO -->
+                <a class="navbar-brand" href="index.html"><i class="fa fa-university"></i><span>Ticketing Service</span></a>
+                <!-- IMG BASED LOGO  -->
+                <!-- <a class="navbar-brand" href="index.html"><img src="assets/img/logo.png" alt="logo"></a> -->
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul id="top-menu" class="nav navbar-nav navbar-right main-nav">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/reselling">Reselling</a></li>
+                    <li><a href="/auth/logout/kakao">Logout</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </nav>
+</section>
+<!-- End menu -->
+<!-- Start search box -->
+<div id="mu-search">
+    <div class="mu-search-area">
+        <button class="mu-search-close"><span class="fa fa-close"></span></button>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <form class="mu-search-form">
+                        <input type="search" placeholder="Type Your Keyword(s) & Hit Enter">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End search box -->
+<!-- Page breadcrumb -->
+<section id="mu-page-breadcrumb">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mu-page-breadcrumb-area">
+                    <h2>My Page</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End breadcrumb -->
+<section id="mu-course-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mu-course-content-area">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <!-- start course content container -->
+                            <div class="mu-course-container">
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6">
+                                        <div class="mu-latest-course-single">
+                                            <figure class="mu-latest-course-img">
+                                                <a href="#"><img src="assets/img/courses/1.jpg" alt="img"></a>
+                                                <figcaption class="mu-latest-course-imgcaption">
+                                                    <a href="#">Drawing</a>
+                                                    <span><i class="fa fa-clock-o"></i>90Days</span>
+                                                </figcaption>
+                                            </figure>
+                                            <div class="mu-latest-course-single-content">
+                                                <h4><a href="#">Lorem ipsum dolor sit amet.</a></h4>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet quod nisi quisquam modi dolore, dicta obcaecati architecto quidem ullam quia.</p>
+                                                <div class="mu-latest-course-single-contbottom">
+                                                    <a class="mu-course-details" href="#">Details</a>
+                                                    <span class="mu-course-price" href="#">$165.00</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+                                        <div class="mu-latest-course-single">
+                                            <figure class="mu-latest-course-img">
+                                                <a href="#"><img src="assets/img/courses/2.jpg" alt="img"></a>
+                                                <figcaption class="mu-latest-course-imgcaption">
+                                                    <a href="#">Engineering </a>
+                                                    <span><i class="fa fa-clock-o"></i>75Days</span>
+                                                </figcaption>
+                                            </figure>
+                                            <div class="mu-latest-course-single-content">
+                                                <h4><a href="#">Lorem ipsum dolor sit amet.</a></h4>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet quod nisi quisquam modi dolore, dicta obcaecati architecto quidem ullam quia.</p>
+                                                <div class="mu-latest-course-single-contbottom">
+                                                    <a class="mu-course-details" href="#">Details</a>
+                                                    <span class="mu-course-price" href="#">$165.00</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+                                        <div class="mu-latest-course-single">
+                                            <figure class="mu-latest-course-img">
+                                                <a href="#"><img src="assets/img/courses/1.jpg" alt="img"></a>
+                                                <figcaption class="mu-latest-course-imgcaption">
+                                                    <a href="#">Drawing</a>
+                                                    <span><i class="fa fa-clock-o"></i>90Days</span>
+                                                </figcaption>
+                                            </figure>
+                                            <div class="mu-latest-course-single-content">
+                                                <h4><a href="#">Lorem ipsum dolor sit amet.</a></h4>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet quod nisi quisquam modi dolore, dicta obcaecati architecto quidem ullam quia.</p>
+                                                <div class="mu-latest-course-single-contbottom">
+                                                    <a class="mu-course-details" href="#">Details</a>
+                                                    <span class="mu-course-price" href="#">$165.00</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+                                        <div class="mu-latest-course-single">
+                                            <figure class="mu-latest-course-img">
+                                                <a href="#"><img src="assets/img/courses/2.jpg" alt="img"></a>
+                                                <figcaption class="mu-latest-course-imgcaption">
+                                                    <a href="#">Engineering </a>
+                                                    <span><i class="fa fa-clock-o"></i>75Days</span>
+                                                </figcaption>
+                                            </figure>
+                                            <div class="mu-latest-course-single-content">
+                                                <h4><a href="#">Lorem ipsum dolor sit amet.</a></h4>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet quod nisi quisquam modi dolore, dicta obcaecati architecto quidem ullam quia.</p>
+                                                <div class="mu-latest-course-single-contbottom">
+                                                    <a class="mu-course-details" href="#">Details</a>
+                                                    <span class="mu-course-price" href="#">$165.00</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+                                        <div class="mu-latest-course-single">
+                                            <figure class="mu-latest-course-img">
+                                                <a href="#"><img src="assets/img/courses/1.jpg" alt="img"></a>
+                                                <figcaption class="mu-latest-course-imgcaption">
+                                                    <a href="#">Drawing</a>
+                                                    <span><i class="fa fa-clock-o"></i>90Days</span>
+                                                </figcaption>
+                                            </figure>
+                                            <div class="mu-latest-course-single-content">
+                                                <h4><a href="#">Lorem ipsum dolor sit amet.</a></h4>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet quod nisi quisquam modi dolore, dicta obcaecati architecto quidem ullam quia.</p>
+                                                <div class="mu-latest-course-single-contbottom">
+                                                    <a class="mu-course-details" href="#">Details</a>
+                                                    <span class="mu-course-price" href="#">$165.00</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+                                        <div class="mu-latest-course-single">
+                                            <figure class="mu-latest-course-img">
+                                                <a href="#"><img src="assets/img/courses/2.jpg" alt="img"></a>
+                                                <figcaption class="mu-latest-course-imgcaption">
+                                                    <a href="#">Engineering </a>
+                                                    <span><i class="fa fa-clock-o"></i>75Days</span>
+                                                </figcaption>
+                                            </figure>
+                                            <div class="mu-latest-course-single-content">
+                                                <h4><a href="#">Lorem ipsum dolor sit amet.</a></h4>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet quod nisi quisquam modi dolore, dicta obcaecati architecto quidem ullam quia.</p>
+                                                <div class="mu-latest-course-single-contbottom">
+                                                    <a class="mu-course-details" href="#">Details</a>
+                                                    <span class="mu-course-price" href="#">$165.00</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end course content container -->
+                            <!-- start course pagination -->
+                            <div class="mu-pagination">
+                                <nav>
+                                    <ul class="pagination">
+                                        <li>
+                                            <a href="#" aria-label="Previous">
+                                                <span class="fa fa-angle-left"></span> Prev
+                                            </a>
+                                        </li>
+                                        <li class="active"><a href="#">1</a></li>
+                                        <li><a href="#">2</a></li>
+                                        <li><a href="#">3</a></li>
+                                        <li><a href="#">4</a></li>
+                                        <li><a href="#">5</a></li>
+                                        <li>
+                                            <a href="#" aria-label="Next">
+                                                Next <span class="fa fa-angle-right"></span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                            <!-- end course pagination -->
+                        </div>
+                        <div class="col-md-3">
+                            <!-- start sidebar -->
+                            <aside class="mu-sidebar">
+                                <!-- start single sidebar -->
+                                <div class="mu-single-sidebar">
+                                    <h3>Personal Info</h3>
+                                    <ul class="mu-sidebar-catg">
+                                        <% for(i=0; i<1; i++){ %>
+                                        <form action="/mypage/update" method="post">
+                                        <li>이름 : <%=myinfo[i].buyer_name %></li>
+                                        <li>아이디 : <%= myinfo[i].buyer_id%></li>
+                                        <li>이메일 : <input name="buyer_email" value="<%= myinfo[i].buyer_email %>"></li>
+                                        <li>연락처: <input name="buyer_contact" value="<%=myinfo[i].buyer_contact %>"></li>
+                                        <li>계좌 : <input name="buyer_account" value="<%=myinfo[i].buyer_account %>"></li>
+                                            <button type="submit">Submit</button>
+                                        </form>
+                                        <% } %>
+                                    </ul>
+                                </div>
+                                <!-- end single sidebar -->
+                                <!-- start single sidebar -->
+                                <div class="mu-single-sidebar">
+                                    <h3>My Notifications</h3>
+                                    <div class="mu-sidebar-popular-courses">
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <%for (i =1; i<myinfo.length; i++) { %>
+                                                <form method="post" action="/mypage/delete_notification">
+                                                        <%=i%> .  <%= myinfo[i].notice_buyer_text %> <br>
+                                                        <input type="hidden" name="notification_index"value="<%= myinfo[i].notification_index%>">
+                                                        <button type="submit">Delete</button>
+                                                </form>
+                                                <%}%>
+                                            </div>
+                                            <!--
+                                            <div class="media-body">
+                                                <h4 class="media-heading"></h4>
+                                                <span class="popular-course-price">$200.00</span>
+                                            </div>
+                                        </div>
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <a href="#">
+                                                    <img class="media-object" src="assets/img/courses/2.jpg" alt="img">
+                                                </a>
+                                            </div>
+                                            <div class="media-body">
+                                                <h4 class="media-heading"><a href="#">Web Design</a></h4>
+                                                <span class="popular-course-price">$250.00</span>
+                                            </div>
+                                        </div>
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <a href="#">
+                                                    <img class="media-object" src="assets/img/courses/3.jpg" alt="img">
+                                                </a>
+                                            </div>
+                                            <div class="media-body">
+                                                <h4 class="media-heading"><a href="#">Health & Sports</a></h4>
+                                                <span class="popular-course-price">$90.00</span>
+                                            </div>-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end single sidebar -->
+                            </aside>
+                            <!-- / end sidebar -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- jQuery library -->
+<script src="assets/js/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="assets/js/bootstrap.js"></script>
+<!-- Slick slider -->
+<script type="text/javascript" src="assets/js/slick.js"></script>
+<!-- Counter -->
+<script type="text/javascript" src="assets/js/waypoints.js"></script>
+<script type="text/javascript" src="assets/js/jquery.counterup.js"></script>
+<!-- Mixit slider -->
+<script type="text/javascript" src="assets/js/jquery.mixitup.js"></script>
+<!-- Add fancyBox -->
+<script type="text/javascript" src="assets/js/jquery.fancybox.pack.js"></script>
+
+<!-- Custom js -->
+<script src="assets/js/custom.js"></script>
+
 </body>
 </html>
