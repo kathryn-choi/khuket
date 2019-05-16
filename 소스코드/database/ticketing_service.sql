@@ -16,13 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `administrator`
+-- Table structure for table `administrators`
 --
 
-DROP TABLE IF EXISTS `administrator`;
+DROP TABLE IF EXISTS `administrators`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `administrator` (
+CREATE TABLE `administrators` (
   `admin_index` int(11) NOT NULL AUTO_INCREMENT,
   `admin_id` varchar(45) NOT NULL,
   `admin_pw` varchar(45) NOT NULL,
@@ -35,13 +35,13 @@ CREATE TABLE `administrator` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `administrator`
+-- Dumping data for table `administrators`
 --
 
-LOCK TABLES `administrator` WRITE;
-/*!40000 ALTER TABLE `administrator` DISABLE KEYS */;
-INSERT INTO `administrator` VALUES (1,'admin','admin','admin@admin.com',123123,NULL);
-/*!40000 ALTER TABLE `administrator` ENABLE KEYS */;
+LOCK TABLES `administrators` WRITE;
+/*!40000 ALTER TABLE `administrators` DISABLE KEYS */;
+INSERT INTO `administrators` VALUES (1,'admin','admin','admin@admin.com',123123,NULL);
+/*!40000 ALTER TABLE `administrators` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -77,13 +77,13 @@ INSERT INTO `bidding` VALUES (1,'2019-05-09 19:47:41','2019-05-08 15:00:00','107
 UNLOCK TABLES;
 
 --
--- Table structure for table `buyer`
+-- Table structure for table `buyers`
 --
 
-DROP TABLE IF EXISTS `buyer`;
+DROP TABLE IF EXISTS `buyers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `buyer` (
+CREATE TABLE `buyers` (
   `buyer_index` int(11) NOT NULL AUTO_INCREMENT,
   `buyer_id` varchar(45) NOT NULL,
   `buyer_pw` varchar(45) NOT NULL,
@@ -101,23 +101,23 @@ CREATE TABLE `buyer` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `buyer`
+-- Dumping data for table `buyers`
 --
 
-LOCK TABLES `buyer` WRITE;
-/*!40000 ALTER TABLE `buyer` DISABLE KEYS */;
-INSERT INTO `buyer` VALUES (24,'1078842445','1078842445','yhye1997@gmail.com',10,111,NULL,NULL,NULL);
-/*!40000 ALTER TABLE `buyer` ENABLE KEYS */;
+LOCK TABLES `buyers` WRITE;
+/*!40000 ALTER TABLE `buyers` DISABLE KEYS */;
+INSERT INTO `buyers` VALUES (24,'1078842445','1078842445','yhye1997@gmail.com',10,111,NULL,NULL,NULL);
+/*!40000 ALTER TABLE `buyers` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `gig`
+-- Table structure for table `gigs`
 --
 
-DROP TABLE IF EXISTS `gig`;
+DROP TABLE IF EXISTS `gigs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `gig` (
+CREATE TABLE `gigs` (
   `gig_index` int(11) NOT NULL AUTO_INCREMENT,
   `gig_organizer_index` int(11) NOT NULL,
   `gig_venue` varchar(200) DEFAULT NULL,
@@ -130,18 +130,18 @@ CREATE TABLE `gig` (
   `gig_type` varchar(45) NOT NULL,
   PRIMARY KEY (`gig_index`),
   KEY `gig_organizer_index_idx` (`gig_organizer_index`),
-  CONSTRAINT `gig_organizer_index` FOREIGN KEY (`gig_organizer_index`) REFERENCES `organizer` (`organizer_index`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `gig_organizer_index` FOREIGN KEY (`gig_organizer_index`) REFERENCES `organizers` (`organizer_index`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `gig`
+-- Dumping data for table `gigs`
 --
 
-LOCK TABLES `gig` WRITE;
-/*!40000 ALTER TABLE `gig` DISABLE KEYS */;
-INSERT INTO `gig` VALUES (1,1,'Kyunghee Univ','Spectrum','2019-10-03 10:00:00',200,1,'http://tkfile.yes24.com/upload2/PerfBlog/201805/20180510/20180510-29476_12.jpg','best music festival!','');
-/*!40000 ALTER TABLE `gig` ENABLE KEYS */;
+LOCK TABLES `gigs` WRITE;
+/*!40000 ALTER TABLE `gigs` DISABLE KEYS */;
+INSERT INTO `gigs` VALUES (1,1,'Kyunghee Univ','Spectrum','2019-10-03 10:00:00',200,1,'http://tkfile.yes24.com/upload2/PerfBlog/201805/20180510/20180510-29476_12.jpg','best music festival!','');
+/*!40000 ALTER TABLE `gigs` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -170,13 +170,13 @@ INSERT INTO `notification` VALUES (1,'1078842445','notice1'),(3,'-1','overbid ??
 UNLOCK TABLES;
 
 --
--- Table structure for table `organizer`
+-- Table structure for table `organizers`
 --
 
-DROP TABLE IF EXISTS `organizer`;
+DROP TABLE IF EXISTS `organizers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `organizer` (
+CREATE TABLE `organizers` (
   `organizer_index` int(11) NOT NULL AUTO_INCREMENT,
   `organizer_id` varchar(45) NOT NULL,
   `organizer_pw` varchar(45) NOT NULL,
@@ -191,13 +191,13 @@ CREATE TABLE `organizer` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `organizer`
+-- Dumping data for table `organizers`
 --
 
-LOCK TABLES `organizer` WRITE;
-/*!40000 ALTER TABLE `organizer` DISABLE KEYS */;
-INSERT INTO `organizer` VALUES (1,'og1','pw','og1@og.com',123123,11111,'organizer1',NULL);
-/*!40000 ALTER TABLE `organizer` ENABLE KEYS */;
+LOCK TABLES `organizers` WRITE;
+/*!40000 ALTER TABLE `organizers` DISABLE KEYS */;
+INSERT INTO `organizers` VALUES (1,'og1','pw','og1@og.com',123123,11111,'organizer1',NULL);
+/*!40000 ALTER TABLE `organizers` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -219,7 +219,7 @@ CREATE TABLE `seat` (
   KEY `section_idx` (`section_id`),
   KEY `gig_index` (`gig_index`),
   KEY `section_index` (`section_id`),
-  CONSTRAINT `gig_index_idx` FOREIGN KEY (`gig_index`) REFERENCES `gig` (`gig_index`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `gig_index_idx` FOREIGN KEY (`gig_index`) REFERENCES `gigs` (`gig_index`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -247,7 +247,7 @@ CREATE TABLE `section` (
   `section_id` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`section_index`),
   KEY `gig_index_idx` (`gig_index`),
-  CONSTRAINT `gig_index` FOREIGN KEY (`gig_index`) REFERENCES `gig` (`gig_index`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `gig_index` FOREIGN KEY (`gig_index`) REFERENCES `gigs` (`gig_index`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -269,4 +269,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-05-16 11:10:57
+-- Dump completed on 2019-05-16 11:15:48
