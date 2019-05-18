@@ -59,17 +59,33 @@ fi
 docker-compose -f "${DOCKER_FILE}" down
 docker-compose -f "${DOCKER_FILE}" up -d
 
+
 # wait for Hyperledger Fabric to start
 # incase of errors when running later commands, issue export FABRIC_START_TIMEOUT=<larger number>
 echo "sleeping for ${FABRIC_START_TIMEOUT} seconds to wait for fabric to complete start up"
 sleep ${FABRIC_START_TIMEOUT}
+
+curl -X PUT http://127.0.0.1:5985/_users
+
+curl -X PUT http://127.0.0.1:5985/_replicator
+
+curl -X PUT http://127.0.0.1:5985/_global_changes
+
+curl -X PUT http://127.0.0.1:5986/_users
+
+curl -X PUT http://127.0.0.1:5986/_replicator
+
+curl -X PUT http://127.0.0.1:5986/_global_changes
 
 # Create the channel
 docker exec peer0.org1.example.com peer channel create -o orderer.example.com:7050 -c composerchannel -f /etc/hyperledger/configtx/composer-channel.tx
 
 # Join peer0.org1.example.com to the channel.
 docker exec -e "CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/users/Admin@org1.example.com/msp" peer0.org1.example.com peer channel join -b composerchannel.block
-
+#docker exec -e "CHANNEL_NAME=composerchannel" -e "CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/users/Admin@org1.example.com/msp" peer1.org1.example.com peer channel join -b composerchannel.block
+#docker exec -e "CHANNEL_NAME=composerchannel" -e "CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/users/Admin@org1.example.com/msp" peer2.org1.example.com peer channel join -b composerchannel.block
+docker exec -e "CHANNEL_NAME=composerchannel" -e "CORE_PEER_LOCALMSPID=Org1MSP" -e "CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/peer1/tls/ca.crt" -e "CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/users/Admin@org1.example.com/msp" -e "CORE_PEER_ADDRESS=peer1.org1.example.com:7051" peer0.org1.example.com peer channel join -b composerchannel.block
+docker exec -e "CHANNEL_NAME=composerchannel" -e "CORE_PEER_LOCALMSPID=Org1MSP" -e "CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/peer2/tls/ca.crt" -e "CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/users/Admin@org1.example.com/msp" -e "CORE_PEER_ADDRESS=peer2.org1.example.com:7051" peer0.org1.example.com peer channel join -b composerchannel.block
 if [ "${FABRIC_DEV_MODE}" == "true" ]; then
     echo "Fabric Network started in chaincode development mode"
 fi
