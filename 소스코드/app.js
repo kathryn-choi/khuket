@@ -69,13 +69,7 @@ connection = mysql.createConnection({
     //insecureAuth : true
 });
 
-/*
-app.use(session({
-    secret: 'secrettexthere',
-    saveUninitialized: true,
-    resave: true
-}));
-*/
+
 
 app.use(session({
     key: 'sid', 

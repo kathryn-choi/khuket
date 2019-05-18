@@ -42,7 +42,20 @@ function alert_former_bidder(bidding_index) {
 
 router.post('/', function(req, res, next) {
     if(!req.isAuthenticated()){
-        res.redirect('/');
+        var sqlquery = 'SELECT * FROM bidding b WHERE bidding_index=?';
+        var reselling_list = new Array();
+        connection.query(sqlquery, req.body.bidding_index, function (err, rows) {
+            if (!err) {
+                reselling_list = rows;
+                console.log(reselling_list);
+                console.log(req.body.bidding_id);
+                res.render('bidding', {user_id : req.body.bidding_id, bidding_index :req.body.bidding_index, current_price : reselling_list[0].current_price, max_price: reselling_list[0].max_price});
+            } else {
+                console.log('내 정보를 가져오는데 실패했습니다!');
+                res.redirect('back');
+                //throw err;
+            }
+        });
     }else{
         var sqlquery = 'SELECT * FROM bidding b WHERE bidding_index=?';
         var reselling_list = new Array();

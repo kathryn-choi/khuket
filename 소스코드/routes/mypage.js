@@ -141,8 +141,11 @@ router.get('/', function(req, res, next) {
                 }
             ],
             function(err, results){
+
                 res.render('mypage', {
-                    myinfo: results[0]
+                    myinfo: results[0],
+                    user_id:req.session.buyer_id,
+                    kakao: false
                 });
             }
         );
@@ -157,7 +160,9 @@ router.get('/', function(req, res, next) {
             ],
             function(err, results){
                 res.render('mypage', {
-                    myinfo: results[0]
+                    myinfo: results[0],
+                    kakao: true,
+                    user_id: req.user.user_id,
                 });
             }
         );

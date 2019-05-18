@@ -38,11 +38,11 @@ router.get('/auth/login/kakao/callback',
 );
 
 function loginByThirdparty(accessToken, refreshToken, profile) {
-        var sql = 'INSERT INTO `buyer` (`buyer_id`, `buyer_pw`) VALUES ? ON DUPLICATE KEY UPDATE buyer_id=buyer_id;';
-        var values = [[profile._json.id, profile._json.id]];
+        var sql = 'INSERT INTO `buyers` (`buyer_id`, `buyer_pw`, `buyer_name`) VALUES ? ON DUPLICATE KEY UPDATE buyer_id=buyer_id;';
+        var values = [[profile._json.id, profile._json.id, profile._json.properties.nickname]];
         connection.query(sql, [values], function (err) {
             if (err) {
-                console.log("비딩 추가중 에러!");
+                console.log("카카오계정 추가중 에러!");
                 throw err;
             } else {
                 console.log("추가되었습니다.");

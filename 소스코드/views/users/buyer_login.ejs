@@ -1,9 +1,177 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <title>Login V10</title>
   <meta charset="UTF-8">
-  <title>Login</title>
 </head>
+<script src="http://developers.kakao.com/sdk/js/kakao.min.js"></script>
+<script  src="https://code.jquery.com/jquery-3.1.1.min.js"  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="  crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" ></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<style>
+  .body{
+    background: #01bafd;
+    transition: all .5s;
+    padding: 10px 20px 30px 40px;
+  }
+  .veen{
+    width: 70%;
+    margin: 100px auto;
+    background: rgba(255,255,255,.5);
+    min-height: 400px;
+    display:table;
+    position: relative;
+    box-shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28);
+  }
+  .veen > div {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    color: #fff;
+  }
+  .veen button{
+    background: transparent;
+  //background-image: linear-gradient(90deg, #e0b722, #ff4931);
+    display: inline-block;
+    padding: 10px 30px;
+    border: 3px solid #fff;
+    border-radius: 50px;
+    background-clip: padding-box;
+    position: relative;
+    color: #FFF;
+  //box-shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28);
+    transition: all .25s;
+  }
+  .veen button.dark{
+    border-color: #fff;
+    background: #01bafd;
+  }
+  .veen .move button.dark{
+    border-color: #e0b722;
+    background: #e0b722;
+  }
+  .veen .splits p{
+    font-size: 18px;
+  }
+  .veen button:active{
+    box-shadow: none;
+  }
+  .veen button:focus{
+    outline: none;
+  }
+  .veen > .wrapper {
+    position: absolute;
+    width: 40%;
+    height: 120%;
+    top: -10%;
+    left: 5%;
+    background: #fff;
+    box-shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28);
+    transition: all .5s;
+    color: #303030;
+    overflow: hidden;
+  }
+  .veen .wrapper > form{
+    padding: 15px 30px 30px;
+    width: 100%;
+    transition: all .5s;
+    background: #fff;
+  }
+  .veen .wrapper > form:focus{
+    outline: none;
+  }
+  .veen .wrapper #login{
+    padding-top: 20%;
+    visibility: visible;
+  }
+
+  .veen .wrapper.move #login{
+    transform: translateX(-100%);
+    visibility: hidden;
+  }
+  .veen .wrapper > form > div {
+    position: relative;
+    margin-bottom: 15px;
+  }
+  .veen .wrapper label{
+    position: absolute;
+    top: -7px;
+    font-size: 12px;
+    white-space: nowrap;
+    background: #fff;
+    text-align: left;
+    left: 15px;
+    padding: 0 5px;
+    color: #999;
+    pointer-events: none;
+  }
+  .veen .wrapper h3{
+    margin-bottom: 25px;
+  }
+  .veen .wrapper input{
+    height: 40px;
+    padding: 5px 15px;
+    width: 100%;
+    border: solid 1px #999;
+  }
+  .veen .wrapper input{
+    height: 40px;
+    padding: 5px 15px;
+    width: 100%;
+    border: solid 1px #999;
+  }
+  .veen .wrapper input:focus{
+    outline: none;
+    border-color: #ff4931;
+  }
+
+  .veen > .wrapper.move input:focus{
+    border-color: #e0b722;
+  }
+  @media (max-width: 767px){
+    .veen{
+      padding: 5px;
+      margin: 0;
+      width: 100%;
+      display: block;
+    }
+    .veen > .wrapper{
+      position: relative;
+      height: auto;
+      top: 0;
+      left: 0;
+      width: 100%;
+    }
+    .veen > div{
+      display: inline-block;
+    }
+    .splits{
+      width: 50%;
+      background: #333333;
+      float: left;
+    }
+    .splits button{
+      width: 100%;
+      border-radius: 0;
+      background: #505050;
+      border: 0;
+      opacity: .7;
+    }
+
+    .splits.rgstr-btn button{
+      background: #333333;
+    }
+    .splits p{
+      display: none;
+    }
+
+  }
+
+  input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill{
+    box-shadow: inset 0 0 0 50px #fff
+  }
+</style>
+
 <body>
 
   <% if(session.buyer_id){ %>
@@ -13,26 +181,63 @@
   </form>
 
   <% } else{ %>
-  <h3>Buyer 로그인</h3>
-  <form action="/users/buyer_login" method="post">
-    <table>
-      <tr>
-        <td>ID : </td>
-        <td><input type="text" name="buyer_id"></td>
-      </tr>
-      <tr>
-        <td>PW : </td>
-        <td><input type="password" name="buyer_pw"></td>
-      </tr>
-      <tr>
-        <td><input type="submit" value="로그인"></td>
-      </tr>
-    </table>
-  </form>
-  <form action="/users/login" method="get">
-    <input type="submit" value="취소">
-  </form>
+
+  <div class="body">
+    <div class="veen">
+
+      <div class="rgstr-btn splits">
+        <p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Don't have an account?</p>
+        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+       <button><a href="/users/buyer_signup" class="button">Buyer</a></button>  <button><a href="/users/organizer_signup" class="button">Organizer</a></button>
+        <br> <br>
+        <p>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Login as organizer</p>
+        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+        <button><a href="/users/organizer_login" class="button">Login</a></button>
+      </div>
+
+      <div class="wrapper">
+        <form action="/users/buyer_login" method="post"  id="login" tabindex="500">
+          <h3>Buyer Login</h3>
+          <div class="mail">
+            <input type="text" name="buyer_id">
+            <label>ID</label>
+          </div>
+          <div class="passwd">
+            <td><input type="password" name="buyer_pw"></td>
+            <label>Password</label>
+          </div>
+          <div class="submit">
+            <button class="dark" type="submit" value="로그인">Login</button>
+          </div>
+        </form>
+
   <% } %>
+        <a href="/auth/login/kakao" class="button">
+          <img src="https://i2.wp.com/forhappywomen.com/wp-content/uploads/2018/11/%EC%82%B0%EB%B6%80%EC%9D%B8%EA%B3%BC-%ED%8F%AC%ED%95%B4%ED%94%BC%EC%9A%B0%EB%A8%BC-%EB%AC%B8%EC%9D%98-%EC%B9%B4%EC%B9%B4%EC%98%A4%ED%94%8C%EB%9F%AC%EC%8A%A4%EC%B9%9C%EA%B5%AC-%EB%B2%84%ED%8A%BC.png?resize=586%2C586&ssl=1?"
+               height="50" width="50">
+          Login with Kakao</a>
+  <div class="site-link">
+    <a href="http://creatorvisions.com" target="_blank">
+      Creator <img src="http://creatorvisions.com/img/new-logo-2.png">
+      Visions</a>
+  </div>
+  <style type="text/css">
+    .site-link{
+      padding: 5px 15px;
+      position: fixed;
+      z-index: 99999;
+      background: #01bafd;
+      box-shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28);
+      right: 30px;
+      bottom: 30px;
+      border-radius: 10px;
+    }
+    .site-link img{
+      width: 30px;
+      height: 30px;
+    }
+  </style>
+
 
 </body>
 </html>

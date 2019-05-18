@@ -9,7 +9,6 @@ router.get('/buyer_signup', function(req, res, next) {
 
 router.post("/buyer_signup", function(req,res,next){
     let body = req.body;
-    
     let inputPassword = body.buyer_pw;
     let salt = Math.round((new Date().valueOf() * Math.random())) + "";
     let hashPassword = crypto.createHash("sha512").update(inputPassword + salt).digest("hex");
@@ -24,7 +23,7 @@ router.post("/buyer_signup", function(req,res,next){
         salt: salt
     })
     .then( result => {
-        res.redirect("/users/login");
+        res.redirect("/users/buyer_login");
     })
     .catch( err => {
         console.log(err)
@@ -52,20 +51,20 @@ router.post("/organizer_signup", function(req,res,next){
         salt: salt
     })
     .then( result => {
-        res.redirect("/users/login");
+        res.redirect("users/organizer_login");
     })
     .catch( err => {
         console.log(err)
   })
 })
-
+/*
 router.get('/', function(req, res, next) {
   res.send('환영합니다~');
-});
-
+});*/
+/*
 router.get('/login', function(req, res, next) {
     res.render("users/login");
-});
+});*/
 
 router.get('/buyer_login', function(req, res, next) {
   let session = req.session;
@@ -93,7 +92,7 @@ router.post("/buyer_login", function(req,res,next){
           console.log("비밀번호 일치");
           // 세션 설정
           req.session.buyer_id = body.buyer_id;
-          res.redirect("/mypage");
+            res.redirect("/mypage");
       }
       else{
           console.log("비밀번호 불일치");
@@ -144,7 +143,7 @@ router.post("/organizer_login", function(req,res,next){
 router.get("/logout", function(req,res,next){
   req.session.destroy();
   res.clearCookie('sid');
-  res.redirect("/users/login")
+  res.redirect("/")
 });
 
 module.exports = router;

@@ -142,12 +142,32 @@ function check_bidding_over(cb) {
     });
 }
 
-//bidding 정보 return
+//reselling 정보 return
 router.get('/', function (req, res, next) {
     if (!req.isAuthenticated()) {
-        res.redirect('/');
+        async.series(
+            [
+                function (callback) {
+                    get_reselling_list(function (reselling_list) {
+                        callback(null, reselling_list);
+                    });
+                }/*,
+                function (callback) {
+                    get_reselling_ticket_list_info( function (reselling_ticket_list) {
+                        callback(null, reselling_ticket_list);
+                    });
+                }*/
+            ],
+            function (err, results) {
+                res.render('reselling', {
+                    reselling_list: results[0],
+                    user_id : req.body.user_id,
+                    kakao: false,
+                });
+            }
+        );
     } else {
-        async.parallel(
+        async.series(
             [
                 function (callback) {
                     get_reselling_list(function (reselling_list) {
@@ -164,7 +184,7 @@ router.get('/', function (req, res, next) {
                 res.render('reselling', {
                     reselling_list: results[0],
                     user_id: req.user.user_id,
-                  //  reselling_ticket_list: results[0],
+                    kakao: true
                 });
             }
         );
