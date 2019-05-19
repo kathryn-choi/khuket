@@ -15,6 +15,14 @@ module.exports = {
       notice_buyer_text: {
         allowNull: false,
         type: Sequelize.STRING(300)
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
       }
     });
   },

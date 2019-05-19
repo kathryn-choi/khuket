@@ -23,6 +23,14 @@ module.exports = {
       section_id: {
         allowNull: true,
         type: Sequelize.STRING(45)
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
       }
     });
   },

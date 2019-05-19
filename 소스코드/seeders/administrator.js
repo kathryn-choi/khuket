@@ -15,7 +15,9 @@ module.exports = {
     admin_contact: 1012341234,
     admin_account: 3333048390799,
     admin_name: "administrator",
-    salt: salt
+    salt: salt,
+    createdAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
+    updatedAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
   }
   data.push(obj)
 
@@ -23,12 +25,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    /*
-      Add reverting commands here.
-      Return a promise to correctly handle asynchronicity.
-
-      Example:
-      return queryInterface.bulkDelete('People', null, {});
-    */
+    return queryInterface.bulkDelete('administrators', null, {});
   }
 };
