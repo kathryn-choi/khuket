@@ -23,7 +23,7 @@ router.post("/buyer_signup", function(req,res,next){
         salt: salt
     })
     .then( result => {
-        res.redirect("/users/buyer_login");
+        res.redirect("./buyer_login");
     })
     .catch( err => {
         console.log(err)
@@ -36,8 +36,7 @@ router.get('/organizer_signup', function(req, res, next) {
 
 router.post("/organizer_signup", function(req,res,next){
     let body = req.body;
-
-    let inputPassword = body.password;
+    let inputPassword = body.organizer_pw;
     let salt = Math.round((new Date().valueOf() * Math.random())) + "";
     let hashPassword = crypto.createHash("sha512").update(inputPassword + salt).digest("hex");
 
@@ -51,16 +50,13 @@ router.post("/organizer_signup", function(req,res,next){
         salt: salt
     })
     .then( result => {
-        res.redirect("users/organizer_login");
+        res.redirect("./organizer_login");
     })
     .catch( err => {
         console.log(err)
   })
 })
-/*
-router.get('/', function(req, res, next) {
-  res.send('환영합니다~');
-});*/
+
 /*
 router.get('/login', function(req, res, next) {
     res.render("users/login");
@@ -92,16 +88,24 @@ router.post("/buyer_login", function(req,res,next){
           console.log("비밀번호 일치");
           // 세션 설정
           req.session.buyer_id = body.buyer_id;
-            res.redirect("/mypage");
+            res.redirect("./mypage");
       }
       else{
           console.log("비밀번호 불일치");
-          res.redirect("/users/buyer_login");
+          res.redirect("./buyer_login");
       }
   })
   .catch( err => {
       console.log(err);
   });
+});
+
+router.get('/mypage', function(req, res, next) {
+    let session = req.session;
+  
+    res.render("./mypage", {
+        session : session
+    });
 });
 
 router.get('/organizer_login', function(req, res, next) {
@@ -113,32 +117,33 @@ router.get('/organizer_login', function(req, res, next) {
 });
 
 router.post("/organizer_login", function(req,res,next){
-  let body = req.body;
-
-  models.organizer.findOne({
-      where: {organizer_id : body.organizer_id}
-  })
-  .then( function(result, err) {
-      let dbPassword = result.dataValues.password;
-      let inputPassword = body.organizer_pw;
-      let salt = result.dataValues.salt;
-      let hashPassword = crypto.createHash("sha512").update(inputPassword + salt).digest("hex");
-      
-      if(dbPassword === hashPassword){
-          console.log("비밀번호 일치");
-          // 세션 설정
-          req.session.organizer_id = body.organizer_id;
-          res.redirect("/users/organizer_login");
-      }
-      else{
-          console.log("비밀번호 불일치");
-          res.redirect("/users/organizer_login");
-      }
-  })
-  .catch( err => {
-      console.log(err);
+    let body = req.body;
+  
+    models.organizer.findOne({
+        where: {organizer_id : body.organizer_id}
+    })
+    .then( function(result, err) {
+        let dbPassword = result.dataValues.organizer_pw;
+        let inputPassword = body.organizer_pw;
+        let salt = result.dataValues.salt;
+        let hashPassword = crypto.createHash("sha512").update(inputPassword + salt).digest("hex");
+        console.log(hashPassword);
+        console.log(dbPassword);
+        if(dbPassword === hashPassword){
+            console.log("비밀번호 일치");
+            // 세션 설정
+            req.session.organizer_id = body.organizer_id;
+              res.redirect("./mypage");
+        }
+        else{
+            console.log("비밀번호 불일치");
+            res.redirect("./organizer_login");
+        }
+    })
+    .catch( err => {
+        console.log(err);
+    });
   });
-});
 
 router.get("/logout", function(req,res,next){
   req.session.destroy();
