@@ -1,47 +1,47 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const organizer = sequelize.define('organizer', {
-    organizer_index: {
+  const administrator = sequelize.define('administrator', {
+    admin_index: {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: DataTypes.INTEGER(11)
+      type: DataTypes.INTEGER
     },
-    organizer_id: {
+    admin_id: {
       allowNull: false,
       primaryKey: true,
       type: DataTypes.STRING(45)
     },
-    organizer_pw: {
+    admin_pw: {
       allowNull: false,
       type: DataTypes.STRING
     },
-    organizer_email: {
-      type: DataTypes.STRING(45),
+    admin_email: {
+      type: DataTypes.STRING(100),
       allowNull: false,
       validate: {
         isEmail: true
       },
       primaryKey: true
     },
-    organizer_contact: {
+    admin_contact: {
       allowNull: false,
       type: DataTypes.INTEGER(11)
     },
-    organizer_account: {
+    admin_account: {
       allowNull: false,
       type: DataTypes.BIGINT(20)
     },
-    organizer_name: {
+    admin_name: {
       allowNull: false,
       type: DataTypes.STRING(45)
     },
     salt: {
       type: DataTypes.STRING
     }
-  }, {});
-  organizer.associate = function(models) {
+    }, {});
+  administrator.associate = function(models) {
     // associations can be defined here
   };
-  return organizer;
+  return administrator;
 };
