@@ -29,10 +29,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER(11)
       },
-      admin_account: {
+      /*admin_account: {
         allowNull: false,
         type: Sequelize.BIGINT(20)
-      },
+      },*/
       admin_name: {
         allowNull: false,
         type: Sequelize.STRING(45)

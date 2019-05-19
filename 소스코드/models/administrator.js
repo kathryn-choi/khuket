@@ -28,10 +28,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.INTEGER(11)
     },
-    admin_account: {
+    /*admin_account: {
       allowNull: false,
       type: DataTypes.BIGINT(20)
-    },
+    },*/
     admin_name: {
       allowNull: false,
       type: DataTypes.STRING(45)

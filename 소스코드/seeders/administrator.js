@@ -13,7 +13,7 @@ module.exports = {
     admin_pw: hashPassword,
     admin_email: "admin@admin.com",
     admin_contact: 1012341234,
-    admin_account: 3333048390799,
+    // admin_account: 3333048390799,
     admin_name: "administrator",
     salt: salt,
     createdAt: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),

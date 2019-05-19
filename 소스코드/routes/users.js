@@ -100,14 +100,6 @@ router.post("/buyer_login", function(req,res,next){
   });
 });
 
-router.get('/mypage', function(req, res, next) {
-    let session = req.session;
-  
-    res.render("./mypage", {
-        session : session
-    });
-});
-
 router.get('/organizer_login', function(req, res, next) {
   let session = req.session;
 
