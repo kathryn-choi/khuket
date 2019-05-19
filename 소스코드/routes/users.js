@@ -88,7 +88,7 @@ router.post("/buyer_login", function(req,res,next){
           console.log("비밀번호 일치");
           // 세션 설정
           req.session.buyer_id = body.buyer_id;
-            res.redirect("./mypage");
+            res.redirect("/mypage");
       }
       else{
           console.log("비밀번호 불일치");
@@ -133,7 +133,7 @@ router.post("/organizer_login", function(req,res,next){
             console.log("비밀번호 일치");
             // 세션 설정
             req.session.organizer_id = body.organizer_id;
-              res.redirect("./mypage");
+              res.redirect("/mypage");
         }
         else{
             console.log("비밀번호 불일치");
