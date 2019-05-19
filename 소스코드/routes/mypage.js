@@ -15,7 +15,7 @@ function get_my_info(id,cb){
         if(!err){
             my_registration_info=rows;
           //  console.log(myinfo);
-            var sqlquery = "SELECT  * FROM notification  WHERE notice_buyer_id= ?";
+            var sqlquery = "SELECT  * FROM notifications  WHERE notice_buyer_id= ?";
             connection.query(sqlquery, id, function (err, rows) {
                 if (!err) {
                     my_notifications=rows;
@@ -100,7 +100,7 @@ function resell_ticket(id, starting_time,  current_price, starting_price, ticket
 
 router.post('/delete_notification', function(req, res, next) {
     var notification_index=req.body.notification_index;
-    var sqlquery = "DELETE FROM notification WHERE notification_index= ?";
+    var sqlquery = "DELETE FROM notifications WHERE notification_index= ?";
     connection.query(sqlquery, notification_index, function (err) {
         if (!err) {
             console.log("Notification deleted successfully");
@@ -117,7 +117,7 @@ router.post('/update', function(req, res, next) {
     var buyer_contact=req.body.buyer_contact;
     var buyer_account=req.body.buyer_account;
     var buyer_id=req.user.user_id;
-    var sql='UPDATE buyer SET buyer_email=?, buyer_contact=?, buyer_account=?  WHERE buyer_id = ?';
+    var sql='UPDATE buyers SET buyer_email=?, buyer_contact=?, buyer_account=?  WHERE buyer_id = ?';
     var values=[buyer_email, buyer_contact, buyer_account, buyer_id];
     connection.query(sql,values , function (err) {
         if (err) {
