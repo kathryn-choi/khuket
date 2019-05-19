@@ -85,19 +85,21 @@ DROP TABLE IF EXISTS `buyers`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `buyers` (
   `buyer_index` int(11) NOT NULL AUTO_INCREMENT,
-  `buyer_id` varchar(45) NOT NULL,
-  `buyer_pw` varchar(45) NOT NULL,
+  `buyer_id` varchar(100) NOT NULL,
+  `buyer_pw` varchar(400) NOT NULL,
   `buyer_email` varchar(100) DEFAULT NULL,
   `buyer_contact` int(11) DEFAULT NULL,
-  `buyer_account` int(11) DEFAULT NULL,
+  `buyer_account` bigint(20) DEFAULT NULL,
   `buyer_name` varchar(45) DEFAULT NULL,
-  `buyer_notificatoin` varchar(300) DEFAULT NULL,
+  `buyer_notification` varchar(300) DEFAULT NULL,
   `salt` varchar(100) DEFAULT NULL,
+  `createdAt` varchar(100) DEFAULT NULL,
+  `updatedAt` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`buyer_index`),
   UNIQUE KEY `b_id_UNIQUE` (`buyer_id`),
   UNIQUE KEY `b_index_UNIQUE` (`buyer_index`),
   UNIQUE KEY `b_contact_UNIQUE` (`buyer_contact`)
-) ENGINE=InnoDB AUTO_INCREMENT=150 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=164 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -106,7 +108,7 @@ CREATE TABLE `buyers` (
 
 LOCK TABLES `buyers` WRITE;
 /*!40000 ALTER TABLE `buyers` DISABLE KEYS */;
-INSERT INTO `buyers` VALUES (24,'1078842445','1078842445','yhye1997@gmail.com',10,111,NULL,NULL,NULL);
+INSERT INTO `buyers` VALUES (24,'1078842445','1078842445','yhye1997@gmail.com',10,111,NULL,NULL,NULL,NULL,NULL),(154,'buyer1','edfb14320e22fccd364bdd1078ad2267031bbe88cdd47a4adca6ffd68eeadb5b7793b2995af803eed4bddbe08c14a03375c0dd5b2292d2af0381d11b6db35ebd','buyer@b.com',123123,111111111111,'buyer',NULL,'20733738305','2019-05-16 02:59:35','2019-05-16 02:59:35'),(162,'buyer2','8c6d970be30f42ffdf7769079313f1e6045ddca8431f623228b5224b625d76fc17b3c9b7f313a84b2a97343be34f6af62415f25d4be235f68a1b9fc828803ca7','buyer2@naver.com',1011111111,444444444444,'buyer2',NULL,'1387467161693','2019-05-18 07:11:06','2019-05-18 07:11:06');
 /*!40000 ALTER TABLE `buyers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -269,4 +271,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-05-16 11:15:48
+-- Dump completed on 2019-05-19 15:45:58
