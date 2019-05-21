@@ -23,7 +23,7 @@ router.post("/signup", function(req,res,next){
     let salt = Math.round((new Date().valueOf() * Math.random())) + "";
     let hashPassword = crypto.createHash("sha512").update(inputPassword + salt).digest("hex");
 
-    models.organizer.create({
+    models.organizers.create({
         organizer_id: body.organizer_id,
         organizer_pw: hashPassword,
         organizer_email: body.organizer_email,
@@ -51,7 +51,7 @@ router.get('/login', function(req, res, next) {
 router.post("/login", function(req,res,next){
     let body = req.body;
 
-    models.organizer.findOne({
+    models.organizers.findOne({
     where: {organizer_id : body.organizer_id}
     })
     .then( function(result, err) {

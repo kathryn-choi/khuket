@@ -22,7 +22,7 @@ router.get('/login', function(req, res, next) {
 router.post("/login", function(req,res,next){
     let body = req.body;
 
-    models.administrator.findOne({
+    models.administrators.findOne({
         where: {admin_id : body.admin_id}
     })
     .then( function(result, err) {

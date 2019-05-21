@@ -11,6 +11,8 @@ var mysql = require('mysql');
 var request = require('request');
 var passport = require('passport');
 var session = require('express-session');
+const Sequelize = require('sequelize');
+const SequelizeAuto = require('sequelize-auto');
 
 // routing
 var index = require('./routes/index');
@@ -60,6 +62,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+/*const auto = new SequelizeAuto('ticketing_service','root','',{
+    host:'localhost',
+    port:'3306'
+});
+
+auto.run((err)=>{
+    if(err) throw err;
+})*/
+
 connection = mysql.createConnection({
     host     : 'localhost',
     user     : 'root',
@@ -68,8 +79,6 @@ connection = mysql.createConnection({
     database : 'ticketing_service',
     //insecureAuth : true
 });
-
-
 
 app.use(session({
     key: 'sid', 

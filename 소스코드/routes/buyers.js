@@ -13,7 +13,7 @@ router.post("/signup", function(req,res,next){
     let salt = Math.round((new Date().valueOf() * Math.random())) + "";
     let hashPassword = crypto.createHash("sha512").update(inputPassword + salt).digest("hex");
     
-    models.buyer.create({
+    models.buyers.create({
         buyer_id: body.buyer_id,
         buyer_pw: hashPassword,
         buyer_email: body.buyer_email,
@@ -41,7 +41,7 @@ router.get('/login', function(req, res, next) {
 router.post("/login", function(req,res,next){
     let body = req.body;
 
-    models.buyer.findOne({
+    models.buyers.findOne({
         where: {buyer_id : body.buyer_id}
     })
     .then( function(result, err) {
