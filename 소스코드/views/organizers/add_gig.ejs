@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Gig</title>
+</head>
+<body>
+  
+  <h3>공연 등록</h3>
+  <form action="/organizers/add_gig", method="post">
+    <table>
+      <tr>
+        <td>Gig venue : </td>
+        <td><input type="text" name="gig_venue"></td>
+      </tr>
+      <tr>
+        <td>Gig name : </td>
+        <td><input type="text" name="gig_name"></td>
+      </tr>
+       <tr>
+        <td>Gig date time : </td>
+        <td><input type="datetime" name="gig_date_time"></td>
+      </tr>
+      <tr>
+        <td>Gig total seatnum : </td>
+        <td><input type="number" name="gig_total_seatnum"></td>
+      </tr>
+      <tr>
+        <td>Gig image : </td>
+        <td><input type="url" name="gig_image"></td>
+      </tr>
+      <tr>
+        <td>Gig description : </td>
+        <td><input type="text" name="gig_description"></td>
+      </tr>
+      <tr>
+        <td>Gig type : </td>
+        <td><input type="text" name="gig_type"></td>
+      </tr>
+      <tr>
+        <td><input type="submit" value="공연등록"></td>
+      </tr>
+    </table>
+  </form>
+  <form action="/organizers" method="get">
+    <input type="submit" value="취소">
+  </form>
+
+</body>
+</html>
