@@ -3,21 +3,13 @@ var router = express.Router();
 const models = require("../models");
 const crypto = require("crypto");
 
-router.get('/', function(req, res, next) {
-    let session = req.session;
-  
-      res.render("./administrators/mainpage", {
-          session : session
-    });
-});
-
 router.get('/login', function(req, res, next) {
     let session = req.session;
   
       res.render("administrators/login", {
           session : session
       });
-  });
+});
   
 router.post("/login", function(req,res,next){
     let body = req.body;
@@ -48,4 +40,23 @@ router.post("/login", function(req,res,next){
     });
 });
 
+router.get('/', function(req, res, next) {
+    let session = req.session;
+    
+    models.gigs.findAll().then( result => {
+        res.render("administrators/mainpage", {
+            session: session,
+            result: result
+        });
+    });
+});
+
+// pending = 2인 공연들 목록들 출력하고 승인 누르면 pending = 1로 변경되고 티켓 생성
+router.get('/accept_gig', function(req, res, next) {
+    let session = req.session;
+  
+      res.render("administrators/login", {
+          session : session
+      });
+});
 module.exports = router;

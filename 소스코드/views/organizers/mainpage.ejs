@@ -2,25 +2,64 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Organizer</title>
+  <title>Organizer's page</title>
 </head>
 <body>
-  <h3>로그인에 성공하셨습니다 ~</h3>
+  <% if(session.organizer_id){ %>
+  <h3>Organizer's page</h3>
+  <h4>공연 목록</h4>
+  <!--공연 목록들 출력, gig_index 입력하면 수정 or 삭제가능하도록-->
+  <table>
+      <tr>
+        <td>Gig index</td>
+        <td>Gig organizer index</td>
+        <td>Gig venue</td>
+        <td>Gig name</td>
+        <td>Gig date time</td>
+        <td>Gig total seatnum</td>
+        <td>Gig pending</td>
+      </tr>
+      <% for(let gigs of result) { %>
+        <% if (session.organizer_index == gigs.gig_organizer_index) { %>
+        <tr>
+          <td><%= gigs.gig_index %></td>
+          <td><%= gigs.gig_organizer_index %></td>
+          <td><%= gigs.gig_venue %></td>
+          <td><%= gigs.gig_name %></td>
+          <td><%= gigs.gig_date_time %></td>
+          <td><%= gigs.gig_total_seatnum %></td>
+          <% if (gigs.pending == 2) { %>
+            <td>등록 요청중</td>
+          <% } else if(gigs.pending == 1) {%>
+            <td>등록 완료</td>
+          <% } else { %>
+            <td>등록 거절</td>
+          <% } %>
+        </tr>
+        <% } %>
+      <% } %>
+  </table>
+  
   <form action="/organizers/add_gig" method="get">
     <input type="submit" value="공연 등록">
   </form>
-  <form action="/organizers/show_gigs" method="get">
-    <input type="submit" value="공연 목록 보기">
-  </form>
-  <!--form action="/organizers/update_gig" method="get">
+  <form action="/organizers/update_gig" method="update">
     <input type="submit" value="공연 수정">
   </form>
-  <form action="/organizers/delete_gig" method="get">
+  <form action="/organizers/delete_gig" method="delete">
     <input type="submit" value="공연 삭제">
-  </form>-->
+  </form>
+
   <form action="/users/logout" method="get">
     <input type="submit" value="로그아웃">
   </form>
+
+  <% } else{ %>
+    <h3>로그인 하세요</h3>
+    <form action="/organizers/login" method="get">
+      <input type="submit" value="로그인">
+    </form>
+  <% } %>
 
 </body>
 </html>

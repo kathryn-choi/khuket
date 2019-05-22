@@ -5,14 +5,6 @@ const crypto = require("crypto");
 
 // function add_gig;
 
-router.get('/', function(req, res, next) {
-    let session = req.session;
-  
-    res.render("organizers/mainpage", {
-        session : session
-    });
-});
-
 router.get('/signup', function(req, res, next) {
     res.render("organizers/signup");
   });
@@ -78,9 +70,23 @@ router.post("/login", function(req,res,next){
     });
 });
 
+// 메인페이지에 공연 목록들 출력
+// 공연 상세정보 뒤에 결과(승인 요청중, 등록 완료, 등록 거절)도 같이 출력
+router.get('/', function(req, res, next) {
+    let session = req.session;
+
+    models.gigs.findAll().then( result => {
+        res.render("organizers/mainpage", {
+            session: session,
+            result: result
+        });
+    });
+    
+});
+
 router.get('/add_gig', function(req, res, next) {
     let session = req.session;
-  
+    
     res.render("organizers/add_gig", {
         session : session
     });
@@ -91,7 +97,7 @@ router.post("/add_gig", function(req,res,next){
 
     console.log(req.session);
     models.gigs.create({
-        gig_organizer_index : req.session.organizer_index, // 수정 필요, 잘 모르겠음
+        gig_organizer_index : req.session.organizer_index,
         gig_venue: body.gig_venue,
         gig_name: body.gig_name,
         gig_date_time: body.gig_date_time,
@@ -107,10 +113,6 @@ router.post("/add_gig", function(req,res,next){
     .catch( err => {
         console.log(err)
     })
-});
-
-router.get('/show_gigs', function(req, res, next) {
-    res.render("organizers/show_gigs");
 });
 
 module.exports = router;

@@ -2,13 +2,92 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Login</title>
+  <title>Administrator's page</title>
 </head>
 <body>
-  <h3>로그인에 성공하셨습니다 ~</h3>
+  <% if(session.admin_id){ %>
+  <h3>Administrator's page</h3>
+  <h4>등록 요청중인 공연 목록</h4>
+  <table>
+      <tr>
+        <td>Gig index</td>
+        <td>Gig organizer index</td>
+        <td>Gig venue</td>
+        <td>Gig name</td>
+        <td>Gig date time</td>
+        <td>Gig total seatnum</td>
+      </tr>
+      <% for(let gigs of result) { %>
+        <% if (gigs.pending == 2) { %>
+        <tr>
+          <td><%= gigs.gig_index %></td>
+          <td><%= gigs.gig_organizer_index %></td>
+          <td><%= gigs.gig_venue %></td>
+          <td><%= gigs.gig_name %></td>
+          <td><%= gigs.gig_date_time %></td>
+          <td><%= gigs.gig_total_seatnum %></td>
+        </tr>
+        <% } %>
+      <% } %>
+  </table>
+
+  <h4>등록 완료된 공연 목록</h4>
+  <table>
+      <tr>
+        <td>Gig index</td>
+        <td>Gig organizer index</td>
+        <td>Gig venue</td>
+        <td>Gig name</td>
+        <td>Gig date time</td>
+        <td>Gig total seatnum</td>
+      </tr>
+      <% for(let gigs of result) { %>
+        <% if (gigs.pending == 1) { %>
+        <tr>
+          <td><%= gigs.gig_index %></td>
+          <td><%= gigs.gig_organizer_index %></td>
+          <td><%= gigs.gig_venue %></td>
+          <td><%= gigs.gig_name %></td>
+          <td><%= gigs.gig_date_time %></td>
+          <td><%= gigs.gig_total_seatnum %></td>
+        </tr>
+        <% } %>
+      <% } %>
+  </table>
+
+  <h4>등록 거절된 공연 목록</h4>
+  <table>
+      <tr>
+        <td>Gig index</td>
+        <td>Gig organizer index</td>
+        <td>Gig venue</td>
+        <td>Gig name</td>
+        <td>Gig date time</td>
+        <td>Gig total seatnum</td>
+      </tr>
+      <% for(let gigs of result) { %>
+        <% if (gigs.pending == 0) { %>
+        <tr>
+          <td><%= gigs.gig_index %></td>
+          <td><%= gigs.gig_organizer_index %></td>
+          <td><%= gigs.gig_venue %></td>
+          <td><%= gigs.gig_name %></td>
+          <td><%= gigs.gig_date_time %></td>
+          <td><%= gigs.gig_total_seatnum %></td>
+        </tr>
+        <% } %>
+      <% } %>
+  </table>
+
   <form action="/users/logout" method="get">
     <input type="submit" value="로그아웃">
   </form>
+  <% } else{ %>
+    <h3>로그인 하세요</h3>
+    <form action="/administrators/login" method="get">
+      <input type="submit" value="로그인">
+    </form>
+  <% } %>
 
 </body>
 </html>
