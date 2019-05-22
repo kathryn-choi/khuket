@@ -19,20 +19,20 @@ module.exports = function(sequelize, DataTypes) {
 		},
 		buyer_email: {
 			type: DataTypes.STRING(100),
-			allowNull: true
+			allowNull: false
 		},
 		buyer_contact: {
 			type: DataTypes.INTEGER(11),
-			allowNull: true,
+			allowNull: false,
 			unique: true
 		},
 		buyer_account: {
 			type: DataTypes.BIGINT,
-			allowNull: true
+			allowNull: false
 		},
 		buyer_name: {
 			type: DataTypes.STRING(45),
-			allowNull: true
+			allowNull: false
 		},
 		buyer_notification: {
 			type: DataTypes.STRING(300),
@@ -40,7 +40,7 @@ module.exports = function(sequelize, DataTypes) {
 		},
 		salt: {
 			type: DataTypes.STRING(100),
-			allowNull: true
+			allowNull: false
 		},
 		createdAt: {
 			type: DataTypes.DATE,

@@ -28,10 +28,10 @@ CREATE TABLE `administrators` (
   `admin_index` int(11) NOT NULL AUTO_INCREMENT,
   `admin_id` varchar(45) NOT NULL,
   `admin_pw` varchar(300) NOT NULL,
-  `admin_email` varchar(100) DEFAULT NULL,
-  `admin_contact` int(11) DEFAULT NULL,
-  `admin_name` varchar(45) DEFAULT NULL,
-  `salt` varchar(100) DEFAULT NULL,
+  `admin_email` varchar(100) NOT NULL,
+  `admin_contact` int(11) NOT NULL,
+  `admin_name` varchar(45) NOT NULL,
+  `salt` varchar(100) NOT NULL,
   `createdAt` datetime DEFAULT NULL,
   `updatedAt` datetime DEFAULT NULL,
   PRIMARY KEY (`admin_index`),
@@ -93,12 +93,12 @@ CREATE TABLE `buyers` (
   `buyer_index` int(11) NOT NULL AUTO_INCREMENT,
   `buyer_id` varchar(100) NOT NULL,
   `buyer_pw` varchar(300) NOT NULL,
-  `buyer_email` varchar(100) DEFAULT NULL,
-  `buyer_contact` int(11) DEFAULT NULL,
-  `buyer_account` bigint(20) DEFAULT NULL,
-  `buyer_name` varchar(45) DEFAULT NULL,
+  `buyer_email` varchar(100) NOT NULL,
+  `buyer_contact` int(11) NOT NULL,
+  `buyer_account` bigint(20) NOT NULL,
+  `buyer_name` varchar(45) NOT NULL,
   `buyer_notification` varchar(300) DEFAULT NULL,
-  `salt` varchar(100) DEFAULT NULL,
+  `salt` varchar(100) NOT NULL,
   `createdAt` datetime DEFAULT NULL,
   `updatedAt` datetime DEFAULT NULL,
   PRIMARY KEY (`buyer_index`),
@@ -128,20 +128,20 @@ DROP TABLE IF EXISTS `gigs`;
 CREATE TABLE `gigs` (
   `gig_index` int(11) NOT NULL AUTO_INCREMENT,
   `gig_organizer_index` int(11) NOT NULL,
-  `gig_venue` varchar(200) DEFAULT NULL,
+  `gig_venue` varchar(200) NOT NULL,
   `gig_name` varchar(200) NOT NULL,
   `gig_date_time` datetime NOT NULL,
   `gig_total_seatnum` int(11) NOT NULL,
   `pending` int(11) NOT NULL,
-  `gig_image` varchar(500) DEFAULT NULL,
-  `gig_description` varchar(300) DEFAULT NULL,
+  `gig_image` varchar(10000) NOT NULL,
+  `gig_description` varchar(300) NOT NULL,
   `gig_type` varchar(45) NOT NULL,
   `createdAt` datetime DEFAULT NULL,
   `updatedAt` datetime DEFAULT NULL,
   PRIMARY KEY (`gig_index`),
   KEY `gig_organizer_index_idx` (`gig_organizer_index`),
   CONSTRAINT `gig_organizer_index` FOREIGN KEY (`gig_organizer_index`) REFERENCES `organizers` (`organizer_index`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -191,11 +191,11 @@ CREATE TABLE `organizers` (
   `organizer_index` int(11) NOT NULL AUTO_INCREMENT,
   `organizer_id` varchar(45) NOT NULL,
   `organizer_pw` varchar(300) NOT NULL,
-  `organizer_email` varchar(45) DEFAULT NULL,
-  `organizer_contact` int(11) DEFAULT NULL,
-  `organizer_account` bigint(20) DEFAULT NULL,
-  `organizer_name` varchar(45) DEFAULT NULL,
-  `salt` varchar(100) DEFAULT NULL,
+  `organizer_email` varchar(45) NOT NULL,
+  `organizer_contact` int(11) NOT NULL,
+  `organizer_account` bigint(20) NOT NULL,
+  `organizer_name` varchar(45) NOT NULL,
+  `salt` varchar(100) NOT NULL,
   `createdAt` datetime DEFAULT NULL,
   `updatedAt` datetime DEFAULT NULL,
   PRIMARY KEY (`organizer_index`),
@@ -284,4 +284,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-05-22  7:59:15
+-- Dump completed on 2019-05-22  9:40:20

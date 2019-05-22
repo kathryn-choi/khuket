@@ -65,6 +65,7 @@ router.post("/login", function(req,res,next){
         console.log("비밀번호 일치");
         // 세션 설정
         req.session.organizer_id = body.organizer_id;
+        req.session.organizer_index = result.dataValues.organizer_index;
         res.redirect("/organizers");
     }
     else{
@@ -78,19 +79,24 @@ router.post("/login", function(req,res,next){
 });
 
 router.get('/add_gig', function(req, res, next) {
-    res.render("organizers/add_gig");
+    let session = req.session;
+  
+    res.render("organizers/add_gig", {
+        session : session
+    });
 });
   
 router.post("/add_gig", function(req,res,next){
     let body = req.body;
 
-    models.gig.create({
-        gig_organizer_index : req.session.gig_organizer_index_idx, // 수정 필요, 잘 모르겠음
+    console.log(req.session);
+    models.gigs.create({
+        gig_organizer_index : req.session.organizer_index, // 수정 필요, 잘 모르겠음
         gig_venue: body.gig_venue,
         gig_name: body.gig_name,
         gig_date_time: body.gig_date_time,
         gig_total_seatnum: body.gig_total_seatnum,
-        pending: 1, // 수정 필요
+        pending: 2, // 1이면 승인, 0이면 거절, 2면 승인 요청 기다림
         gig_image: body.gig_image,
         gig_description: body.gig_description,
         gig_type : body.gig_type
@@ -100,7 +106,7 @@ router.post("/add_gig", function(req,res,next){
     })
     .catch( err => {
         console.log(err)
-})
+    })
 });
 
 router.get('/show_gigs', function(req, res, next) {

@@ -29,7 +29,6 @@ var reselling = require('./routes/reselling');
 var refund = require('./routes/refund');
 var setting = require('./routes/setting');
 
-
 //port
 passport.serializeUser(function(user, done) {
     console.log('serialized');
@@ -62,7 +61,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-/*const auto = new SequelizeAuto('ticketing_service','root','',{
+/* 로컬 DB와 models 파일들 동기화
+const auto = new SequelizeAuto('ticketing_service','root','',{
     host:'localhost',
     port:'3306'
 });
@@ -119,7 +119,6 @@ app.use(function(req, res, next) {
 });
 
 // error handler
-
 app.use(function(err, req, res, next) {
     // set locals, only providing error in development
     res.locals.message = err.message;

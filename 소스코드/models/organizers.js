@@ -19,23 +19,23 @@ module.exports = function(sequelize, DataTypes) {
 		},
 		organizer_email: {
 			type: DataTypes.STRING(45),
-			allowNull: true
+			allowNull: false
 		},
 		organizer_contact: {
 			type: DataTypes.INTEGER(11),
-			allowNull: true
+			allowNull: false
 		},
 		organizer_account: {
 			type: DataTypes.BIGINT,
-			allowNull: true
+			allowNull: false
 		},
 		organizer_name: {
 			type: DataTypes.STRING(45),
-			allowNull: true
+			allowNull: false
 		},
 		salt: {
 			type: DataTypes.STRING(100),
-			allowNull: true
+			allowNull: false
 		},
 		createdAt: {
 			type: DataTypes.DATE,

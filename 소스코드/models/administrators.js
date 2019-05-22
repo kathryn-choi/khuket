@@ -19,19 +19,19 @@ module.exports = function(sequelize, DataTypes) {
 		},
 		admin_email: {
 			type: DataTypes.STRING(100),
-			allowNull: true
+			allowNull: false
 		},
 		admin_contact: {
 			type: DataTypes.INTEGER(11),
-			allowNull: true
+			allowNull: false
 		},
 		admin_name: {
 			type: DataTypes.STRING(45),
-			allowNull: true
+			allowNull: false
 		},
 		salt: {
 			type: DataTypes.STRING(100),
-			allowNull: true
+			allowNull: false
 		},
 		createdAt: {
 			type: DataTypes.DATE,

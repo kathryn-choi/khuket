@@ -18,7 +18,7 @@ module.exports = function(sequelize, DataTypes) {
 		},
 		gig_venue: {
 			type: DataTypes.STRING(200),
-			allowNull: true
+			allowNull: false
 		},
 		gig_name: {
 			type: DataTypes.STRING(200),
@@ -37,12 +37,12 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull: false
 		},
 		gig_image: {
-			type: DataTypes.STRING(500),
-			allowNull: true
+			type: DataTypes.STRING(10000),
+			allowNull: false
 		},
 		gig_description: {
 			type: DataTypes.STRING(300),
-			allowNull: true
+			allowNull: false
 		},
 		gig_type: {
 			type: DataTypes.STRING(45),
