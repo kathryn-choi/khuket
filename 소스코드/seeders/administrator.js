@@ -5,11 +5,11 @@ module.exports = {
   
   let data = [];
   let salt = Math.round((new Date().valueOf() * Math.random())) + "";
-  let inputPassword = "admin";
+  let inputPassword = "ticketadmin";
   let hashPassword = crypto.createHash("sha512").update(inputPassword + salt).digest("hex");
 
   let obj = {
-    admin_id: "admin",
+    admin_id: "ticketadmin",
     admin_pw: hashPassword,
     admin_email: "admin@admin.com",
     admin_contact: 1012341234,
