@@ -20,12 +20,23 @@
       <% for(let gigs of result) { %>
         <% if (gigs.pending == 2) { %>
         <tr>
+          <form method="post" action="/administrators/accept_gig">
           <td><%= gigs.gig_index %></td>
           <td><%= gigs.gig_organizer_index %></td>
           <td><%= gigs.gig_venue %></td>
           <td><%= gigs.gig_name %></td>
           <td><%= gigs.gig_date_time %></td>
           <td><%= gigs.gig_total_seatnum %></td>
+            <input type="hidden" name="gig_index" value="<%=gigs.gig_index%>">
+            <br>
+            <input list="pending">
+            <datalist id="pending">
+                <option value="accept">
+                <option value="deny">
+            </datalist>
+            <button type="submit"></button>
+          </form>
+          <br>
         </tr>
         <% } %>
       <% } %>

@@ -38,7 +38,7 @@ function get_reselling_ticket_list_info(cb) {
 function get_reselling_list(cb) {
     console.log("get_reselling_list");
     check_bidding_over();
-    var sqlquery = 'SELECT * FROM bidding b';
+    var sqlquery = 'SELECT * FROM biddings b';
     var reselling_list = new Array();
     connection.query(sqlquery, function (err, rows) {
         if (!err) {
@@ -72,7 +72,7 @@ function alert_original_ticket_owner(ticket_owner_id, ticket_id, current_price) 
 */
 //reselling_ticket 지우기 (시간 관계 or max price 등등)
 function delete_reselling_ticket(bidding_index, cb) {
-    var sqlquery = 'DELETE FROM bidding WHERE bidding_index= ?';
+    var sqlquery = 'DELETE FROM biddings WHERE bidding_index= ?';
     connection.query(sqlquery, bidding_index, function (err) {
         if (!err) {
             console.log('비딩 삭제 성공');
@@ -122,7 +122,7 @@ function check_bidding_over(cb) {
             current_date.getHours() + ':' +
             current_date.getMinutes() + ':' +
             current_date.getSeconds();
-    var sqlquery = 'SELECT * FROM bidding b';
+    var sqlquery = 'SELECT * FROM biddings b';
     var bidding_list = new Array();
     connection.query(sqlquery, function (err, rows) {
         if (!err) {
