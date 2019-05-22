@@ -28,6 +28,7 @@ var mypage = require('./routes/mypage');
 var reselling = require('./routes/reselling');
 var refund = require('./routes/refund');
 var setting = require('./routes/setting');
+var network = require('./ticketing-system/network/network.js');
 
 //port
 passport.serializeUser(function(user, done) {
@@ -90,6 +91,21 @@ app.use(session({
     }
   }))
 
+network.register_admin("ticketadmin","ticketadmin")
+  .then((response) => {
+  //return error if error in response
+  if (response.error != null) {
+      res.json({
+      error: response.error
+      });
+  } else {
+      //else return success
+      res.json({
+      success: response
+      });
+  }
+})
+  
 app.use(express.static('public'));
 app.use(express.static('views'));
 

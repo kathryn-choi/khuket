@@ -157,7 +157,7 @@ module.exports = {
   * @param {String} user_id Import user id for organizer & as identifier on network
   * @param {String} user_name Organizer name
   */
- register_admin: async function (user_id, user_name) {
+ register_organizer: async function (user_id, user_name) {
   try {
 
     //connect as admin
@@ -195,11 +195,11 @@ module.exports = {
   }
 
 },
-  create_ticket: async function (user_id,ticket_id,section_id,row_id,seat_id,ticket_price,gig_id,ticket_price,gig_datetime) {
+  create_ticket: async function (user_id,ticket_id,section_id,row_id,seat_id,ticket_price,gig_id,gig_datetime) {
     try {
       //connect to network with user_id
       businessNetworkConnection = new BusinessNetworkConnection();
-      await businessNetworkConnection.connect(user_id);
+      await businessNetworkConnection.connect('admin@ticketing-system');
 
       //get the factory for the business network.
       factory = businessNetworkConnection.getBusinessNetwork().getFactory();
@@ -221,7 +221,7 @@ module.exports = {
       await businessNetworkConnection.submitTransaction(creatTicket);
 
       //disconnect
-      await businessNetworkConnection.disconnect(user_id);
+      await businessNetworkConnection.disconnect('admin@ticketing-system');
 
       return true;
     }
@@ -240,7 +240,7 @@ module.exports = {
 
       //connect to network with user_id
       businessNetworkConnection = new BusinessNetworkConnection();
-      await businessNetworkConnection.connect(user_id);
+      await businessNetworkConnection.connect('admin@ticketing-system');
     
     //   const ticketRegistry = await getAssetRegistry('org.ticketing.system.Ticket')
     //   ticket = await carRegistry.get(ticket_id)
@@ -263,7 +263,7 @@ module.exports = {
       await businessNetworkConnection.submitTransaction(update_owner);
 
       //disconnect
-      await businessNetworkConnection.disconnect(user_id);
+      await businessNetworkConnection.disconnect('admin@ticketing-system');
 
       return true;
     }
@@ -281,7 +281,7 @@ module.exports = {
     try {
       //connect to network with user_id
       businessNetworkConnection = new BusinessNetworkConnection();
-      await businessNetworkConnection.connect(user_id);
+      await businessNetworkConnection.connect('admin@ticketing-system');
 
       //get the factory for the business network.
       factory = businessNetworkConnection.getBusinessNetwork().getFactory();
@@ -295,7 +295,7 @@ module.exports = {
       deleteTicket.ticket = factory.newRelationship(namespace, 'Ticket', ticket_id);
 
       //disconnect
-      await businessNetworkConnection.disconnect(user_id);
+      await businessNetworkConnection.disconnect('admin@ticketing-system');
 
       return true;
     }
@@ -315,14 +315,14 @@ module.exports = {
 
       //connect to network with user_id
       businessNetworkConnection = new BusinessNetworkConnection();
-      await businessNetworkConnection.connect(user_id);
+      await businessNetworkConnection.connect('admin@ticketing-system');
 
       //get buyer from the network
       const buyerRegistry = await businessNetworkConnection.getParticipantRegistry(namespace + '.Buyer');
       const buyer = await buyerRegistry.get(user_id);
 
       //disconnect
-      await businessNetworkConnection.disconnect(user_id);
+      await businessNetworkConnection.disconnect('admin@ticketing-system');
 
       //return buyer object
       return buyer;
@@ -343,14 +343,14 @@ module.exports = {
 
       //connect to network with user_id
       businessNetworkConnection = new BusinessNetworkConnection();
-      await businessNetworkConnection.connect(user_id);
+      await businessNetworkConnection.connect('admin@ticketing-system');
 
       //get admin from the network
       const adminRegistry = await businessNetworkConnection.getParticipantRegistry(namespace + '.TicketAdmin');
       const ticket_admin = await adminRegistry.get(user_id);
 
       //disconnect
-      await businessNetworkConnection.disconnect(user_id);
+      await businessNetworkConnection.disconnect('admin@ticketing-system');
 
       //return admin object
       return ticket_admin;

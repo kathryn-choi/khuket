@@ -24,7 +24,22 @@ router.post("/signup", function(req,res,next){
         organizer_name: body.organizer_name,
         salt: salt
     })
-    .then( result => {
+    .then( 
+        network.register_organizer(organizer_id,organizer_name)
+            .then((response) => {
+            //return error if error in response
+            if (response.error != null) {
+                res.json({
+                error: response.error
+                });
+            } else {
+                //else return success
+                res.json({
+                success: response
+                });
+            }
+        })
+    , result => {
         res.redirect("./login");
     })
     .catch( err => {
