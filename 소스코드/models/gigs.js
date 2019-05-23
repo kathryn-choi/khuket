@@ -37,7 +37,7 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull: false
 		},
 		gig_image: {
-			type: DataTypes.STRING(10000),
+			type: DataTypes.STRING(30000),
 			allowNull: false
 		},
 		gig_description: {

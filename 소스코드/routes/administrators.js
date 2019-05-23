@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 const models = require("../models");
 const crypto = require("crypto");
-var network = require('./network/network.js');
+var network = require('../ticketing-system/network/network.js');
 
 router.get('/login', function(req, res, next) {
     let session = req.session;

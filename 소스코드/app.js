@@ -62,7 +62,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-/* 로컬 DB와 models 파일들 동기화
+/*
+//로컬 DB와 models 파일들 동기화
 const auto = new SequelizeAuto('ticketing_service','root','',{
     host:'localhost',
     port:'3306'
