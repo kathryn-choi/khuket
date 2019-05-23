@@ -62,6 +62,7 @@ function create_ticket(gig_index, cb){
             var sections=new Array();
             connection.query(sqlquery2,gig_index,function(err,rows){
                 if(!err) {
+                    sections=rows;
                     for (var i=0; i<sections.length; i++)
                     {
                         section_id=sections[i].section_id;
@@ -115,9 +116,7 @@ router.post('/accept_gig', function(req, res, next) {
                    else {
                        console.log("gig pending update");
                       // res.redirect('/administrators/');
-                        res.render("administrators/mainpage", {
-                            session : session
-                        });
+                        res.redirect('back');
                    }
                });
            }
