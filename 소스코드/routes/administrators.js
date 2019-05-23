@@ -65,7 +65,7 @@ function create_ticket(gig_index, cb){
                     sections=rows;
                     for (var i=0; i<sections.length; i++)
                     {
-                        section_id=sections[i].section_id;
+                        var section_id=sections[i].section_id;
                         var sqlquery3 = "SELECT * FROM seats  WHERE section_id=? and gig_index=?";
                         var seats=new Array();
                         connection.query(sqlquery3, section_id, gig_index, function(err,rows) {
@@ -73,8 +73,8 @@ function create_ticket(gig_index, cb){
                             seats=rows;
                             for (var j=0; j<seats.length; j++)
                             {
-                                ticket_id = crypto.createHash("sha512").update(gig_index + sections[i].section_index + seats[j].seat_index).digest("hex");
-                                network.create_ticket(req.session,ticket_id,section_id,seats[j].seat_row_index,seats[j].seat_index,section[i].seat_price,gig_ticket[0].gig_index,gig_ticket[0].gig_datetime);
+                                var ticket_id = crypto.createHash("sha512").update(gig_index + sections[i].section_index + seats[j].seat_index).digest("hex");
+                                network.create_ticket(req.session,ticket_id,section_id,seats[j].seat_row_index,seats[j].seat_index,sections[i].seat_price,gig_ticket[0].gig_index,gig_ticket[0].gig_date_time);
                             }
                         }
                         else{
