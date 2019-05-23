@@ -27,7 +27,7 @@
           <td><%= gigs.gig_name %></td>
           <td><%= gigs.gig_date_time %></td>
           <td><%= gigs.gig_total_seatnum %></td>
-            <input type="hidden" name="gig_index" value="<%=gigs.gig_index%>">
+          <td><input type="hidden" name="gig_index" value="<%=gigs.gig_index%>">
             <br>
             <input list="pending">
             <datalist id="pending">
@@ -35,7 +35,7 @@
                 <option value="deny">
             </datalist>
             <button type="submit"></button>
-          </form>
+          </form></td>
           <br>
         </tr>
         <% } %>
