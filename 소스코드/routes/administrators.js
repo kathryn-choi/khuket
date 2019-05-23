@@ -114,10 +114,10 @@ router.post('/accept_gig', function(req, res, next) {
                    }
                    else {
                        console.log("gig pending update");
-                       res.redirect('/administrators/');
-                       /* res.render("administrators/mainpage", {
+                      // res.redirect('/administrators/');
+                        res.render("administrators/mainpage", {
                             session : session
-                        });*/
+                        });
                    }
                });
            }

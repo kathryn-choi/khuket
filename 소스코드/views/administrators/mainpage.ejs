@@ -27,6 +27,7 @@
           <td><%= gigs.gig_name %></td>
           <td><%= gigs.gig_date_time %></td>
           <td><%= gigs.gig_total_seatnum %></td>
+<<<<<<< Updated upstream
           <td><input type="hidden" name="gig_index" value="<%=gigs.gig_index%>">
             <br>
             <input list="pending">
@@ -34,6 +35,11 @@
                 <option value="accept">
                 <option value="deny">
             </datalist>
+=======
+            <input type="hidden" name="gig_index" value="<%=gigs.gig_index%>">
+            <input type="submit" name="pending" value="accept">
+            <input type="submit" name="pending" value="deny">
+>>>>>>> Stashed changes
             <button type="submit"></button>
           </form></td>
           <br>
