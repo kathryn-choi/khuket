@@ -234,7 +234,7 @@ CREATE TABLE `seats` (
   KEY `section_idx` (`section_id`),
   KEY `gig_index` (`gig_index`),
   KEY `section_index` (`section_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -243,6 +243,7 @@ CREATE TABLE `seats` (
 
 LOCK TABLES `seats` WRITE;
 /*!40000 ALTER TABLE `seats` DISABLE KEYS */;
+INSERT INTO `seats` VALUES (1,1,'A',1,NULL,NULL),(2,1,'A',2,NULL,NULL),(3,1,'A',3,NULL,NULL),(4,1,'A',4,NULL,NULL),(5,1,'A',5,NULL,NULL),(6,1,'A',6,NULL,NULL),(7,1,'B',1,NULL,NULL),(8,1,'B',2,NULL,NULL),(9,1,'B',3,NULL,NULL);
 /*!40000 ALTER TABLE `seats` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -263,7 +264,7 @@ CREATE TABLE `sections` (
   `updatedAt` datetime DEFAULT NULL,
   PRIMARY KEY (`section_index`),
   KEY `gig_index_idx` (`gig_index`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -272,6 +273,7 @@ CREATE TABLE `sections` (
 
 LOCK TABLES `sections` WRITE;
 /*!40000 ALTER TABLE `sections` DISABLE KEYS */;
+INSERT INTO `sections` VALUES (1,1,1,30000,'A',NULL,NULL),(2,1,7,50000,'B',NULL,NULL);
 /*!40000 ALTER TABLE `sections` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -284,4 +286,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-05-22 17:34:56
+-- Dump completed on 2019-05-23 10:05:51
