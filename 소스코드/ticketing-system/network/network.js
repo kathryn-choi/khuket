@@ -214,7 +214,7 @@ module.exports = {
       createTicket.ticket_price = ticket_price;
       createTicket.gig_datetime = gig_datetime;
       createTicket.gig_name = gig_name;
-      createTicket.gig_venue = gig_venue
+      createTicket.gig_venue = gig_venue;
       creatTicket.owner = factory.newRelationship(namespace, 'TicketAdmin', user_id);
 
       //submit transaction
