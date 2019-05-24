@@ -1,6 +1,6 @@
 var express = require('express');
 var async = require('async');
-var network = require('../ticketing-system/network/network.js');
+var network = require('../ticketing-system/network.js');
 var router = express.Router();
 /*예매 취소 안내
 취소 마감 시간

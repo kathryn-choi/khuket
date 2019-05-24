@@ -8,7 +8,6 @@
  */
 async function CreateTicket(createTicket) {
     const ticketRegistry = await getAssetRegistry('org.ticketing.system.Ticket')
-    
     const factory = getFactory()
     const ticket = factory.newResource('org.ticketing.system', 'Ticket', createTicket.ticket_id)
   	ticket.section_id = createTicket.section_id

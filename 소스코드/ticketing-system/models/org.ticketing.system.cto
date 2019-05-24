@@ -38,14 +38,14 @@ participant Organizer extends User {
 //ticket identified by ticket_id
 asset Ticket identified by ticket_id {
   o String ticket_id
-  o String section_id
+  o String section_id  
+  o String gig_datetime 
+  o String gig_name 
+  o String gig_venue 
   o Integer row_id
   o Integer seat_id
   o Integer ticket_price
   o Integer gig_id
-  o DateTime gig_datetime
-  o String gig_name 
-  o String gig_venue
   -->User owner
 }
 
@@ -53,6 +53,9 @@ asset Ticket identified by ticket_id {
 transaction CreateTicket {
   o String ticket_id
   o String section_id
+  o String gig_datetime 
+  o String gig_name 
+  o String gig_venue
   o Integer row_id
   o Integer seat_id
   o Integer gig_id

@@ -38,7 +38,7 @@ async function importCardForIdentity(cardName, identity) {
   };
 
   //get connectionProfile from json, create Idcard
-  const connectionProfile = require('./local_connection.json.js');
+  const connectionProfile = require('./local_connection.json');
   const card = new IdCard(metadata, connectionProfile);
 
   //import card
@@ -77,7 +77,7 @@ module.exports = {
       await businessNetworkConnection.connect('admin@ticketing-system');
 
       //get the factory for the business network
-      factory = businessNetworkConnection.getBusinessNetwork().getFactory();
+      var factory = businessNetworkConnection.getBusinessNetwork().getFactory();
 
       //create buyer participant
       const buyer = factory.newResource(namespace, 'Buyer', user_id);
@@ -121,7 +121,7 @@ module.exports = {
       await businessNetworkConnection.connect('admin@ticketing-system');
 
       //get the factory for the business network.
-      factory = businessNetworkConnection.getBusinessNetwork().getFactory();
+      var factory = businessNetworkConnection.getBusinessNetwork().getFactory();
 
       //create partner participant
       const ticket_admin = factory.newResource(namespace, 'TicketAdmin', user_id);
@@ -165,7 +165,7 @@ module.exports = {
     await businessNetworkConnection.connect('admin@ticketing-system');
 
     //get the factory for the business network.
-    factory = businessNetworkConnection.getBusinessNetwork().getFactory();
+    var factory = businessNetworkConnection.getBusinessNetwork().getFactory();
 
     //create partner participant
     const ticket_admin = factory.newResource(namespace, 'Organizer', user_id);
@@ -195,14 +195,14 @@ module.exports = {
   }
 
 },
-  create_ticket: async function (user_id,ticket_id,section_id,row_id,seat_id,ticket_price,gig_id,gig_datetime) {
+  create_ticket: async function (user_id,ticket_id,section_id,row_id,seat_id,ticket_price,gig_id,gig_datetime,gig_name,gig_venue) {
     try {
       //connect to network with user_id
-      businessNetworkConnection = new BusinessNetworkConnection();
+      var businessNetworkConnection = new BusinessNetworkConnection();
       await businessNetworkConnection.connect('admin@ticketing-system');
 
       //get the factory for the business network.
-      factory = businessNetworkConnection.getBusinessNetwork().getFactory();
+      var factory = businessNetworkConnection.getBusinessNetwork().getFactory();
 
       //create transaction
       const createTicket = factory.newTransaction(namespace, 'CreateTicket');
@@ -215,11 +215,12 @@ module.exports = {
       createTicket.gig_datetime = gig_datetime;
       createTicket.gig_name = gig_name;
       createTicket.gig_venue = gig_venue;
-      creatTicket.owner = factory.newRelationship(namespace, 'TicketAdmin', user_id);
+      createTicket.owner = factory.newRelationship(namespace, 'TicketAdmin', user_id);
 
+      console.log("before submit transaction")
       //submit transaction
-      await businessNetworkConnection.submitTransaction(creatTicket);
-
+      await businessNetworkConnection.submitTransaction(createTicket);
+      console.log("complete submit transaction")
       //disconnect
       await businessNetworkConnection.disconnect('admin@ticketing-system');
 
@@ -246,8 +247,8 @@ module.exports = {
     //   ticket = await carRegistry.get(ticket_id)
 
       //get the factory for the business network.
-      factory = businessNetworkConnection.getBusinessNetwork().getFactory();
-
+      var factory = businessNetworkConnection.getBusinessNetwork().getFactory();
+      
       //create transaction
       const update_owner = factory.newTransaction(namespace, 'ChangeOwner');
       update_owner.ticket = factory.newRelationship(namespace, 'Ticket', ticket_id);
@@ -284,7 +285,7 @@ module.exports = {
       await businessNetworkConnection.connect('admin@ticketing-system');
 
       //get the factory for the business network.
-      factory = businessNetworkConnection.getBusinessNetwork().getFactory();
+      var factory = businessNetworkConnection.getBusinessNetwork().getFactory();
 
       //create transaction
       const deleteTicket = factory.newTransaction(namespace, 'DeleteTicket');

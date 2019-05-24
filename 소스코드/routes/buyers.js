@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const models = require("../models");
 const crypto = require("crypto");
+var network = require('../ticketing-system/network.js');
 
 router.get('/signup', function(req, res, next) {
     res.render("buyers/signup");

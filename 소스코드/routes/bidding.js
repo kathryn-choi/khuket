@@ -2,7 +2,7 @@
 var express = require('express');
 var async = require('async');
 var router = express.Router();
-var network = require('../ticketing-system/network/network.js');
+var network = require('../ticketing-system/network.js');
 
 
 //alert 직전 비더

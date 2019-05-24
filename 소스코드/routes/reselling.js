@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var async = require('async');
-var network = require('../ticketing-system/network/network.js');
+var network = require('../ticketing-system/network.js');
 
 function get_reselling_ticket_list_info(cb) {
   /*  var reselling_ticket_list = new Array();

@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 const models = require("../models");
 const crypto = require("crypto");
-var network = require('../ticketing-system/network/network.js');
+var network = require('../ticketing-system/network.js');
 
 router.get('/login', function(req, res, next) {
     let session = req.session;
@@ -55,16 +55,26 @@ router.get('/', function(req, res, next) {
 function create_ticket(gig_index, cb){
     var sqlquery = "SELECT  * FROM gigs  WHERE gig_index=?";
     var gig_ticket=new Array();
+
     var result=""
+
     connection.query(sqlquery,gig_index,function(err,rows){
+        console.log("1")
         if(!err){
             gig_ticket=rows;
             var sqlquery2 = "SELECT  * FROM sections  WHERE gig_index=?";
             var sections=new Array();
+            var _gig_index = gig_ticket[0].gig_index
+            var gig_date_time = (gig_ticket[0].gig_date_time).toString()
+            var gig_name = gig_ticket[0].gig_name
+            var gig_venue = gig_ticket[0].gig_venue
             connection.query(sqlquery2,gig_index,function(err,rows){
+                console.log("2")
+                
                 if(!err) {
                     console.log(1);
                     sections=rows;
+                    console.log("sections:",sections)
                     for (var i=0; i<sections.length; i++)
                     {
                         console.log(2)

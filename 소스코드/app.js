@@ -26,7 +26,7 @@ var mypage = require('./routes/mypage');
 var reselling = require('./routes/reselling');
 var refund = require('./routes/refund');
 var setting = require('./routes/setting');
-var network = require('./ticketing-system/network/network.js');
+var network = require('./ticketing-system/network.js');
 
 //port
 passport.serializeUser(function(user, done) {
@@ -74,7 +74,7 @@ auto.run((err)=>{
 connection = mysql.createConnection({
     host     : 'localhost',
     user     : 'root',
-    password : '',
+    password : 'password123',
     port     : 3306,
     database : 'ticketing_service',
     //insecureAuth : true
@@ -94,14 +94,10 @@ network.register_admin("ticketadmin","ticketadmin")
   .then((response) => {
   //return error if error in response
   if (response.error != null) {
-      res.json({
-      error: response.error
-      });
+      console.log("error")
   } else {
       //else return success
-      res.json({
-      success: response
-      });
+      console.log("Success")
   }
 })
   
