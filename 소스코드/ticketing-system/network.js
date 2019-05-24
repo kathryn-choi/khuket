@@ -195,7 +195,7 @@ module.exports = {
   }
 
 },
-  create_ticket: async function (user_id,ticket_id,section_id,row_id,seat_id,ticket_price,gig_id,gig_datetime,gig_name,gig_venue) {
+  create_ticket: async function (user_id,ticket_id,section_id,row_id,seat_id,ticket_price,gig_id,gig_datetime, gig_name, gig_venue, callback) {
     try {
       //connect to network with user_id
       var businessNetworkConnection = new BusinessNetworkConnection();
@@ -223,15 +223,16 @@ module.exports = {
       console.log("complete submit transaction")
       //disconnect
       await businessNetworkConnection.disconnect('admin@ticketing-system');
-
-      return true;
+      result=true;
+      callback(result);
     }
     catch(err) {
       //print and return error
       console.log(err);
       var error = {};
       error.error = err.message;
-      return error;
+      result=false;
+      callback(result);
     }
 
   },
