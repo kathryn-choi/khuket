@@ -7,7 +7,6 @@
 <body>
   <% if(session.organizer_id){ %>
   <h3>공연 등록</h3>
-  <!--<h4><%= session.organizer_index %></h4>-->
   <form action="/organizers/add_gig", method="post">
     <table>
       <tr>
@@ -43,14 +42,13 @@
       </tr>
     </table>
   </form>
+
   <form action="/organizers" method="get">
-    <input type="submit" value="뒤로가기">
+    <input type="submit" value="취소">
   </form>
+  
   <% } else{ %>
-    <h3>로그인 하세요</h3>
-    <form action="/organizers/login" method="get">
-      <input type="submit" value="로그인">
-    </form>
+    <meta http-equiv="refresh" content="0;url=/organizers/login">
   <% } %>
 </body>
 </html>

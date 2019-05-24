@@ -1,142 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Organizer's page</title>
-</head>
-<body>
-  <% if(session.organizer_id){ %>
-  <h3>Organizer's page</h3>
-  <h4>등록 요청중인 공연 목록</h4>
-  <table>
-      <tr>
-        <td>Gig index</td>
-        <td>Gig organizer index</td>
-        <td>Gig venue</td>
-        <td>Gig name</td>
-        <td>Gig date time</td>
-        <td>Gig total seatnum</td>
-      </tr>
-      <% for(let gigs of result) { %>
-        <% if (session.organizer_index == gigs.gig_organizer_index && gigs.pending == 2) { %>
-        <tr>
-          <td><%= gigs.gig_index %></td>
-          <td><%= gigs.gig_organizer_index %></td>
-          <td><%= gigs.gig_venue %></td>
-          <td><%= gigs.gig_name %></td>
-          <td><%= gigs.gig_date_time %></td>
-          <td><%= gigs.gig_total_seatnum %></td>
-          <td><form action="/organizers/update_gig" method="update">
-            <input type="submit" value="수정">
-          </form></td>
-          <td><form action="/organizers/delete_gig" method="delete">
-            <input type="submit" value="삭제">
-          </form></td>
-        </tr>
-        <% } %>
-      <% } %>
-  </table>
-  
-  <h4>등록 완료된 공연 목록</h4>
-  <table>
-      <tr>
-        <td>Gig index</td>
-        <td>Gig organizer index</td>
-        <td>Gig venue</td>
-        <td>Gig name</td>
-        <td>Gig date time</td>
-        <td>Gig total seatnum</td>
-      </tr>
-      <% for(let gigs of result) { %>
-        <% if (session.organizer_index == gigs.gig_organizer_index && gigs.pending == 1) { %>
-        <tr>
-          <td><%= gigs.gig_index %></td>
-          <td><%= gigs.gig_organizer_index %></td>
-          <td><%= gigs.gig_venue %></td>
-          <td><%= gigs.gig_name %></td>
-          <td><%= gigs.gig_date_time %></td>
-          <td><%= gigs.gig_total_seatnum %></td>
-          <td><form action="/organizers/update_gig" method="update">
-            <input type="submit" value="수정">
-          </form></td>
-          <td><form action="/organizers/delete_gig" method="delete">
-            <input type="submit" value="삭제">
-          </form></td>
-        </tr>
-        <% } %>
-      <% } %>
-  </table>
-
-  <h4>등록 거절된 공연 목록</h4>
-  <table>
-      <tr>
-        <td>Gig index</td>
-        <td>Gig organizer index</td>
-        <td>Gig venue</td>
-        <td>Gig name</td>
-        <td>Gig date time</td>
-        <td>Gig total seatnum</td>
-      </tr>
-      <% for(let gigs of result) { %>
-        <% if (session.organizer_index == gigs.gig_organizer_index && gigs.pending == 0) { %>
-        <tr>
-          <td><%= gigs.gig_index %></td>
-          <td><%= gigs.gig_organizer_index %></td>
-          <td><%= gigs.gig_venue %></td>
-          <td><%= gigs.gig_name %></td>
-          <td><%= gigs.gig_date_time %></td>
-          <td><%= gigs.gig_total_seatnum %></td>
-          <td><form action="/organizers/update_gig" method="update">
-            <input type="submit" value="수정">
-          </form></td>
-          <td><form action="/organizers/delete_gig" method="delete">
-            <input type="submit" value="삭제">
-          </form></td>
-        </tr>
-        <% } %>
-      <% } %>
-  </table>
-
-  <p>
-  <form action="/organizers/add_gig" method="get">
-    <input type="submit" value="공연 등록">
-  </form>
-
-  <form action="/users/logout" method="get">
-    <input type="submit" value="로그아웃">
-  </form>
-  </p>
-
-  <% } else{ %>
-    <h3>로그인 하세요</h3>
-    <form action="/organizers/login" method="get">
-      <input type="submit" value="로그인">
-    </form>
-  <% } %>
-
-</body>
-</html>
-
-<!DOCTYPE html>
-<html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>주최사 <%= session.organizer_id %>'s page</title>
+    <title>Organizer's page</title>
     <!-- CSS files-->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
    </head>
   <body>
+      <div class="table-responsive col-md-10">
     <% if(session.organizer_id){ %>
-    <!-- page content -->
-    <div style="text-align:right; font-size:18px; width:95%; margin-top:1%"><a href="https://stackfame.com/editable-html-table-using-javascript-jquery/" >Tutorial  | <a href="https://stackfame.com/">StackFAME Homepage</a></div>
- <br>
-    <h1 class="col-md-12 text-center" style="color: black">Dynamic Editable HTML Table using Javascript, Jquery and Bootstrap with add, edit, and Delete Options</h1>
-   
-    
-    <br>
+      <h3> Organizer <%= session.organizer_id %>'s page</h3><br>
     <div class="table-responsive col-md-10">
 
+  <h4>등록 요청중인 공연 목록</h4>
 <table class="table table-bordered table-striped table-hover table-condensed  text-center" id="DyanmicTable">
 	<thead>
 		<tr>
@@ -156,28 +33,155 @@
 				공연 설명
       </th>
 		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>
-				John M
-			</td>
-			<td>
-				http://john-m.com
-			</td>
-			<td>
-				9876543210
-			</td>
-		</tr>
-	</tbody>
+  </thead>
+  <% for(let gigs of result) { %>
+    <% if (session.organizer_index == gigs.gig_organizer_index && gigs.pending == 2) { %>
+      <tbody>
+        <tr>
+          <td>
+            <%= gigs.gig_name %>
+          </td>
+          <td>
+            <%= gigs.gig_venue %>
+          </td>
+          <td>
+            <%= gigs.gig_date_time %>
+          </td>
+          <td>
+            <%= gigs.gig_total_seatnum %>
+          </td>
+          <td>
+            <%= gigs.gig_description %>
+          </td>
+          <td><form action="/organizers/update_gig" method="update">
+            <input type="submit" value="수정">
+          </form></td>
+          <td><form action="/organizers/delete_gig" method="delete">
+            <input type="submit" value="삭제">
+          </form></td>
+        </tr>
+      </tbody>
+    <% } %>
+  <% } %>
 </table>
-</div>
-    <!--JS Files-->
-<script  src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="   crossorigin="anonymous"></script>
-<script src="bootstable.min.js"></script>
-<script>
- $('#DyanmicTable').SetEditable({ $addButton: $('#addNewRow')});
-</script>
+
+<h4>등록 완료된 공연 목록</h4>
+<table class="table table-bordered table-striped table-hover table-condensed  text-center" id="DyanmicTable">
+	<thead>
+		<tr>
+			<th class="text-center">
+				공연 이름
+      </th>
+      <th class="text-center">
+				공연 장소
+      </th>
+      <th class="text-center">
+				공연 날짜
+      </th>
+      <th class="text-center">
+				공연 좌석 수
+      </th>
+      <th class="text-center">
+				공연 설명
+      </th>
+		</tr>
+  </thead>
+  <% for(let gigs of result) { %>
+    <% if (session.organizer_index == gigs.gig_organizer_index && gigs.pending == 1) { %>
+      <tbody>
+        <tr>
+          <td>
+            <%= gigs.gig_name %>
+          </td>
+          <td>
+            <%= gigs.gig_venue %>
+          </td>
+          <td>
+            <%= gigs.gig_date_time %>
+          </td>
+          <td>
+            <%= gigs.gig_total_seatnum %>
+          </td>
+          <td>
+            <%= gigs.gig_description %>
+          </td>
+          <td><form action="/organizers/update_gig" method="update">
+            <input type="submit" value="수정">
+          </form></td>
+          <td><form action="/organizers/delete_gig" method="delete">
+            <input type="submit" value="삭제">
+          </form></td>
+        </tr>
+      </tbody>
+    <% } %>
+  <% } %>
+</table>
+
+<h4>등록 거절된 공연 목록</h4>
+<table class="table table-bordered table-striped table-hover table-condensed  text-center" id="DyanmicTable">
+	<thead>
+		<tr>
+			<th class="text-center">
+				공연 이름
+      </th>
+      <th class="text-center">
+				공연 장소
+      </th>
+      <th class="text-center">
+				공연 날짜
+      </th>
+      <th class="text-center">
+				공연 좌석 수
+      </th>
+      <th class="text-center">
+				공연 설명
+      </th>
+		</tr>
+  </thead>
+  <% for(let gigs of result) { %>
+    <% if (session.organizer_index == gigs.gig_organizer_index && gigs.pending == 0) { %>
+      <tbody>
+        <tr>
+          <td>
+            <%= gigs.gig_name %>
+          </td>
+          <td>
+            <%= gigs.gig_venue %>
+          </td>
+          <td>
+            <%= gigs.gig_date_time %>
+          </td>
+          <td>
+            <%= gigs.gig_total_seatnum %>
+          </td>
+          <td>
+            <%= gigs.gig_description %>
+          </td>
+          <td><form action="/organizers/update_gig" method="update">
+            <input type="submit" value="수정">
+          </form></td>
+          <td><form action="/organizers/delete_gig" method="delete">
+            <input type="submit" value="삭제">
+          </form></td>
+        </tr>
+      </tbody>
+    <% } %>
+  <% } %>
+</table>
+
+<p>
+  <table>
+    <tr>
+      <td><form action="/organizers/add_gig" method="get">
+      <input type="submit" value="공연 등록">
+      </form></td>
+
+      <td><form action="/users/logout" method="get">
+        <input type="submit" value="로그아웃">
+      </form></td>
+    </tr>
+  </table>
+</p>
 
 <% } else{ %>
   <h3>로그인 하세요</h3>
@@ -185,6 +189,11 @@
     <input type="submit" value="로그인">
   </form>
 <% } %>
+
+</div>
+    <!--JS Files-->
+<script  src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="   crossorigin="anonymous"></script>
+<script src="assetst/js/bootstable.min.js"></script>
 
   </body>
 </html>

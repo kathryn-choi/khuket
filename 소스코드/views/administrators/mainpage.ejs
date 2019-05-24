@@ -89,11 +89,9 @@
   <form action="/users/logout" method="get">
     <input type="submit" value="로그아웃">
   </form>
+  
   <% } else{ %>
-    <h3>로그인 하세요</h3>
-    <form action="/administrators/login" method="get">
-      <input type="submit" value="로그인">
-    </form>
+    <meta http-equiv="refresh" content="0;url=/administrators/login">
   <% } %>
 
 </body>
