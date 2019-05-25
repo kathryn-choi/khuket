@@ -79,6 +79,7 @@ function create_ticket(gig_index, cb){
                         console.log(2);
                         var section_id=sections[i].section_id;
                         var section_index=sections[i].section_index;
+                        var seat_price = sections[i].seat_price
                         var sqlquery3 = "SELECT * FROM seats  WHERE section_id=? AND gig_index=?";
                         var seats=new Array();
                         var values=[section_id, _gig_index];
@@ -92,7 +93,6 @@ function create_ticket(gig_index, cb){
                                 console.log(4);
                                 var seat_index=seats[j].seat_index;
                                 var ticket_id=(_gig_index).toString() + "/" + (section_index).toString()+"/" +(seat_index).toString();
-                                var seat_price=sections[i].seat_price;
                                 var seat_row_index=seats[j].seat_row_index;
                                 console.log(ticket_id);
                                 network.create_ticket('ticketadmin',ticket_id,section_id,seat_row_index,seat_index,seat_price,_gig_index,gig_date_time, gig_name, gig_venue,  function(result){
@@ -101,6 +101,7 @@ function create_ticket(gig_index, cb){
                                         throw err;
                                     }
                                 });
+
                             }
                         }
                         else{
