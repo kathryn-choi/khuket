@@ -59,14 +59,15 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul id="top-menu" class="nav navbar-nav navbar-right main-nav">
-                    <li><a href="/">Home</a></li>
-                    <li class="active"><a href="/gigs">Gigs</a></li>
-                    <li class="active"><a href="/mypage">My Page</a></li>
-                    <%if (kakao == true){%>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/mypage">My Page</a></li>
+                        <li><a href="/gigs">Gigs</a></li>
+                        <li class="active"><a href="/reselling">Reselling</a></li>
+                        <%if (kakao == true){%>
                         <li><a href="/auth/logout/kakao">Logout</a></li>
-                    <%} else{%>
-                        <li><a href="/users/logout">Logout</a></li>
-                    <%}%>
+                        <%} else{%>
+                            <li><a href="/users/logout">Logout</a></li>
+                        <%}%>
                 </ul>
             </div><!--/.nav-collapse -->
         </div>

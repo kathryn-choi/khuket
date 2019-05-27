@@ -58,6 +58,7 @@
             <div id="navbar" class="navbar-collapse collapse">
                 <ul id="top-menu" class="nav navbar-nav navbar-right main-nav">
                     <li><a href="/">Home</a></li>
+                    <li class="active"><a href="/mypage">My Page</a></li>
                     <li><a href="/gigs">Gigs</a></li>
                     <li><a href="/reselling">Reselling</a></li>
                     <%if (kakao == true){%>
@@ -273,49 +274,22 @@
                                 <!-- end single sidebar -->
                                 <!-- start single sidebar -->
                                 <div class="mu-single-sidebar">
-                                    <h3>My Notifications</h3>
-                                    <div class="mu-sidebar-popular-courses">
-                                        <div class="media">
-                                            <div class="media-left">
-                                                <%for (i =1; i<myinfo.length; i++) { %>
-                                                <form method="post" action="/mypage/delete_notification">
-                                                        <%=i%> .  <%= myinfo[i].notice_buyer_text %> <br>
-                                                        <input type="hidden" name="notification_index"value="<%= myinfo[i].notification_index%>">
-                                                        <button type="submit">Delete</button>
-                                                </form>
-                                                <%}%>
+                                        <h3>My Notifications</h3>
+                                        <div class="mu-sidebar-popular-courses">
+                                            <div class="media">
+                                                <div class="media-left">
+                                                    <%for (i =1; i<myinfo.length; i++) { %>
+                                                    <form method="post" action="/mypage/delete_notification">
+                                                            <%=i%> .  <%= myinfo[i].notice_buyer_text %> <br>
+                                                            <input type="hidden" name="notification_index"value="<%= myinfo[i].notification_index%>">
+                                                            <button type="submit">Delete</button>
+                                                    </form>
+                                                    <%}%>
+                                                </div>
                                             </div>
-                                            <!--
-                                            <div class="media-body">
-                                                <h4 class="media-heading"></h4>
-                                                <span class="popular-course-price">$200.00</span>
-                                            </div>
-                                        </div>
-                                        <div class="media">
-                                            <div class="media-left">
-                                                <a href="#">
-                                                    <img class="media-object" src="assets/img/courses/2.jpg" alt="img">
-                                                </a>
-                                            </div>
-                                            <div class="media-body">
-                                                <h4 class="media-heading"><a href="#">Web Design</a></h4>
-                                                <span class="popular-course-price">$250.00</span>
-                                            </div>
-                                        </div>
-                                        <div class="media">
-                                            <div class="media-left">
-                                                <a href="#">
-                                                    <img class="media-object" src="assets/img/courses/3.jpg" alt="img">
-                                                </a>
-                                            </div>
-                                            <div class="media-body">
-                                                <h4 class="media-heading"><a href="#">Health & Sports</a></h4>
-                                                <span class="popular-course-price">$90.00</span>
-                                            </div>-->
                                         </div>
                                     </div>
-                                </div>
-                                <!-- end single sidebar -->
+                                    <!-- end single sidebar -->
                             </aside>
                             <!-- / end sidebar -->
                         </div>
