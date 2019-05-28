@@ -7,21 +7,21 @@
     <title>Varsity | Blog Single</title>
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon">
 
     <!-- Font awesome -->
-    <link href="assets/css/font-awesome.css" rel="stylesheet">
+    <link href="../assets/css/font-awesome.css" rel="stylesheet">
     <!-- Bootstrap -->
-    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <link href="../assets/css/bootstrap.css" rel="stylesheet">
     <!-- Slick slider -->
-    <link rel="stylesheet" type="text/css" href="assets/css/slick.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/slick.css">
     <!-- Fancybox slider -->
-    <link rel="stylesheet" href="assets/css/jquery.fancybox.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="../assets/css/jquery.fancybox.css" type="text/css" media="screen" />
     <!-- Theme color -->
-    <link id="switcher" href="assets/css/theme-color/default-theme.css" rel="stylesheet">
+    <link id="switcher" href="../assets/css/theme-color/default-theme.css" rel="stylesheet">
 
     <!-- Main style sheet -->
-    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
 
 
     <!-- Google Fonts -->
@@ -108,6 +108,7 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Course <span class="fa fa-angle-down"></span></a>
                         <ul class="dropdown-menu" role="menu">
+                            <li><a href="/gigs/buy/:gig_index">Buy</a></li>
                             <li><a href="course.html">Course Archive</a></li>
                             <li><a href="course-detail.html">Course Detail</a></li>
                         </ul>
@@ -130,21 +131,7 @@
 </section>
 <!-- End menu -->
 <!-- Start search box -->
-<div id="mu-search">
-    <div class="mu-search-area">
-        <button class="mu-search-close"><span class="fa fa-close"></span></button>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <form class="mu-search-form">
-                        <input type="search" placeholder="Type Your Keyword(s) & Hit Enter">
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- End search box -->
+
 <!-- Page breadcrumb -->
 <section id="mu-page-breadcrumb">
     <div class="container">
@@ -153,7 +140,7 @@
                 <div class="mu-page-breadcrumb-area">
                     <h2>Blog Single</h2>
                     <ol class="breadcrumb">
-                        <li><a href="#">Home</a></li>
+                        <li><a href="/gigs/buy/<%=gig_index%>">Buy Ticket!</a></li>
                         <li class="active">Blog Single</li>
                     </ol>
                 </div>
@@ -175,9 +162,9 @@
                                     <div class="col-md-12">
                                         <article class="mu-blog-single-item">
                                             <figure class="mu-blog-single-img">
-                                                <a href="#"><img alt="img" src="assets/img/blog/blog-3.jpg"></a>
+                                                <a href="#"><img alt="img" src="../assets/img/blog/blog-3.jpg"></a>
                                                 <figcaption class="mu-blog-caption">
-                                                    <h3><a href="#">Lorem ipsum dolor sit amet.</a></h3>
+                                                    <h3><a href="/gigs/buy/<%=gig_index%>">Buy Ticket!</a></h3>
                                                 </figcaption>
                                             </figure>
                                             <div class="mu-blog-meta">
@@ -255,7 +242,7 @@
                                                 <div class="col-md-6">
                                                     <article class="mu-blog-single-item">
                                                         <figure class="mu-blog-single-img">
-                                                            <a href="#"><img alt="img" src="assets/img/blog/blog-1.jpg"></a>
+                                                            <a href="#"><img alt="img" src="../assets/img/blog/blog-1.jpg"></a>
                                                             <figcaption class="mu-blog-caption">
                                                                 <h3><a href="#">Lorem ipsum dolor sit amet.</a></h3>
                                                             </figcaption>
@@ -274,7 +261,7 @@
                                                 <div class="col-md-6">
                                                     <article class="mu-blog-single-item">
                                                         <figure class="mu-blog-single-img">
-                                                            <a href="#"><img alt="img" src="assets/img/blog/blog-2.jpg"></a>
+                                                            <a href="#"><img alt="img" src="../assets/img/blog/blog-2.jpg"></a>
                                                             <figcaption class="mu-blog-caption">
                                                                 <h3><a href="#">Lorem ipsum dolor sit amet.</a></h3>
                                                             </figcaption>
@@ -293,7 +280,7 @@
                                                 <div class="col-md-6">
                                                     <article class="mu-blog-single-item">
                                                         <figure class="mu-blog-single-img">
-                                                            <a href="#"><img alt="img" src="assets/img/blog/blog-3.jpg"></a>
+                                                            <a href="#"><img alt="img" src="../assets/img/blog/blog-3.jpg"></a>
                                                             <figcaption class="mu-blog-caption">
                                                                 <h3><a href="#">Lorem ipsum dolor sit amet.</a></h3>
                                                             </figcaption>
@@ -312,7 +299,7 @@
                                                 <div class="col-md-6">
                                                     <article class="mu-blog-single-item">
                                                         <figure class="mu-blog-single-img">
-                                                            <a href="#"><img alt="img" src="assets/img/blog/blog-1.jpg"></a>
+                                                            <a href="#"><img alt="img" src="../assets/img/blog/blog-1.jpg"></a>
                                                             <figcaption class="mu-blog-caption">
                                                                 <h3><a href="#">Lorem ipsum dolor sit amet.</a></h3>
                                                             </figcaption>
@@ -344,7 +331,7 @@
                                                 <li>
                                                     <div class="media">
                                                         <div class="media-left">
-                                                            <img alt="img" src="assets/img/testimonial-1.png" class="media-object news-img">
+                                                            <img alt="img" src="../assets/img/testimonial-1.png" class="media-object news-img">
                                                         </div>
                                                         <div class="media-body">
                                                             <h4 class="author-name">David Muller</h4>
@@ -357,7 +344,7 @@
                                                 <li>
                                                     <div class="media">
                                                         <div class="media-left">
-                                                            <img alt="img" src="assets/img/testimonial-2.png" class="media-object news-img">
+                                                            <img alt="img" src="../assets/img/testimonial-2.png" class="media-object news-img">
                                                         </div>
                                                         <div class="media-body">
                                                             <h4 class="author-name">John Doe</h4>
@@ -371,7 +358,7 @@
                                                     <li class="author-comments">
                                                         <div class="media">
                                                             <div class="media-left">
-                                                                <img alt="img" src="assets/img/testimonial-3.png" class="media-object news-img">
+                                                                <img alt="img" src="../assets/img/testimonial-3.png" class="media-object news-img">
                                                             </div>
                                                             <div class="media-body">
                                                                 <h4 class="author-name">Admin</h4>
@@ -386,7 +373,7 @@
                                                         <li>
                                                             <div class="media">
                                                                 <div class="media-left">
-                                                                    <img alt="img" src="assets/img/testimonial-1.png" class="media-object news-img">
+                                                                    <img alt="img" src="../assets/img/testimonial-1.png" class="media-object news-img">
                                                                 </div>
                                                                 <div class="media-body">
                                                                     <h4 class="author-name">David Muller</h4>
@@ -401,7 +388,7 @@
                                                 <li>
                                                     <div class="media">
                                                         <div class="media-left">
-                                                            <img alt="img" src="assets/img/testimonial-2.png" class="media-object news-img">
+                                                            <img alt="img" src="../assets/img/testimonial-2.png" class="media-object news-img">
                                                         </div>
                                                         <div class="media-body">
                                                             <h4 class="author-name">Jhon Doe</h4>
@@ -497,7 +484,7 @@
                                         <div class="media">
                                             <div class="media-left">
                                                 <a href="#">
-                                                    <img class="media-object" src="assets/img/courses/1.jpg" alt="img">
+                                                    <img class="media-object" src="../assets/img/courses/1.jpg" alt="img">
                                                 </a>
                                             </div>
                                             <div class="media-body">
@@ -508,7 +495,7 @@
                                         <div class="media">
                                             <div class="media-left">
                                                 <a href="#">
-                                                    <img class="media-object" src="assets/img/courses/2.jpg" alt="img">
+                                                    <img class="media-object" src="../assets/img/courses/2.jpg" alt="img">
                                                 </a>
                                             </div>
                                             <div class="media-body">
@@ -519,7 +506,7 @@
                                         <div class="media">
                                             <div class="media-left">
                                                 <a href="#">
-                                                    <img class="media-object" src="assets/img/courses/3.jpg" alt="img">
+                                                    <img class="media-object" src="../assets/img/courses/3.jpg" alt="img">
                                                 </a>
                                             </div>
                                             <div class="media-body">
@@ -644,21 +631,21 @@
 
 
 <!-- jQuery library -->
-<script src="assets/js/jquery.min.js"></script>
+<script src="../assets/js/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="assets/js/bootstrap.js"></script>
+<script src="../assets/js/bootstrap.js"></script>
 <!-- Slick slider -->
-<script type="text/javascript" src="assets/js/slick.js"></script>
+<script type="text/javascript" src="../assets/js/slick.js"></script>
 <!-- Counter -->
-<script type="text/javascript" src="assets/js/waypoints.js"></script>
-<script type="text/javascript" src="assets/js/jquery.counterup.js"></script>
+<script type="text/javascript" src="../assets/js/waypoints.js"></script>
+<script type="text/javascript" src="../assets/js/jquery.counterup.js"></script>
 <!-- Mixit slider -->
-<script type="text/javascript" src="assets/js/jquery.mixitup.js"></script>
+<script type="text/javascript" src="../assets/js/jquery.mixitup.js"></script>
 <!-- Add fancyBox -->
-<script type="text/javascript" src="assets/js/jquery.fancybox.pack.js"></script>
+<script type="text/javascript" src="../assets/js/jquery.fancybox.pack.js"></script>
 
 <!-- Custom js -->
-<script src="assets/js/custom.js"></script>
+<script src="../assets/js/custom.js"></script>
 
 </body>
 </html>

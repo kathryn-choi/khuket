@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gig PURCHASE LIST</title>
+</head>
+<body>
+
+PURCHASE LIST <br> <br>
+    <%for (var i=0; i<gigsale.length; i++){%>
+    <%=i+1%> . <br>
+    Seat INDEX: <%=gigsale[i].seat_index%> <br>
+    Seat row Index: <%=gigsale[i].seat_row_index%> <br>
+    <br>
+    <%}%>
+<form method="post" action="/gigs/purchase" >
+    <input type="hidden" name="purchaseseats" value="<%=gigsale%>">
+    <input type="submit" value="I will purchase it!!!">
+</form>
+</body>
+</html>
