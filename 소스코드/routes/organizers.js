@@ -30,22 +30,16 @@ router.post("/signup", function(req,res,next){
             .then((response) => {
             //return error if error in response
             if (response.error != null) {
-                res.json({
-                error: response.error
-                });
+               console.log("org register error")
             } else {
                 //else return success
-                res.json({
-                success: response
-                });
+                console.log("org register success")
+                res.redirect("./login");
             }
         })
-    , result => {
-        res.redirect("./login");
-    })
+    )  
     .catch( err => {
-        console.log(err)
-})
+        console.log(err)})
 })
 
 router.get('/login', function(req, res, next) {

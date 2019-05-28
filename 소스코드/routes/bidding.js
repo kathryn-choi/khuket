@@ -10,21 +10,26 @@ function alert_former_bidder(bidding_index) {
     var sqlquery = "SELECT  * FROM bidding b WHERE b.bidding_index = ?";
     connection.query(sqlquery, bidding_index, function (err, rows) {
         if (!err) {
-                var result=rows;
+            var result=rows;
             if (result[0].bidder_id !== '-1') {
-               /* var gig_venue = network.get_ticket_info_by_id(res.bidder_id, res.ticket_id).gig_venue;
-                var gig_name =  network.get_ticket_info_by_id(res.bidder_id, res.ticket_id).gig_name;
-                var gig_time =  network.get_ticket_info_by_id(res.bidder_id, res.ticket_id).gig_time;
-                var section_id= network.get_ticket_info_by_id(res.bidder_id, res.ticket_id).section_id;
-                var row_id=network.get_ticket_info_by_id(res.bidder_id, res.ticket_id).row_id;
-                var seat_id=network.get_ticket_info_by_id(res.bidder_id, res.ticket_id).seat_id;
-                var notice= res.ticket_id.toString() + '. Gig name: ' + gig_name.toString() + '\n at ' + 'Venue : ' + gig_venue.toString()
-                    + '\n Time : ' + gig_time.toString() + '\n Section/Row/Seat' + section_id.toString() + row_id.toString() + seat_id.toString();*/
-               var notice="you have been overbid!"; // 티켓 정보 추가할 예정
-                connection.query("INSERT INTO notification SET ?;", {
-                    notice_buyer_id: result[0].bidder_id,
-                    notice_buyer_text: notice,
+                network.get_ticket_info_by_id(res.bidder_id, res.ticket_id).then((response) => {
+                    var ticket = response;
+                    var gig_venue = ticket.gig_venue;
+                    var gig_name =  ticket.gig_name;
+                    var gig_time =  ticket.gig_time;
+                    var section_id= ticket.section_id;
+                    var row_id=ticket.row_id;
+                    var seat_id=ticket.seat_id;
+                    var notice= res.ticket_id.toString() + '. Gig name: ' + gig_name.toString() + '\n at ' + 'Venue : ' + gig_venue.toString()
+                        + '\n Time : ' + gig_time.toString() + '\n Section/Row/Seat' + section_id.toString() + row_id.toString() + seat_id.toString();
+                    //var notice="you have been overbid!"; // 티켓 정보 추가할 예정
+                    connection.query("INSERT INTO notification SET ?;", {
+                        notice_buyer_id: result[0].bidder_id,
+                        notice_buyer_text: notice,
+                    });
                 });
+                
+               
 
             } else {
                 //직전 비더가 없는 관계로 notice 줄 필요 없음

@@ -62,9 +62,9 @@ function get_my_tickets(buyer_index,cb){
                 }
             })
         }
-            cb(my_tickets);
-            console.log(my_tickets);
-            return my_tickets;
+        cb(my_tickets);
+        console.log(my_tickets);
+        return my_tickets;
     })
 }
 
@@ -157,6 +157,11 @@ router.get('/', function(req, res, next) {
             [
                 function(callback){
                     get_my_info(req.user.user_id, function (myinfo_list) {
+                        callback(null,myinfo_list);
+                    });
+                },
+                function(callback){
+                    get_my_tickets(req.user.user_id, function (myinfo_list) {
                         callback(null,myinfo_list);
                     });
                 }

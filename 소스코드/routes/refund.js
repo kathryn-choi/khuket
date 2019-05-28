@@ -60,8 +60,9 @@ function refund_ticket(ticket_id, gig_index, gig_name, gig_date, gig_venue, gig_
         connection.query(sql, gig_index, function (err, res){
             if (!err) {
                 var organizer_index=res;
-                if(network.update_ticket_owner(organizer_index, ticket_id)===true) {
-                    var notice="At time" + right_now_time.toString() + 'has successfully refunded \n'
+                network.update_ticket_owner(organizer_index, ticket_id).then((response) => {
+                    if (response.error == null){
+                        var notice="At time" + right_now_time.toString() + 'has successfully refunded \n'
                                     + ticket_id.toString() + '. Gig name: ' + gig_name.toString() + '\n at ' + 'Venue : ' + gig_venue.toString()
                                     + '\n Time : ' + gig_time.toString() + '\n Section/Row/Seat' + section_id.toString() + row_id.toString() + seat_id.toString();
                     connection.query("INSERT INTO notification SET ?;", {
@@ -69,7 +70,8 @@ function refund_ticket(ticket_id, gig_index, gig_name, gig_date, gig_venue, gig_
                        notice_buyer_text: notice,
                     });
                     console.log("refund success!");
-                }
+                    }
+                }) 
             }
             else {
                 console.log("failed refund");

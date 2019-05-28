@@ -25,25 +25,19 @@ router.post("/signup", function(req,res,next){
     })
     .then( 
         network.register_buyer(buyer_id,buyer_name)
-            .then((response) => {
+        .then((response) => {
             //return error if error in response
             if (response.error != null) {
-                res.json({
-                error: response.error
-                });
+               console.log("buyer register error")
             } else {
                 //else return success
-                res.json({
-                success: response
-                });
+                console.log("buyer register success")
+                res.redirect("./login");
             }
         })
-    , result => {
-        res.redirect("./login");
-    })
+    )  
     .catch( err => {
-        console.log(err)
-})
+        console.log(err)})
 });
 
 router.get('/login', function(req, res, next) {
