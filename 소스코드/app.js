@@ -74,7 +74,7 @@ auto.run((err)=>{
 connection = mysql.createConnection({
     host     : 'localhost',
     user     : 'root',
-    password : '',
+    password : 'password123',
     port     : 3306,
     database : 'ticketing_service',
     //insecureAuth : true

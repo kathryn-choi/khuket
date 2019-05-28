@@ -175,11 +175,7 @@
 <body>
 
   <% if(session.buyer_id){ %>
-  <h3>로그인에 성공하셨습니다 ~</h3>
-  <form action="/users/logout" method="get">
-    <input type="submit" value="로그아웃">
-  </form>
-
+    <meta http-equiv="refresh" content="0;url=/mypage">
   <% } else{ %>
 
   <div class="body">
