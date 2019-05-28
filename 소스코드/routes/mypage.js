@@ -1,7 +1,7 @@
 var express = require('express');
 var async = require('async');
 var router = express.Router();
-//var network = require('./network/network.js');
+var network = require('../ticketing-system/network.js');
 
 //id 값을 가진 buyer's info 및 notifications
 console.log("mypage!");
@@ -29,8 +29,8 @@ function get_my_info(id,cb){
                         }
                     });
                     console.log(myinfo);
-                    console.log(mytickets);
-                    cb(true, myinfo,mytickets);
+                    console.log(mytickets.length);
+                    cb(true, myinfo, mytickets);
                 } else {
                     console.log("내 정보를 가져오는데 실패했습니다!");
                     cb(false, [], []);
@@ -146,14 +146,16 @@ router.get('/', function(req, res, next) {
             [
                 function(callback){
                     get_my_info(req.session.buyer_id, function (myinfo_list, myticketlist) {
-                        callback(null,myinfo_list, myticketlist);
+                        callback(myinfo_list, myticketlist);
                     });
                 }
             ],
-            function(err, myinfo, myticket){
+            function(myinfo, myticket){
+                console.log(myticket);
+               // console.log(myticket.length);
                 res.render('mypage', {
                     myinfo: myinfo[0],
-                    mytickets: myticket,
+                    mytickets: myticket[0],
                     user_id:req.session.buyer_id,
                     kakao: false
                 });

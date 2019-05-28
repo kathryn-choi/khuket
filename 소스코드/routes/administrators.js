@@ -99,13 +99,7 @@ function create_ticket(gig_index, cb){
                                 var seat_row_index=seats[j].seat_row_index;
                                 console.log(ticket_id);
                                 network.create_ticket('ticketadmin',ticket_id,section_id,seat_row_index,seat_index,seat_price,_gig_index,gig_date_time, gig_name, gig_venue)  
-                                 //function(){
-                                   /* if(result!== true){
-                                        console.log("network create_ticket failed");
-                                        throw err;
-                                    }
-                                    else {console.log("return true complete")}}*/
-                        
+                                 
                                 .then((response) => {
                                     //return error if error in response
                                     if (response.error != null) {
@@ -138,7 +132,7 @@ function create_ticket(gig_index, cb){
                 }
                 console.log(6)
             });
-            //return reselling_list;
+           
         }else{
             console.log("gig type list를 가져오는데 실패했습니다!");
            result =false;
@@ -169,7 +163,7 @@ router.post('/accept_gig', function(req, res, next) {
                            console.log("gig pending update");
                        }
                    });
-                   res.redirect('back');
+                   res.redirect('/administrators/');
                }else{
                        console.log("creating ticket failed")
                     }
