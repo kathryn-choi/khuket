@@ -145,7 +145,7 @@ router.post('/accept_gig', function(req, res, next) {
     let session = req.session;
        var gig_index=req.body.gig_index;
        var pending=req.body.pending;
-       if(pending==='accept')
+       if(pending==='승인')
        {
            pending=1;
            create_ticket(gig_index, function(result){
