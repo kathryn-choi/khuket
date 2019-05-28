@@ -11,6 +11,7 @@ function get_my_info(id,cb){
     var my_registration_info=new Array();
     var my_notifications=new Array();
     var myinfo= new Array();
+    var mytickets=new Array();
     connection.query(sqlquery,id,function(err,rows){
         if(!err){
             my_registration_info=rows;
@@ -20,17 +21,24 @@ function get_my_info(id,cb){
                 if (!err) {
                     my_notifications=rows;
                     myinfo=my_registration_info.concat(my_notifications);
+                    get_my_tickets(id, function(result, ticketlist){
+                        if(result==true){
+                            mytickets=ticketlist;
+                        }else {
+                            mytickets=null;
+                        }
+                    });
                     console.log(myinfo);
-                    cb(myinfo);
+                    console.log(mytickets);
+                    cb(true, myinfo,ticketlist);
                 } else {
                     console.log("내 정보를 가져오는데 실패했습니다!");
-                    //throw err;
+                    cb(false, null, null);
                 }
             });
-          //  return myinfo;
         }else{
             console.log("내 정보를 가져오는데 실패했습니다!");
-            //throw err;
+            cb(false, null, null);
         }
     });
 }
@@ -39,8 +47,8 @@ function get_my_info(id,cb){
 //list of buyer(id)'s tickets
 function get_my_tickets(buyer_index,cb){
     network.get_ticket_info_by_user(buyer_index).then((response) => { //allTickets return 됨
-        var get_my_tickets = response
-        console.log(get_my_tickets)
+        var get_my_tickets = response;
+        console.log(get_my_tickets);
         var my_tickets=new Array();
         for(i=0; i<get_my_tickets.size(); i++) {
             my_tickets[i].row_id = get_my_tickets[i].gig_id;
@@ -58,13 +66,12 @@ function get_my_tickets(buyer_index,cb){
                     my_tickets[i].gig_date = res.gig_date;
                 } else {
                     console.log("내 정보를 가져오는데 실패했습니다!");
-                    //throw err;
+                    cb(false, null);
                 }
             })
         }
-        cb(my_tickets);
-        console.log(my_tickets);
-        return my_tickets;
+         cb(true,my_tickets);
+            console.log(my_tickets);
     })
 }
 
@@ -138,15 +145,15 @@ router.get('/', function(req, res, next) {
         async.series(
             [
                 function(callback){
-                    get_my_info(req.session.buyer_id, function (myinfo_list) {
-                        callback(null,myinfo_list);
+                    get_my_info(req.session.buyer_id, function (myinfo_list, myticketlist) {
+                        callback(null,myinfo_list, myticketlist);
                     });
                 }
             ],
-            function(err, results){
-
+            function(err, myinfo, myticket){
                 res.render('mypage', {
-                    myinfo: results[0],
+                    myinfo: myinfo[0],
+                    mytickets: myticket,
                     user_id:req.session.buyer_id,
                     kakao: false
                 });

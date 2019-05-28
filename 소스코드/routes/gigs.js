@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var async = require('async');
+var network = require('../ticketing-system/network.js');
 //var request = require('request');
 
 //gig 전체 리스트 가져오기
@@ -103,19 +104,36 @@ function get_purchaselist(gig_index, section_id, seats_index, cb) {
     }
 }
 //purchase tickets
-function purchase_tickets(gig_index, seats, cb) {
+function purchase_tickets(user_id, gig_index, seats, cb) {
+    var count=0;
     for (var i=0; i<seats.length; i++) {
         var sqlquery = "SELECT  * FROM seats  WHERE gig_index=? AND seat_index=?";
         var values = [gig_index, seats[i].seat_index];
         connection.query(sqlquery, values, function (err, rows) {
             if (!err) {
+                //get ticket_id by gig_index,section_id, seat_index
+                var ticket_id=gig_index+'/'+seats[i].section_id + "/" + seats[i].seat_index;
                 //change ticket owner to userid
-                seats = rows;
-                console.log("seats:", seats);
-                cb(true, seats);
+                network.update_ticket_owner(user_id, ticket_id)
+                    .then((response) => {
+                        //return error if error in response
+                        if (response.error != null) {
+                            console.log("network update ticket owner failed");
+                            throw err;
+                        } else {
+                            //else return success
+                            console.log("return true complete")
+                            count++;
+                        }
+                    })
+                    .then((response) =>{
+                        if (count == seats.length) {
+                            cb(true);
+                        }
+                    })
             } else {
                 console.log("purchase tickets failed!");
-                cb(false, null);
+                cb(false);
             }
         });
     }
@@ -297,22 +315,20 @@ router.post('/purchase', function(req, res, next) {
     console.log(req.body.purchaseseats);
     console.log(req.body.purchaseseats.length);// array?
     if (!req.isAuthenticated()) {
-        purchase_tickets(req.params.gig_index, req.body.purchaseseats, function (result, seatlist) {
+        purchase_tickets(req.session.user_id, req.params.gig_index, req.body.purchaseseats, function (result) {
             if (result == true) {
-                res.render('mypage', {
-                    gigsale: seatlist, totalseatnum: req.body.totalseatnum, gig_index: req.params.gig_index,
-                });
+                res.redirect('/mypage');
+                //res.render('mypage', {});
             } else {
                 console.log('getting gigsale info failed');
                 res.redirect('back');
             }
         });
     } else {
-        purchase_tickets(req.params.gig_index, req.params.section_id, function (result, seatlist) {
+        purchase_tickets(req.session.user_id, req.params.gig_index, req.body.purchaseseats, function (result) {
             if (result == true) {
-                res.render('gigs/gigpurchaselist', {
-                    gigsale: seatlist, totalseatnum: req.body.totalseatnum, gig_index: req.params.gig_index,
-                });
+                res.redirect('/mypage');
+                //res.render('mypage', {});
             } else {
                 console.log('getting gigsale info failed');
                 res.redirect('back');
