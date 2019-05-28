@@ -68,12 +68,15 @@ function create_ticket(gig_index, cb){
             var gig_date_time = (gig_ticket[0].gig_date_time).toString();
             var gig_name = gig_ticket[0].gig_name;
             var gig_venue = gig_ticket[0].gig_venue;
+            var total_seat_num = gig_ticket[0].gig_total_seatnum;;
             connection.query(sqlquery2,gig_index,function(err,rows){
                 console.log("2");
                 if(!err) {
                     console.log(1);
                     sections=rows;
                     console.log("sections:",sections)
+                    var count = 0
+                    
                     for (var i=0; i<sections.length; i++)
                     {
                         console.log(2);
@@ -102,6 +105,7 @@ function create_ticket(gig_index, cb){
                                         throw err;
                                     }
                                     else {console.log("return true complete")}}*/
+                        
                                 .then((response) => {
                                     //return error if error in response
                                     if (response.error != null) {
@@ -110,10 +114,14 @@ function create_ticket(gig_index, cb){
                                     } else {
                                       //else return success
                                         console.log("return true complete")
+                                        count++
                                         result = true
                                         //cb(result);
                                     }
-                                  });
+                                  })
+                                .then((response) =>{
+                                    if (count == total_seat_num){cb(result);};
+                                })
                             }
                         }
                         else{
@@ -155,17 +163,17 @@ router.post('/accept_gig', function(req, res, next) {
                    connection.query(sql, [pending, gig_index], function (err) {
                        if (err) {
                            console.log("updating failed");
-                           res.redirect('back');
+                            throw err;
                        } else {
                            console.log("gig pending update");
-                           res.redirect('back');
                        }
                    });
+                   res.redirect('back');
                }else{
                        console.log("creating ticket failed")
-                      res.redirect('back');
                     }
                 });
+                res.redirect('back');
        }
        else {
            pending=0;
@@ -177,9 +185,9 @@ router.post('/accept_gig', function(req, res, next) {
                }
                else {
                    console.log("gig pending update");
-                   res.redirect('back');
                }
            });
+           res.redirect('back');
        }
 });
 module.exports = router;
