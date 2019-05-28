@@ -25,20 +25,20 @@ function get_my_info(id,cb){
                         if(result==true){
                             mytickets=ticketlist;
                         }else {
-                            mytickets=null;
+                            mytickets=[];
                         }
                     });
                     console.log(myinfo);
                     console.log(mytickets);
-                    cb(true, myinfo,ticketlist);
+                    cb(true, myinfo,mytickets);
                 } else {
                     console.log("내 정보를 가져오는데 실패했습니다!");
-                    cb(false, null, null);
+                    cb(false, [], []);
                 }
             });
         }else{
             console.log("내 정보를 가져오는데 실패했습니다!");
-            cb(false, null, null);
+            cb(false, [], []);
         }
     });
 }
@@ -66,7 +66,7 @@ function get_my_tickets(buyer_index,cb){
                     my_tickets[i].gig_date = res.gig_date;
                 } else {
                     console.log("내 정보를 가져오는데 실패했습니다!");
-                    cb(false, null);
+                    cb(false, []);
                 }
             })
         }
