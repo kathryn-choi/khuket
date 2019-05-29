@@ -24,7 +24,7 @@ router.post("/signup", function(req,res,next){
         salt: salt
     })
     .then( 
-        network.register_buyer(buyer_id,buyer_name)
+        network.register_buyer(body.buyer_id,body.buyer_name)
         .then((response) => {
             //return error if error in response
             if (response.error != null) {

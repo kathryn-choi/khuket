@@ -46,32 +46,39 @@ function get_my_info(id,cb){
 //id 값을 가진 buyer가 구매한 티켓들 가져오기
 //list of buyer(id)'s tickets
 function get_my_tickets(buyer_index,cb){
-    network.get_ticket_info_by_user(buyer_index).then((response) => { //allTickets return 됨
-        var get_my_tickets = response;
-        console.log(get_my_tickets);
-        var my_tickets=new Array();
-        for(i=0; i<get_my_tickets.size(); i++) {
-            my_tickets[i].row_id = get_my_tickets[i].gig_id;
-            my_tickets[i].seat_id = get_my_tickets[i].seat_id;
-            my_tickets[i].section_id = get_my_tickets[i].section_id;
-            my_tickets[i].ticket_price = get_my_tickets[i].ticket_price;
-            my_tickets[i].row_id = get_my_tickets[i].row_id;
-            my_tickets[i].gig_id = get_my_tickets[i].gig_id;
-            var sqlquery = "SELECT  * FROM gig  WHERE gig_index= ?";
-            connection.query(sqlquery, my_tickets[i].gig_id, function (err, res) {
-                if (!err) {
-                    my_tickets[i].gig_name = res.gig_name;
-                    my_tickets[i].gig_venue = res.gig_venue;
-                    my_tickets[i].gig_time = res.gig_time;
-                    my_tickets[i].gig_date = res.gig_date;
-                } else {
-                    console.log("내 정보를 가져오는데 실패했습니다!");
-                    cb(false, []);
-                }
-            })
-        }
-         cb(true,my_tickets);
+    console.log("buyer_id:",buyer_index)
+    network.get_ticket_info_by_user(buyer_index).then((response) => { 
+            //return error if error in response
+        if (response.error != null) {
+            console.log("network get ticket info failed");
+            cb(false, []);
+        } else {
+            var get_my_tickets = response;
+            console.log(get_my_tickets);
+            var my_tickets=new Array();
+            for(i=0; i<get_my_tickets.size(); i++) {
+                my_tickets[i].row_id = get_my_tickets[i].gig_id;
+                my_tickets[i].seat_id = get_my_tickets[i].seat_id;
+                my_tickets[i].section_id = get_my_tickets[i].section_id;
+                my_tickets[i].ticket_price = get_my_tickets[i].ticket_price;
+                my_tickets[i].row_id = get_my_tickets[i].row_id;
+                my_tickets[i].gig_id = get_my_tickets[i].gig_id;
+                var sqlquery = "SELECT  * FROM gig  WHERE gig_index= ?";
+                connection.query(sqlquery, my_tickets[i].gig_id, function (err, res) {
+                    if (!err) {
+                        my_tickets[i].gig_name = res.gig_name;
+                        my_tickets[i].gig_venue = res.gig_venue;
+                        my_tickets[i].gig_time = res.gig_time;
+                        my_tickets[i].gig_date = res.gig_date;
+                    } else {
+                        console.log("내 정보를 가져오는데 실패했습니다!");
+                        cb(false, []);
+                    }
+                })
+            }
+            cb(true,my_tickets);
             console.log(my_tickets);
+        }
     })
 }
 
@@ -145,17 +152,22 @@ router.get('/', function(req, res, next) {
         async.series(
             [
                 function(callback){
-                    get_my_info(req.session.buyer_id, function (myinfo_list, myticketlist) {
-                        callback(myinfo_list, myticketlist);
+                    get_my_info(req.session.buyer_id, function (result,myinfo_list, myticketlist) {
+                        if(result==true){
+                        callback(myinfo_list, myticketlist);}else{
+                            throw err;
+                        }
                     });
                 }
             ],
             function(myinfo, myticket){
                 console.log(myticket);
+                console.log("MyInfo:",myinfo[0])
+                console.log("MyInfo1:",myinfo)
                // console.log(myticket.length);
                 res.render('mypage', {
-                    myinfo: myinfo[0],
-                    mytickets: myticket[0],
+                    myinfo: myinfo,
+                    mytickets: myticket,
                     user_id:req.session.buyer_id,
                     kakao: false
                 });

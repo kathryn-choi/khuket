@@ -26,7 +26,7 @@ router.post("/signup", function(req,res,next){
         salt: salt
     })
     .then( 
-        network.register_organizer(organizer_id,organizer_name)
+        network.register_organizer(body.organizer_id,body.organizer_name)
             .then((response) => {
             //return error if error in response
             if (response.error != null) {

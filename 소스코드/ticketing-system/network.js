@@ -421,9 +421,10 @@ module.exports = {
 
     try {
       //connect to network with user_id
+      console.log("Before Buyer connection")
       businessNetworkConnection = new BusinessNetworkConnection();
       await businessNetworkConnection.connect(user_id);
-    
+      console.log("Buyer connection Success")
       //get buyer from the network
       // const buyerRegistry = await businessNetworkConnection.getParticipantRegistry(namespace + '.Buyer');
       // const buyer = await buyerRegistry.get(user_id);

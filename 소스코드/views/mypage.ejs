@@ -113,7 +113,7 @@
                                 <div class="row">
                                     <div class="col-md-6 col-sm-6">
                                         mytickets: <%=mytickets%>
-                                        <%if (mytickets!=[]){%>
+                                        <%if (mytickets.length == 0){%>
                                         <% for(var i=0; i<(mytickets || [] ).length; i++){%>
                                         <div class="mu-latest-course-single">
                                             <figure class="mu-latest-course-img">
@@ -125,10 +125,10 @@
                                             </figure>
                                             <div class="mu-latest-course-single-content">
                                                 <h4><a href="#"><%=mytickets[i].ticket_price%></a></h4>
-                                                Gig Name : <%=my_tickets[i].gig_name %> <br>
-                                                Gig Venue: <%=my_tickets[i].gig_venue%> <br>
-                                                Gig Time : <%= my_tickets[i].gig_time%> <br>
-                                                Gig Date: <%=my_tickets[i].gig_date%> <br>
+                                                Gig Name : <%=mytickets[i].gig_name %> <br>
+                                                Gig Venue: <%=mytickets[i].gig_venue%> <br>
+                                                Gig Time : <%= mytickets[i].gig_time%> <br>
+                                                Gig Date: <%=mytickets[i].gig_date%> <br>
                                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet quod nisi quisquam modi dolore, dicta obcaecati architecto quidem ullam quia.</p>
                                                 <div class="mu-latest-course-single-contbottom">
                                                     <a class="mu-course-details" href="#">Details</a>
@@ -152,16 +152,16 @@
                                 <div class="mu-single-sidebar">
                                     <h3>Personal Info</h3>
                                     <ul class="mu-sidebar-catg">
-                                        <% for(i=0; i<1; i++){ %>
+                                        <!--% for(i=0; i<1; i++){ %-->
                                         <form action="/mypage/update" method="post">
-                                        <li>이름 : <%=myinfo[i].buyer_name %></li>
-                                        <li>아이디 : <%= myinfo[i].buyer_id%></li>
-                                        <li>이메일 : <input name="buyer_email" value="<%= myinfo[i].buyer_email %>"></li>
-                                        <li>연락처: <input name="buyer_contact" value="<%=myinfo[i].buyer_contact %>"></li>
-                                        <li>계좌 : <input name="buyer_account" value="<%=myinfo[i].buyer_account %>"></li>
+                                        <li>이름 : <%=myinfo[0].buyer_name %></li>
+                                        <li>아이디 : <%= myinfo[0].buyer_id%></li>
+                                        <li>이메일 : <input name="buyer_email" value="<%= myinfo[0].buyer_email %>"></li>
+                                        <li>연락처: <input name="buyer_contact" value="<%=myinfo[0].buyer_contact %>"></li>
+                                        <li>계좌 : <input name="buyer_account" value="<%=myinfo[0].buyer_account %>"></li>
                                             <button type="submit">Submit</button>
                                         </form>
-                                        <% } %>
+                                        <!--% } %-->
                                     </ul>
                                 </div>
                                 <!-- end single sidebar -->
