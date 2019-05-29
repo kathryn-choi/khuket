@@ -185,6 +185,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/:index', function(req, res, next) {
+    let session = req.session;
     if (!req.isAuthenticated()) {
         console.log(req.params.index);
         async.series(
@@ -198,6 +199,7 @@ router.get('/:index', function(req, res, next) {
             function (err, results) {
                 res.render('gigs/gigdetails', {
                     gigdetails: results[0], gig_index: req.params.index,
+                    session : session
                 });
             }
         );
