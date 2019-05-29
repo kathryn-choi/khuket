@@ -11,8 +11,7 @@ Gig total seat num:<%=totalseatnum%>
     Section Index: <%=gigsale[i].section_index%> <br>
     Section ID: <%=gigsale[i].section_id%> <br>
     SEAT PRICE: <%=gigsale[i].seat_price%> <br>
-<form method="get" action="/gigs/buy/<%=gig_index%>/<%=gigsale[i].section_id%>" >
-    <input type="hidden" name="totalseatnum" value="<%=totalseatnum%>">
+<form method="get" action="/gigs/buys/<%=gig_index%>/<%=gigsale[i].section_id%>" >
     <input type="submit" value="Select SEAT!">
 </form>
 <%}%>

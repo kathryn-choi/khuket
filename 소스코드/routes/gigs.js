@@ -87,21 +87,26 @@ function get_gigseat_info(gig_index, section_id, cb) {
 //get purchase list
 function get_purchaselist(gig_index, section_id, seats_index, cb) {
     console.log("get purchaselist");
-    console.log(seats_index.length);
+    var seats=new Array();
     for (var i=0; i<seats_index.length; i++) {
-        var sqlquery = "SELECT  * FROM seats  WHERE gig_index=? AND seat_index=?";
-        var values = [gig_index, seats_index[i].seat_index];
+        var seat_index=seats_index[i];
+        var sqlquery = "SELECT  * FROM seats WHERE gig_index=? AND section_id AND =? seat_index=?";
+        var values = [gig_index, section_id, seat_index];
+        console.log(6);
+        console.log(values);
         connection.query(sqlquery, values, function (err, rows) {
             if (!err) {
-                seats = rows;
-                console.log("seats:", seats);
-                cb(true, seats);
-            } else {
-                console.log("gig type list를 가져오는데 실패했습니다!");
+                console.log(5);
+                console.log(rows);
+                seats.push(rows[0]);
+            }
+            else{
                 cb(false, null);
             }
         });
     }
+    console.log("seats:", seats);
+    cb(true, seats);
 }
 //purchase tickets
 function purchase_tickets(user_id, gig_index, seats, cb) {
@@ -256,14 +261,15 @@ router.get('/buy/:gig_index', function(req, res, next) {
     }
 });
 
-router.get('/buy/:gig_index/:section_id', function(req, res, next) {
-    console.log("");
+router.get('/buys/:gig_index/:section_id', function(req, res, next) {
+    console.log(4);
+    console.log(req.params.section_id);
     console.log(req.params.gig_index);
     if (!req.isAuthenticated()) {
         get_gigseat_info(req.params.gig_index, req.params.section_id, function (result, seatlist) {
             if (result == true) {
                 res.render('gigs/gigseat', {
-                    gigsale: seatlist, totalseatnum: req.body.totalseatnum, gig_index:req.params.gig_index
+                    gigsale: seatlist, gig_index:req.params.gig_index, section_id: req.params.section_id
                 });
             } else {
                 console.log('getting gigsale info failed');
@@ -274,7 +280,7 @@ router.get('/buy/:gig_index/:section_id', function(req, res, next) {
         get_gigseat_info(req.params.gig_index, req.params.section_id, function (result, seatlist) {
             if (result == true) {
                 res.render('gigs/gigseat', {
-                    gigsale: seatlist, totalseatnum: req.body.totalseatnum,gig_index:req.params.gig_index
+                    gigsale: seatlist,  gig_index:req.params.gig_index,section_id: req.params.section_id
                 });
             } else {
                 console.log('getting gigsale info failed');
@@ -285,14 +291,15 @@ router.get('/buy/:gig_index/:section_id', function(req, res, next) {
 });
 
 //get purchaselist
-router.post('/purchase/:gig_index', function(req, res, next) {
-    console.log(req.body.seat_index);
-    console.log(req.body.seat_index.length);// array?
+router.post('/purchaselist', function(req, res, next) {
     if (!req.isAuthenticated()) {
-        get_purchaselist(req.params.gig_index, req.params.section_id, req.body.seat_index, function (result, seatlist) {
+        console.log(123123);
+        console.log(req.body.section_id);
+        console.log(req.body.seat_index);
+        get_purchaselist(req.body.gig_index, req.body.section_id, req.body.seat_index, function (result, seatlist) {
             if (result == true) {
                 res.render('gigs/gigpurchaselist', {
-                    gigsale: seatlist, totalseatnum: req.body.totalseatnum, gig_index: req.params.gig_index,
+                    gigsale: seatlist, gig_index: req.body.gig_index,
                 });
             } else {
                 console.log('getting gigsale info failed');
@@ -300,10 +307,10 @@ router.post('/purchase/:gig_index', function(req, res, next) {
             }
         });
     } else {
-        get_purchaselist(req.params.gig_index, req.params.section_id, function (result, seatlist) {
+        get_purchaselist(req.body.gig_index, req.body.section_id, function (result, seatlist) {
             if (result == true) {
                 res.render('gigs/gigpurchaselist', {
-                    gigsale: seatlist, totalseatnum: req.body.totalseatnum, gig_index: req.params.gig_index,
+                    gigsale: seatlist,  gig_index: req.body.gig_index,
                 });
             } else {
                 console.log('getting gigsale info failed');
@@ -313,7 +320,7 @@ router.post('/purchase/:gig_index', function(req, res, next) {
     }
 });
 //purchase tickets
-router.post('/purchase', function(req, res, next) {
+router.post('/purchase/fds', function(req, res, next) {
     console.log(req.body.purchaseseats);
     console.log(req.body.purchaseseats.length);// array?
     if (!req.isAuthenticated()) {

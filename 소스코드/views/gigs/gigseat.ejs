@@ -6,8 +6,8 @@
 </head>
 <body>
 SELECT SEAT!!! <br> <br>
-Gig total seat num:<%=totalseatnum%>
-<form method="post" action="/gigs/purchase/<%=gig_index%>" >
+
+<form method="post" action="/gigs/purchaselist" >
 <%for (var i=0; i<gigsale.length; i++){%>
     <input type="checkbox" id="<%=gigsale[i].seat_index%>" name="seat_index" value="<%=gigsale[i].seat_index%>">
 Seat INDEX: <%=gigsale[i].seat_index%> <br>
@@ -15,6 +15,8 @@ Seat row Index: <%=gigsale[i].seat_row_index%> <br>
  <br>
 
 <%}%>
+<input type ="hidden" name="gig_index" value = "<%=gig_index%>">
+<input type ="hidden" name="section_id" value = "<%=section_id%>">
     <input type="submit">
 </form>
 <!--seat array 넘기기! but max ticket 수 넘으면 error! -->
