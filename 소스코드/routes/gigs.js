@@ -140,6 +140,7 @@ function purchase_tickets(user_id, gig_index, seats, cb) {
 }
 //get gigs
 router.get('/', function(req, res, next) {
+    let session = req.session;
     if (!req.isAuthenticated()) {
         async.series(
             [
@@ -154,6 +155,7 @@ router.get('/', function(req, res, next) {
                     gigs_list: results[0],
                     //  user_id: req.user.user_id,
                     //  reselling_ticket_list: results[0],
+                    session : session
                 });
             }
         );

@@ -59,11 +59,32 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul id="top-menu" class="nav navbar-nav navbar-right main-nav">
+                    <% if(session.admin_id) { %>
                         <li><a href="/">Home</a></li>
+                        <li><a href="/administrators" >My Page</a></li>
+                        <li class="active"><a href="/gigs">Gigs</a></li>
+                        <li><a href="/users/logout" >Logout</a></li>
+                    <% } else if(session.organizer_id) { %>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/organizers" >My Page</a></li>
+                        <li class="active"><a href="/gigs">Gigs</a></li>
+                        <li><a href="/organizers/add_gig" >Add Gig</a></li>
+                        <li><a href="/users/logout" >Logout</a></li>
+                    <% } else if(session.buyer_id) { %>
+                        <li class="active"><a href="/">Home</a></li>
                         <li><a href="/mypage">My Page</a></li>
                         <li class="active"><a href="/gigs">Gigs</a></li>
                         <li><a href="/reselling">Reselling</a></li>
-                        <li><a href="/users/logout">Logout</a></li>
+                        <%if (kakao == true){%>
+                            <li><a href="/auth/logout/kakao">Logout</a></li>
+                        <%} else{%>
+                            <li><a href="/users/logout">Logout</a></li>
+                        <%}%>
+                    <% } else { %>
+                        <li><a href="/">Home</a></li>
+                        <li class="active"><a href="/gigs">Gigs</a></li>
+                        <li><a href="/buyers/login" >Login</a></li>
+                    <% } %>
                 </ul>
             </div><!--/.nav-collapse -->
         </div>
@@ -113,12 +134,11 @@
                                             </div>
                                             <div class="mu-single-gallery-info">
                                                 <div class="mu-single-gallery-info-inner">
-                                                    <h4><%=i+1%> .Gig Name : <%=gigs_list[i].gig_name%> <br></h4>
-                                                    <p> Gig Venue : <%=gigs_list[i].gig_venue%> <br>
-                                                        Gig Time : <%=gigs_list[i].gig_time%> <br>
-                                                        Gig Date : <%=gigs_list[i].gig_date%> <br> </p>
+                                                    <p> 공연 이름 : <%=gigs_list[i].gig_name%> <br>
+                                                        공연 장소 : <%=gigs_list[i].gig_venue%> <br>
+                                                        공연 날짜 : <%=gigs_list[i].gig_date_time%> <br></p>
                                                     <form action="/gigs/<%=gigs_list[i].gig_index%>" method="get">
-                                                        <button type="submit" >I Want Details!</button>
+                                                        <button type="submit" >세부 정보</button>
                                                     </form>
                                                 </div>
                                             </div>
