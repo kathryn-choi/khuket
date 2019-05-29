@@ -90,7 +90,7 @@ function get_purchaselist(gig_index, section_id, seats_index, cb) {
     var seats=new Array();
     for (var i=0; i<seats_index.length; i++) {
         var seat_index=seats_index[i];
-        var sqlquery = "SELECT  * FROM seats WHERE gig_index=? AND section_id AND =? seat_index=?";
+        var sqlquery = "SELECT  * FROM seats WHERE gig_index=? AND section_id=? AND seat_index=?";
         var values = [gig_index, section_id, seat_index];
         console.log(6);
         console.log(values);
