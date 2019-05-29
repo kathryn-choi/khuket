@@ -191,6 +191,11 @@
 </style>
 
 <body>
+<!--admin계정으로 이미 로그인했으면 admin mainpage로 감-->
+<% if(session.admin_id){ %>
+  <meta http-equiv="refresh" content="0;url=/administrators/">
+<!--admin 로그인 화면-->
+<% } else{ %>
 <div class="body">
   <div class="veen">
       <div class="rgstr-btn splits">
@@ -248,6 +253,6 @@
         });
       </script>
 
-
+<% } %>
 </body>
 </html>

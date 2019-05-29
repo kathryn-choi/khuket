@@ -55,18 +55,18 @@ router.get('/auth/logout/kakao',function (req,res) {
     res.redirect('/');
 })
 
-/* GET home page. */
-router.get('/',
-    function(req,res,next){
-        if(req.isAuthenticated()){
-            res.redirect('/mypage');
-            console.log("(!)이미 로그인");
-        }else{
-            console.log("(!)로그인세션 없음");
-            res.render('index',{
-                title: "Ticketing Service"
-            });
-        }
-    });
+/* GET home page.*/ 
+router.get('/', function(req,res,next) {
+    let session = req.session;
+    if(req.isAuthenticated()){
+        res.redirect('/mypage');
+        console.log("(!)카카오로 이미 로그인");
+    }else{
+        console.log("(!)카카오 로그인 아님");
+        res.render('index',{
+            session : session
+        });
+    }
+});
 
 module.exports = router;

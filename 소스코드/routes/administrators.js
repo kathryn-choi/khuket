@@ -7,9 +7,9 @@ var network = require('../ticketing-system/network.js');
 router.get('/login', function(req, res, next) {
     let session = req.session;
   
-      res.render("administrators/login", {
-          session : session
-      });
+    res.render("administrators/login", {
+        session : session
+    });
 });
   
 router.post("/login", function(req,res,next){
