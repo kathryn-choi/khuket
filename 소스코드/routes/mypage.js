@@ -47,7 +47,7 @@ function get_my_info(id,cb){
 //list of buyer(id)'s tickets
 function get_my_tickets(buyer_index,cb){
     console.log("buyer_id:",buyer_index)
-    network.get_ticket_info_by_user(buyer_index).then((response) => { 
+    network.get_ticket_info_by_user("ticketadmin").then((response) => { 
             //return error if error in response
         if (response.error != null) {
             console.log("network get ticket info failed");
@@ -55,14 +55,15 @@ function get_my_tickets(buyer_index,cb){
         } else {
             var get_my_tickets = response;
             console.log(get_my_tickets);
-            var my_tickets=new Array();
-            for(i=0; i<get_my_tickets.size(); i++) {
-                my_tickets[i].row_id = get_my_tickets[i].gig_id;
-                my_tickets[i].seat_id = get_my_tickets[i].seat_id;
-                my_tickets[i].section_id = get_my_tickets[i].section_id;
-                my_tickets[i].ticket_price = get_my_tickets[i].ticket_price;
-                my_tickets[i].row_id = get_my_tickets[i].row_id;
-                my_tickets[i].gig_id = get_my_tickets[i].gig_id;
+            var my_tickets=new Array(); 
+            for(i=0; i<get_my_tickets.length; i++) {
+                console.log(get_my_tickets[i])
+                my_tickets[i].gig_id = get_my_tickets[i].ValidatedResource.gig_id;
+                my_tickets[i].seat_id = get_my_tickets[i][ValidatedResource][seat_id];
+                my_tickets[i].section_id = get_my_tickets[i][ValidatedResource][section_id];
+                my_tickets[i].ticket_price = get_my_tickets[i][ValidatedResource][ticket_price];
+                my_tickets[i].row_id = get_my_tickets[i][ValidatedResource][row_id];
+                my_tickets[i].gig_id = get_my_tickets[i][ValidatedResource][gig_id];
                 var sqlquery = "SELECT  * FROM gig  WHERE gig_index= ?";
                 connection.query(sqlquery, my_tickets[i].gig_id, function (err, res) {
                     if (!err) {

@@ -372,13 +372,13 @@ module.exports = {
     try {
       //connect to network with user_id
       businessNetworkConnection = new BusinessNetworkConnection();
-      await businessNetworkConnection.connect(user_id);
+      await businessNetworkConnection.connect('admin@ticketing-system');
 
       //query ticket from the network
-      const ticket = await businessNetworkConnection.query('select_ticket', {inputValue: ticket_id});
+      const ticket = await businessNetworkConnection.query('select_ticket', {ticket_id: ticket_id});
 
       //disconnect
-      await businessNetworkConnection.disconnect(user_id);
+      await businessNetworkConnection.disconnect('admin@ticketing-system');
 
       //return ticket object
       return ticket;
@@ -397,13 +397,13 @@ module.exports = {
     try {
       //connect to network with user_id
       businessNetworkConnection = new BusinessNetworkConnection();
-      await businessNetworkConnection.connect(user_id);
+      await businessNetworkConnection.connect('admin@ticketing-system');
 
       //query all tickets from the network
-      const allTickets = await businessNetworkConnection.query('select_ticket_by_gig', {inputValue: gig_id});
+      const allTickets = await businessNetworkConnection.query('select_ticket_by_gig', {gig_id: gig_id});
 
       //disconnect
-      await businessNetworkConnection.disconnect(user_id);
+      await businessNetworkConnection.disconnect('admin@ticketing-system');
 
       //return all tickets object
       return allTickets;
@@ -417,23 +417,28 @@ module.exports = {
     }
   },
 
-  get_ticket_info_by_user : async function (user_id) {
+  get_ticket_info_by_user : async function (_user_id) {
 
     try {
       //connect to network with user_id
       console.log("Before Buyer connection")
       businessNetworkConnection = new BusinessNetworkConnection();
-      await businessNetworkConnection.connect(user_id);
+      await businessNetworkConnection.connect('admin@ticketing-system');
       console.log("Buyer connection Success")
       //get buyer from the network
       // const buyerRegistry = await businessNetworkConnection.getParticipantRegistry(namespace + '.Buyer');
       // const buyer = await buyerRegistry.get(user_id);
 
       //query all tickets from the network
-      const allTickets = await businessNetworkConnection.query('select_ticket_by_user', {inputValue: user_id});
-
+      console.log("user_id:",_user_id)
+      var query_select = "resource:"+namespace+".TicketAdmin#"+_user_id
+      //console.log(query_select)
+      allTickets = await businessNetworkConnection.query('select_ticket_by_user', {owner_id: query_select});
+      //console.log(allTickets)
       //disconnect
-      await businessNetworkConnection.disconnect(user_id);
+      await businessNetworkConnection.disconnect('admin@ticketing-system');
+
+  
 
       //return all tickets object
       return allTickets;
