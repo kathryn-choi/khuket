@@ -179,7 +179,7 @@ router.get('/', function(req, res, next) {
                 }
             ],
             function (err, results) {
-                res.render('gigs', {
+                res.render('gigs/gigs', {
                     gigs_list: results[0],
                     //  user_id: req.user.user_id,
                     //  reselling_ticket_list: results[0],
