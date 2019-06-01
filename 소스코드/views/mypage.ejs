@@ -108,14 +108,8 @@
                             <div class="mu-course-container">
                                 <div class="row">
                                     <div class="col-md-6 col-sm-6">
-<<<<<<< Updated upstream
-                                        mytickets: <%=mytickets%>
-                                        <%if (mytickets.length == 0){%>
-                                        <% for(var i=0; i<(mytickets || [] ).length; i++){%>
-=======
                                     <%if(mytickets!==[]) {%>
                                         <% for(var i=0; i<(mytickets).length; i++){%>
->>>>>>> Stashed changes
                                         <div class="mu-latest-course-single">
                                             <figure class="mu-latest-course-img">
                                                 <a href="#"><img src="assets/img/courses/1.jpg" alt="img"></a>
@@ -128,9 +122,8 @@
                                                 <h4><a href="#"><%=mytickets[i].ticket_price%></a></h4>
                                                 Gig Name : <%=mytickets[i].gig_name %> <br>
                                                 Gig Venue: <%=mytickets[i].gig_venue%> <br>
-                                                Gig Time : <%= mytickets[i].gig_time%> <br>
-                                                Gig Date: <%=mytickets[i].gig_date%> <br>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet quod nisi quisquam modi dolore, dicta obcaecati architecto quidem ullam quia.</p>
+                                                Gig Date Time : <%= mytickets[i].gig_datetime%> <br>
+                                                <p>Ticket ID : <%= mytickets[i].ticket_id%> </p>
                                                 <div class="mu-latest-course-single-contbottom">
                                                     <a class="mu-course-details" href="#">Details</a>
                                                     <span class="mu-course-price" href="#"><%=mytickets[i].ticket_price%></span>
@@ -152,7 +145,6 @@
                                 <div class="mu-single-sidebar">
                                     <h3>Personal Info</h3>
                                     <ul class="mu-sidebar-catg">
-                                        <!--% for(i=0; i<1; i++){ %-->
                                         <form action="/mypage/update" method="post">
                                         <li>이름 : <%=myinfo[0].buyer_name %></li>
                                         <li>아이디 : <%= myinfo[0].buyer_id%></li>
@@ -161,7 +153,6 @@
                                         <li>계좌 : <input name="buyer_account" value="<%=myinfo[0].buyer_account %>"></li>
                                             <button type="submit">Submit</button>
                                         </form>
-                                        <!--% } %-->
                                     </ul>
                                 </div>
                                 <!-- end single sidebar -->

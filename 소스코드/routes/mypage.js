@@ -15,7 +15,6 @@ function get_my_info(id,cb){
     connection.query(sqlquery,id,function(err,rows){
         if(!err){
             my_registration_info=rows;
-          //  console.log(myinfo);
             var sqlquery = "SELECT  * FROM notifications  WHERE notice_buyer_id= ?";
             connection.query(sqlquery, id, function (err, rows) {
                 if (!err) {
@@ -54,28 +53,37 @@ function get_my_tickets(buyer_index,cb){
             cb(false, []);
         } else {
             var get_my_tickets = response;
-            console.log(get_my_tickets);
             var my_tickets=new Array(); 
             for(i=0; i<get_my_tickets.length; i++) {
                 console.log(get_my_tickets[i])
-                my_tickets[i].gig_id = get_my_tickets[i].ValidatedResource.gig_id;
-                my_tickets[i].seat_id = get_my_tickets[i][ValidatedResource][seat_id];
-                my_tickets[i].section_id = get_my_tickets[i][ValidatedResource][section_id];
-                my_tickets[i].ticket_price = get_my_tickets[i][ValidatedResource][ticket_price];
-                my_tickets[i].row_id = get_my_tickets[i][ValidatedResource][row_id];
-                my_tickets[i].gig_id = get_my_tickets[i][ValidatedResource][gig_id];
-                var sqlquery = "SELECT  * FROM gig  WHERE gig_index= ?";
-                connection.query(sqlquery, my_tickets[i].gig_id, function (err, res) {
-                    if (!err) {
-                        my_tickets[i].gig_name = res.gig_name;
-                        my_tickets[i].gig_venue = res.gig_venue;
-                        my_tickets[i].gig_time = res.gig_time;
-                        my_tickets[i].gig_date = res.gig_date;
-                    } else {
-                        console.log("내 정보를 가져오는데 실패했습니다!");
-                        cb(false, []);
-                    }
-                })
+                var stringfy_tickets=JSON.stringify(get_my_tickets[i]);
+                var obj =  JSON.parse(stringfy_tickets);
+               for( var key in obj ) {
+                   console.log(key + '=>' + obj[key] );
+                   if(key == 'gig_id'){
+                my_tickets[i].gig_id=obj[key];
+                   }
+                   else if(key == 'gig_name'){
+                    my_tickets[i].gig_name=obj[key];
+                       }
+                   else if(key == 'gig_datetime'){
+                my_tickets[i].gig_datetime=obj[key];
+                   }
+                    else if(key == 'gig_venue'){
+                my_tickets[i].gig_venue=obj[key];
+                   }
+                 else if (key== 'seat_id'){
+                    my_tickets[i].seat_id=obj[key];
+                }else if (key== 'section_id'){
+                    my_tickets[i].section_id=obj[key];
+                }else if (key== 'ticket_price'){
+                    my_tickets[i].row_id=obj[key];
+                }else if (key== 'row_id'){
+                    my_tickets[i].seat_id=obj[key];
+                }else if (key== 'ticket_id'){
+                    my_tickets[i].ticket_id=obj[key];
+                }
+              }
             }
             cb(true,my_tickets);
             console.log(my_tickets);
@@ -83,8 +91,6 @@ function get_my_tickets(buyer_index,cb){
     })
 }
 
-
-/*
 //티켓 resell하기
 function resell_ticket(id, starting_time,  current_price, starting_price, ticket_id, end_time, cb){
     var current_date = new Date();
@@ -98,7 +104,7 @@ function resell_ticket(id, starting_time,  current_price, starting_price, ticket
         current_time : current_time,
         starting_time : starting_time,
         ticket_owner_index: id,
-        max_price: current_price*1.25;
+        max_price: current_price*1.25,
         current_price: current_price,
         bidder_index: -1,
         ticket_id: ticket_id,
@@ -114,7 +120,7 @@ function resell_ticket(id, starting_time,  current_price, starting_price, ticket
         }
     });
 }
-*/
+
 
 router.post('/delete_notification', function(req, res, next) {
     var notification_index=req.body.notification_index;
@@ -149,7 +155,6 @@ router.post('/update', function(req, res, next) {
 });
 
 router.get('/', function(req, res, next) {
-    if(!req.isAuthenticated()){
         async.series(
             [
                 function(callback){
@@ -163,40 +168,14 @@ router.get('/', function(req, res, next) {
             ],
             function(myinfo, myticket){
                 console.log(myticket);
-                console.log("MyInfo:",myinfo[0])
                 console.log("MyInfo1:",myinfo)
-               // console.log(myticket.length);
                 res.render('mypage', {
                     myinfo: myinfo,
                     mytickets: myticket,
                     user_id:req.session.buyer_id,
-                    kakao: false
                 });
             }
         );
-    }else{
-        async.series(
-            [
-                function(callback){
-                    get_my_info(req.user.user_id, function (myinfo_list) {
-                        callback(null,myinfo_list);
-                    });
-                },
-                function(callback){
-                    get_my_tickets(req.user.user_id, function (myinfo_list) {
-                        callback(null,myinfo_list);
-                    });
-                }
-            ],
-            function(err, results){
-                res.render('mypage', {
-                    myinfo: results[0],
-                    kakao: true,
-                    user_id: req.user.user_id,
-                });
-            }
-        );
-    }
 });
 
 
