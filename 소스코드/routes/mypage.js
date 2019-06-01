@@ -46,7 +46,7 @@ function get_my_info(id,cb){
 //list of buyer(id)'s tickets
 function get_my_tickets(buyer_index,cb){
     console.log("buyer_id:",buyer_index)
-    network.get_ticket_info_by_user("ticketadmin").then((response) => { 
+    network.get_ticket_info_by_user(buyer_index).then((response) => { 
             //return error if error in response
         if (response.error != null) {
             console.log("network get ticket info failed");

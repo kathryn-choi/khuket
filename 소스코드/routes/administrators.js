@@ -160,6 +160,7 @@ router.post('/accept_gig', function(req, res, next) {
                            console.log("updating failed");
                             throw err;
                        } else {
+                           alert("승인 완료!")
                            console.log("gig pending update");
                        }
                    });

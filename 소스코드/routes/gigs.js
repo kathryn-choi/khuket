@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var async = require('async');
 var network = require('../ticketing-system/network.js');
+var util = require('util');
 //var request = require('request');
 
 //gig 전체 리스트 가져오기
@@ -89,6 +90,10 @@ function get_purchaselist(gig_index, section_id, seats_index, cb) {
     console.log("get purchaselist");
     var seats=new Array();
     console.log("length" + seats_index.length);
+
+    var count=0;
+    var length = seats_index.length
+
     for (var i=0; i<seats_index.length; i++) {
         var seat_index=seats_index[i];
         var sqlquery = "SELECT  * FROM seats WHERE gig_index=? AND section_id=? AND seat_index=?";
@@ -98,6 +103,8 @@ function get_purchaselist(gig_index, section_id, seats_index, cb) {
                 console.log(6);
                 console.log(row);
                 console.log(row.seat_index);
+
+
                 var seat={
                     gig_index: rows[0].gig_index,
                     section_id: rows[0].section_id,
@@ -105,23 +112,25 @@ function get_purchaselist(gig_index, section_id, seats_index, cb) {
                     seat_row_index: rows[0].seat_row_index
                 }
                 console.log("seat :  " + seat);
+
                 seats.push(seat);
+                count = count + 1
+                console.log("seats10:",seats);
+                if(count == length){
+                    console.log("seats9:",seats);
+                    cb(true, seats);
+                }
             }
             else{
                 console.log("connection error!");
             }
         });
-        console.log("seats" + seats);
+
     }
-    
-    if(seats_index.length!=0){
-        console.log("seats9:",seats);
-        cb(true, seats);
-    }
-    else {
-        console.log(01231231);
-        cb(false, null);
-    }
+       
+    cb(false, null);
+
+
 }
 //purchase tickets
 function purchase_tickets(user_id, gig_index, seats, cb) {
