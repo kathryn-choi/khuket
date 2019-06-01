@@ -91,6 +91,72 @@ function get_my_tickets(buyer_index,cb){
     })
 }
 
+function get_ticket_detail(user_id, ticket_id, cb){
+    network.get_ticket_info_by_id(user_id, ticket_id).then((response) => { 
+        //return error if error in response
+    if (response.error != null) {
+        console.log("network get ticket info failed");
+        cb(false, []);
+    } else {
+        var get_my_ticket = response;
+        var ticketinfo=new Array(); 
+            console.log(get_my_ticket)
+            var stringfy_tickets=JSON.stringify(get_my_tickets[i]);
+            var obj =  JSON.parse(stringfy_tickets);
+           for( var key in obj ) {
+               console.log(key + '=>' + obj[key] );
+               if(key == 'gig_id'){
+                ticketinfo[i].gig_id=obj[key];
+               }else if(key == 'gig_name'){
+                ticketinfo[i].gig_name=obj[key];
+                   }
+               else if(key == 'gig_datetime'){
+                ticketinfo[i].gig_datetime=obj[key];
+               }
+                else if(key == 'gig_venue'){
+                ticketinfo[i].gig_venue=obj[key];
+               }
+             else if (key== 'seat_id'){
+                ticketinfo[i].seat_id=obj[key];
+            }else if (key== 'section_id'){
+                ticketinfo[i].section_id=obj[key];
+            }else if (key== 'ticket_price'){
+                ticketinfo[i].row_id=obj[key];
+            }else if (key== 'row_id'){
+                ticketinfo[i].seat_id=obj[key];
+            }
+          }
+          console.log(ticketinfo);
+          getqrcode(ticket_id, gig_datetime, function(result,qrcode){
+              if(result==true){
+                cb(true,ticketinfo,qrcode);
+              }else{
+                cb(true,ticketinfo,"not time yet!");
+              }          
+            });
+        }
+    })
+}
+
+function getqrcode(ticket_id, gig_datetime, cb){
+    var current_date = new Date();
+    var current_time = current_date.getDate() + "/"
+        + (current_date.getMonth()+1)  + "/"
+        + current_date.getFullYear() + "/"
+        + current_date.getHours() + ":"
+        + current_date.getMinutes() + ":"
+        + current_date.getSeconds();
+    
+    var datetime=gig_datetime.split(" ");
+    var gig_date=datetime[0];
+    var gig_time=datetime[1];
+    if(gig_date==current_date && gig_time-current_time<=3){
+        cb(true, "qrcode"); //qrcode
+    }else{
+        cb(false);
+    }
+}
+
 //티켓 resell하기
 function resell_ticket(id, starting_time,  current_price, starting_price, ticket_id, end_time, cb){
     var current_date = new Date();
@@ -178,5 +244,35 @@ router.get('/', function(req, res, next) {
         );
 });
 
+router.get('/:ticket_id', function(req, res, next) {
+    async.series(
+        [
+            get_ticket_detail(req.session.buyer_id, req.params.ticket_id, function (result, ticket_info) {
+                    if(result==true){
+                        res.render('ticketdetail', {
+                            ticket_info: ticket_info,
+                            user_id:req.session.buyer_id,
+                        });
+                }else{
+                        console.log(" no detail!!");
+                        res.redirect('/');
+                    }
+                })
+        ]
+    );
+});
 
+router.post('/resell', function(req, res, next) {
+    async.series(
+        [
+            resell_ticket(req.session.buyer_id, req.body.starting_time, req.body.current_price, req.body.starting_price, req.body.ticket_id, req.body.end_time, function(result){
+                if(result==true){
+                    res.redirect('/reselling');
+                }else{
+                    res.redirect('/back');
+                }
+            })
+        ]
+    );
+});
 module.exports = router;

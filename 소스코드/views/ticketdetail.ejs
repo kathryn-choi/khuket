@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ticket Info</title>
+</head>
+<body>
+ <br> <br>
+
+    Ticket INFO: 
+    Ticket ID: <%=ticketinfo.ticket_id%> <br>
+    Ticket Price: <%=ticketinfo.ticket_price%> <br>
+    GIg Name: <%=ticketinfo.gig_name%> <br>
+    Gig Venue: <%=ticketinfo.gig_venue%> <br>
+    Gig Date Time: <%=ticketinfo.gig_datetime%> <br>
+    Section ID: <%=ticketinfo.section_id%> <br>
+    Seat row ID: <%=ticketinfo.seat_row_id%> <br>
+    Seat ID: <%=ticketinfo.seat_id%> <br>
+    QR CODE : <%=ticketinfo.qrcode%>
+
+    Resell Ticket:
+    <!--id, starting_time,  current_price, starting_price, ticket_id, end_time, cb-->
+    <form method="POST" action="/mypage/resell">
+        <input type="hidden" name="current_price" value="<%=ticketinfo.ticket_price%>">
+        <input type="hidden" name="ticket_id" value="<%=ticketinfo.ticket_id%>">
+        <input type="datetime-local" name="starting_time"> Starting Time <br>
+        <input type="datetime-local" name="end_time"> End Time <br>
+        <input type="number" name="starting_price"> starting_price <br>
+    </form>
+</body>
+</html>

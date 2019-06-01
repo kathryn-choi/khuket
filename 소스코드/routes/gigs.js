@@ -89,35 +89,38 @@ function get_purchaselist(gig_index, section_id, seats_index, cb) {
     console.log("get purchaselist");
     var seats=new Array();
     console.log("length" + seats_index.length);
-    var count=0;
     for (var i=0; i<seats_index.length; i++) {
         var seat_index=seats_index[i];
         var sqlquery = "SELECT  * FROM seats WHERE gig_index=? AND section_id=? AND seat_index=?";
         console.log(5);
-        connection.query(sqlquery, [gig_index, section_id, seat_index], function (err, rows) {
+        connection.query(sqlquery, [gig_index, section_id, seat_index], function (err, row) {
             if (!err) {
                 console.log(6);
+                console.log(row);
+                console.log(row.seat_index);
                 var seat={
                     gig_index: rows[0].gig_index,
                     section_id: rows[0].section_id,
                     seat_index: rows[0].seat_index,
                     seat_row_index: rows[0].seat_row_index
                 }
-                count =count +1;
+                console.log("seat :  " + seat);
                 seats.push(seat);
             }
             else{
-                console.log("fdjsklfdjsklfjsdlk");
+                console.log("connection error!");
             }
         });
+        console.log("seats" + seats);
     }
-    if(count == seats_index.length){
+    
+    if(seats_index.length!=0){
         console.log("seats9:",seats);
         cb(true, seats);
     }
     else {
         console.log(01231231);
-    cb(false, null);
+        cb(false, null);
     }
 }
 //purchase tickets
@@ -157,7 +160,7 @@ function purchase_tickets(user_id, gig_index, seats, cb) {
 }
 //get gigs
 router.get('/', function(req, res, next) {
-    let session = req.session;
+   let session = req.session;
         async.series(
             [
                 function (callback) {
@@ -175,7 +178,6 @@ router.get('/', function(req, res, next) {
                 });
             }
         );
-   
 });
 
 router.get('/:index', function(req, res, next) {
@@ -248,11 +250,11 @@ router.post('/purchaselist', function(req, res, next) {
             if (result == true) {
                 console.log(seatlist);
                 res.render('gigs/gigpurchaselist', {
-                    gigsale: seatlist, gig_index: req.body.gig_index,
+                    gigsale: seatlist
                 });
             } else {
                 console.log('getting gigsale info failed');
-                res.redirect('back');
+                res.redirect('/');
             }
         });
 });

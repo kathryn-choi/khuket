@@ -25,7 +25,6 @@ var gigs = require('./routes/gigs');
 var mypage = require('./routes/mypage');
 var reselling = require('./routes/reselling');
 var refund = require('./routes/refund');
-var setting = require('./routes/setting');
 var network = require('./ticketing-system/network.js');
 
 //port
@@ -40,19 +39,9 @@ passport.deserializeUser(function(user, done) {
 
 var app = express();
 
-// view engine setup
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-
-
-//mount path
-/*app.get('/', function (req, res) {
-    console.log(app.mountpath);
-    res.send('App Homepage');
-});*/
-
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -60,24 +49,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-/*
-//로컬 DB와 models 파일들 동기화
-const auto = new SequelizeAuto('ticketing_service','root','',{
-    host:'localhost',
-    port:'3306'
-});
-
-auto.run((err)=>{
-    if(err) throw err;
-})*/
-
 connection = mysql.createConnection({
     host     : 'localhost',
     user     : 'root',
     password : 'pw',
     port     : 3306,
     database : 'ticketing_service',
-    //insecureAuth : true
 });
 
 app.use(session({
@@ -114,11 +91,9 @@ app.use('/administrators', administrators);
 app.use('/organizers', organizers);
 app.use('/gigs', gigs);
 app.use('/bidding', bidding);
-app.use('/setting', setting);
 app.use('/mypage', mypage);
 app.use('/reselling', reselling);
 app.use('/refund', refund);
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

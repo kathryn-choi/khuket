@@ -114,7 +114,7 @@
                                             <figure class="mu-latest-course-img">
                                                 <a href="#"><img src="assets/img/courses/1.jpg" alt="img"></a>
                                                 <figcaption class="mu-latest-course-imgcaption">
-                                                    <a href="#"><%=mytickets[i].ticket_id%></a>
+                                                    <a href="#"><%=i+1.%></a>
                                                     <span><i class="fa fa-clock-o"></i>90Days</span>
                                                 </figcaption>
                                             </figure>
@@ -125,7 +125,7 @@
                                                 Gig Date Time : <%= mytickets[i].gig_datetime%> <br>
                                                 <p>Ticket ID : <%= mytickets[i].ticket_id%> </p>
                                                 <div class="mu-latest-course-single-contbottom">
-                                                    <a class="mu-course-details" href="#">Details</a>
+                                                    <a class="mu-course-details" href="/mypage/<%=mytickets[i].ticket_id%>">Details</a>
                                                     <span class="mu-course-price" href="#"><%=mytickets[i].ticket_price%></span>
                                                 </div>
                                             </div>
