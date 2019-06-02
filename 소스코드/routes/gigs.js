@@ -117,7 +117,6 @@ function get_purchaselist(gig_index, section_id, seats_index, cb) {
                 if(count == length){
                     console.log("seats9:",seats);
                     cb(true, seats);
-                    connection.end();
                 }
             }
             else{
@@ -125,7 +124,6 @@ function get_purchaselist(gig_index, section_id, seats_index, cb) {
             }
         });
     }
-    connection.end();
     console.log(10);
     console.log("count " , count);
     var emptyarray=[];
@@ -277,10 +275,10 @@ router.get('/buys/:gig_index/:section_id', function(req, res, next) {
 //get purchaselist
 router.post('/purchaselist', function(req, res, next) {
     let session = req.session;
-    res.end();
-    aysnc.series(
+    async.series(
     [
      function(callback){
+        console.log(7)
         get_purchaselist(req.body.gig_index, req.body.section_id, req.body.seat_index, function (result, seatlist) {
             if (result == true) {
                 console.log(seatlist);
