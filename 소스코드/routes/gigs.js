@@ -103,13 +103,11 @@ function get_purchaselist(gig_index, section_id, seats_index, cb) {
                 console.log(6);
                 console.log(row);
                 console.log(row.seat_index);
-
-
                 var seat={
-                    gig_index: rows[0].gig_index,
-                    section_id: rows[0].section_id,
-                    seat_index: rows[0].seat_index,
-                    seat_row_index: rows[0].seat_row_index
+                    gig_index: row[0].gig_index,
+                    section_id: row[0].section_id,
+                    seat_index: row[0].seat_index,
+                    seat_row_index: row[0].seat_row_index
                 }
                 console.log("seat :  " + seat);
 
@@ -119,29 +117,39 @@ function get_purchaselist(gig_index, section_id, seats_index, cb) {
                 if(count == length){
                     console.log("seats9:",seats);
                     cb(true, seats);
+                    connection.end();
                 }
             }
             else{
                 console.log("connection error!");
             }
         });
-
     }
-       
-    cb(false, null);
-
+    connection.end();
+    console.log(10);
+    console.log("count " , count);
+    var emptyarray=[];
+    return emptyarray;
+    
 
 }
+function get_seat_array(seats){
+    return seats;
+}
+
 //purchase tickets
 function purchase_tickets(user_id, gig_index, seats, cb) {
     var count=0;
+    var length=seats.length;
     for (var i=0; i<seats.length; i++) {
         var sqlquery = "SELECT  * FROM seats  WHERE gig_index=? AND seat_index=?";
         var values = [gig_index, seats[i].seat_index];
         connection.query(sqlquery, values, function (err, rows) {
             if (!err) {
+                var section_id=seats[i].section_id;
+                var seat_index=seats[i].seat_index;
                 //get ticket_id by gig_index,section_id, seat_index
-                var ticket_id=gig_index+'/'+seats[i].section_id + "/" + seats[i].seat_index;
+                var ticket_id=gig_index+'/'+section_id + "/" + seat_index;
                 //change ticket owner to userid
                 network.update_ticket_owner(user_id, ticket_id)
                     .then((response) => {
@@ -152,11 +160,11 @@ function purchase_tickets(user_id, gig_index, seats, cb) {
                         } else {
                             //else return success
                             console.log("return true complete")
-                            count++;
+                            count=count+1;
                         }
                     })
                     .then((response) =>{
-                        if (count == seats.length) {
+                        if (count == length) {
                             cb(true);
                         }
                     })
@@ -243,48 +251,78 @@ router.get('/buys/:gig_index/:section_id', function(req, res, next) {
     console.log(4);
     console.log(req.params.section_id);
     console.log(req.params.gig_index);
+    async.series(
+        [
+        function (callback) {
         get_gigseat_info(req.params.gig_index, req.params.section_id, function (result, seatlist) {
             if (result == true) {
-                res.render('gigs/gigseat', {
-                    gigsale: seatlist, gig_index:req.params.gig_index, section_id: req.params.section_id,
-                    session : session
-                });
+                callback(seatlist);
             } else {
                 console.log('getting gigsale info failed');
                 res.redirect('back');
             }
         });
-  
+        }
+    ],
+    function (seatlist) {
+        console.log(4)
+            res.render('gigs/gigseat', {
+                gigsale: seatlist, gig_index:req.params.gig_index, section_id: req.params.section_id,
+                session : session
+            });
+        }
+    );
 });
 
 //get purchaselist
 router.post('/purchaselist', function(req, res, next) {
     let session = req.session;
+    res.end();
+    aysnc.series(
+    [
+     function(callback){
         get_purchaselist(req.body.gig_index, req.body.section_id, req.body.seat_index, function (result, seatlist) {
             if (result == true) {
                 console.log(seatlist);
-                res.render('gigs/gigpurchaselist', {
-                    gigsale: seatlist,
-                    session : session
-                });
+                callback(result,seatlist);
             } else {
                 console.log('getting gigsale info failed');
                 res.redirect('/');
             }
+        })
+    }
+    ],
+    function (result, seatlist) {
+        console.log(seatlist);
+        res.render('gigs/gigpurchaselist', {
+            gigsale: seatlist,
+            session : session
         });
+        }
+    );
 });
 //purchase tickets
 router.post('/purchase', function(req, res, next) {
+    res.end();
     console.log(req.body.purchaseseats);
     console.log(req.body.purchaseseats.length);// array?
+    async.series(
+        [
+        function(callback){
         purchase_tickets(req.session.user_id, req.params.gig_index, req.body.purchaseseats, function (result) {
             if (result == true) {
-                res.redirect('/mypage');
+                callback(result);
             } else {
                 console.log('getting gigsale info failed');
                 res.redirect('/');
             }
         });
+    }
+    ], 
+    function(result){
+        res.redirect('/mypage');
+    }
+    );
 });
 
 module.exports = router;
