@@ -210,6 +210,7 @@ router.get('/:index', function(req, res, next) {
 });
 
 router.get('/buy/:gig_index', function(req, res, next) {
+    let session = req.session;
     console.log("buy!");
     console.log(req.params.gig_index);
         async.series(
@@ -230,7 +231,8 @@ router.get('/buy/:gig_index', function(req, res, next) {
             function (sectionlist, totalseatnum) {
                 console.log(4)
                 res.render('gigs/gigsection', {
-                    gigsale: sectionlist, totalseatnum: totalseatnum, gig_index:req.params.gig_index
+                    gigsale: sectionlist, totalseatnum: totalseatnum, gig_index:req.params.gig_index,
+                    session : session
                 });
             }
         );
