@@ -94,7 +94,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="mu-page-breadcrumb-area">
-                    <h2><%=gigdetails[gig_index-1].gig_name%></h2>
+                    <h2><%=gigdetails[0].gig_name%></h2>
                 </div>
             </div>
         </div>
@@ -115,15 +115,15 @@
                                         <article class="mu-blog-single-item">
                                             <figure class="mu-blog-single-img">
                                                 <a href="#"><img alt="img" src="../assets/img/blog/theater-seat-layout.png"></a>
-                                                <a href="#"><img alt="img" src="<%=gigdetails[gig_index-1].gig_image%>"></a>
+                                                <a href="#"><img alt="img" src="<%=gigdetails[0].gig_image%>"></a>
                                             </figure>
                                             <div class="mu-blog-description">
-                                                <br><h1><strong><%=gigdetails[gig_index-1].gig_name%></strong></h1><br>
-                                                <p><%=gigdetails[gig_index-1].gig_description%></p><br>
+                                                <br><h1><strong><%=gigdetails[0].gig_name%></strong></h1><br>
+                                                <p><%=gigdetails[0].gig_description%></p><br>
                                                 <h4><strong>공연 날짜</strong></h4>
-                                                <p><%=gigdetails[gig_index-1].gig_date_time%></p><br>
+                                                <p><%=gigdetails[0].gig_date_time%></p><br>
                                                 <h4><strong>공연 장소</strong></h4>
-                                                <p><%=gigdetails[gig_index-1].gig_venue%></p><br>
+                                                <p><%=gigdetails[0].gig_venue%></p><br>
                                                 <h4><strong>공지 사항</strong></h4>
                                                 <p><span style="color: #0000ff">※공연 연출 컨셉, 아티스트 위치, 구조물이나 무대장치 등 상황에 따른 시야방해가 있을 수 있으며, <br />공연 당일 시야 제한을 이유로 취소, 변경, 환불이 불가합니다. <br />주최사 및 예매처는 이로 인하여 발생한 문제를 해결해 드릴 수 없으므로 신중한 티켓 구매 부탁 드립니다<br /><br /></span><span style="color: #0000ff">*추가 티켓오픈 준비를 위해 00월 00일(월) 09시부터 13시 59분까지 전 회차 공연에 대한 예매, 취소 후 재예매, 예매대기서비스를 통한 좌석확보나 결제 등이 불가(취소만 가능)하오니 참고 부탁 드립니다.<br />※예매 대기 서비스 통해 좌석 확보된 대상 고객님에게는 카카오톡 알림 또는 sms, 이메일로 알려드리며, <br />알람 후 6시간 내 결제해야만 예매 가능합니다.</span><br /><br />［매수제한］<br />- 일반예매: 회당 1인 2매 <br /><br />［휠체어석 예매 안내］<br />- 휠체어석 구매는 00월 00일(월) 오전 10시부터 고객센터를 통해 전화예매만 가능합니다.<br />&nbsp;&nbsp; (고객센터 운영시간 오전 9시&nbsp;- 오후 6시)<br />- 본 공연의 휠체어석은 의자가 없는 공간으로 휠체어를 이용하는 관객만 구매 가능한 좌석이며, <br />&nbsp; 동반 1인 포함 총 2매까지 예매가 가능합니다.<br />- 공연 당일 휠체어 이용+장애인 등록증(또는 복지카드)과 본인 신분증 실물 확인 후 티켓 수령이 이루어지며, <br />&nbsp; 미지참시 예매자 및 동반 1인도 입장이 불가합니다.<br />- 휠체어석 예매티켓은 현장수령만 가능하며 구매자 본인 티켓 수령을 원칙으로 하고 있습니다.<br />* 티켓 대리 수령 및 양도는 불가합니다.<br />* 복지카드를 소지하고 계시더라도 휠체어를 이용하지 않는 관객은 구매가 불가합니다.<br /><br />［티켓 현장 수령 유의 사항］<br />예매하신 티켓의 현장 수령은 예매자 본인에 한해서만 가능합니다. <br />사진이 부착된 실물 신분증(예: 주민등록증, 운전면허증, 학생증, 여권)과 예매내역서를 모두 지참하셔야 합니다. <br />- 지참하신 신분증과 티켓 예매내역서의 정보가 일치해야 티켓 수령이 가능하오니 반드시 사전 확인 부탁 드립니다.<br /><br />티켓 미소지시에는 어떠한 사유로도 입장이 불가합니다.</p><br />
 
@@ -137,28 +137,22 @@
                                                         <th class="left">취소일</th>
                                                         <th class="right">취소수수료</th>
                                                     </tr>
-                                                        <tr>
-                            
-                                                            <td class="left">예매 후 7일 이내</td>
-                                                            <td class="right">없음</td>
-                                
-                                                        </tr>
-                        
+                                                    <tr>
+                                                        <td class="left">예매 후 7일 이내</td>
+                                                        <td class="right">없음</td>
+                                                    </tr>
                                                     <tr>
                                                         <td class="left">예매 후 8일~관람일 10일전까지</td>
                                                         <td class="right">장당 4,000원(티켓금액의 10%한도)</td>
                                                     </tr>
-                                
                                                     <tr>
                                                         <td class="left">관람일 9일전~7일전까지</td>
                                                         <td class="right">티켓금액의 10%</td>
                                                     </tr>
-                                
                                                     <tr>
                                                         <td class="left">관람일 6일전~3일전까지</td>
                                                         <td class="right">티켓금액의 20%</td>
                                                     </tr>
-                                
                                                     <tr>
                                                         <td class="left">관람일 2일전~1일전까지</td>
                                                         <td class="right">티켓금액의 30%</td>
@@ -175,7 +169,7 @@
                             <aside class="mu-sidebar">
                                 <!-- start single sidebar -->
                                 <div class="mu-single-sidebar">
-                                    <h3><%=gigdetails[gig_index-1].gig_name%></h3>
+                                    <h4><%=gigdetails[0].gig_name%></h4>
                                     <ul class="mu-sidebar-catg">
                                         <% if(session.buyer_id) { %>
                                         <li><a href="/gigs/buy/<%=gig_index%>">Buy Ticket!</a></li>

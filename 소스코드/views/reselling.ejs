@@ -93,13 +93,14 @@
                     <!-- start title -->
                     <div class="mu-title">
                         <h2>Want to buy tickets?</h2>
-                        <p>Check out our reselling ticket lists!</p>
+                        <p>Check out our reselling ticket lists!</p><br /><br /><br />
+                        <%if (reselling_list.length==0){ %>
+                            <h2><strong>현재 Reselling하는 티켓이 없습니다!</strong></h2>
+                        <%}%>
                     </div>
                     <!-- end title -->
                     <!-- start gallery content -->
-                    <%if (reselling_list.length==0){ %>
-                        <th>현재 Reselling 하는 티켓이 없습니다!</th>
-                    <%}%>
+                    
                     <% for(i=0;i<reselling_list.length; i++){ %>
                     <div class="mu-gallery-content">
                         <div class="mu-gallery-body">
