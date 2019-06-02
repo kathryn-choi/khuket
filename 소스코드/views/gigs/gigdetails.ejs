@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Varsity | Blog Single</title>
+    <title>Ticketing Service | Gig Details</title>
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="../assets/img/favicon1.ico" type="image/x-icon">
@@ -56,26 +56,30 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul id="top-menu" class="nav navbar-nav navbar-right main-nav">
-                    <li><a href="index.html">Home</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Course <span class="fa fa-angle-down"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="/gigs/buy/:gig_index">Buy</a></li>
-                            <li><a href="course.html">Course Archive</a></li>
-                            <li><a href="course-detail.html">Course Detail</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="gallery.html">Gallery</a></li>
-                    <li class="dropdown active">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Blog <span class="fa fa-angle-down"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="blog-archive.html">Blog Archive</a></li>
-                            <li><a href="blog-single.html">Blog Single</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="contact.html">Contact</a></li>
-                    <li><a href="404.html">404 Page</a></li>
-                    <li><a href="#" id="mu-search-icon"><i class="fa fa-search"></i></a></li>
+                    <!-- Start session -->
+                    <% if(session.admin_id) { %>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/administrators" >My Page</a></li>
+                        <li class="active"><a href="/gigs">Gigs</a></li>
+                        <li><a href="/users/logout" >Logout</a></li>
+                    <% } else if(session.organizer_id) { %>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/organizers" >My Page</a></li>
+                        <li class="active"><a href="/gigs">Gigs</a></li>
+                        <li><a href="/organizers/add_gig" >Add Gig</a></li>
+                        <li><a href="/users/logout" >Logout</a></li>
+                    <% } else if(session.buyer_id) { %>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/mypage">My Page</a></li>
+                        <li class="active"><a href="/gigs">Gigs</a></li>
+                        <li><a href="/reselling">Reselling</a></li>
+                        <li><a href="/users/logout">Logout</a></li>
+                    <% } else { %>
+                        <li><a href="/">Home</a></li>
+                        <li class="active"><a href="/gigs">Gigs</a></li>
+                        <li><a href="/buyers/login" >Login</a></li>
+                    <% } %>
+                    <!-- End session -->
                 </ul>
             </div><!--/.nav-collapse -->
         </div>
@@ -90,11 +94,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="mu-page-breadcrumb-area">
-                    <h2>Gig Details</h2>
-                    <ol class="breadcrumb">
-                        <li><a href="/gigs/buy/<%=gig_index%>">Buy Ticket!</a></li>
-                        <li class="active">Blog Single</li>
-                    </ol>
+                    <h2><%=gigdetails[gig_index-1].gig_name%></h2>
                 </div>
             </div>
         </div>
@@ -114,23 +114,11 @@
                                     <div class="col-md-12">
                                         <article class="mu-blog-single-item">
                                             <figure class="mu-blog-single-img">
-                                                <a href="#"><img alt="img" src="../assets/img/blog/blog-3.jpg"></a>
-                                                <figcaption class="mu-blog-caption">
-                                                    <h3><a href="/gigs/buy/<%=gig_index%>">Buy Ticket!</a></h3>
-                                                </figcaption>
+                                                <a href="#"><img alt="img" src="../assets/img/blog/theater-seat-layout.png"></a>
+                                                <a href="#"><img alt="img" src="<%=gigdetails[gig_index-1].gig_image%>"></a>
                                             </figure>
-                                            <div class="mu-blog-meta">
-                                                <a href="#">By Admin</a>
-                                                <a href="#">02 June 2016</a>
-                                                <span><i class="fa fa-comments-o"></i>87</span>
-                                            </div>
                                             <div class="mu-blog-description">
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae ipsum non voluptatum eum repellendus quod aliquid. Vitae, dolorum voluptate quis repudiandae eos molestiae dolores enim.</p>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus autem molestias nostrum eius optio et rem, cum voluptatibus aperiam soluta reiciendis quae nisi, debitis totam harum nulla! Voluptatem commodi quis, atque labore, sapiente tempora temporibus, repellendus laboriosam sunt aut dolores laborum libero? Laudantium non, enim, repellat recusandae quisquam aperiam hic amet corporis ipsam. Similique velit ipsa, quasi assumenda consequuntur earum.</p>
-                                                <blockquote>
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptas numquam quis obcaecati, a sed ad aut totam fugiat, cumque quasi!</p>
-                                                </blockquote>
-                                                <h1>Lorem ipsum dolor sit amet.</h1>
+                                                <h1><strong><%=gigdetails[gig_index-1].gig_name%></strong></h1>
                                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam distinctio voluptatibus sequi sint, in. Soluta alias sunt, voluptates necessitatibus neque, perspiciatis, quos doloribus quae non tempore ut qui facere nulla.</p>
                                                 <h2>Lorem ipsum dolor sit amet, consectetur.</h2>
                                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Temporibus dolor totam architecto voluptatum, unde non ipsum officia adipisci, eos error, expedita corporis laudantium esse. Mollitia minus, molestias doloremque! Earum, fuga!</p>
@@ -145,123 +133,12 @@
                                                     <li>Eius, odit, incidunt. Voluptates iusto, a sapiente reiciendis?</li>
                                                     <li>Quos, tenetur voluptas, dolore sapiente nisi repellat odio.</li>
                                                 </ul>
-
                                             </div>
-                                            <!-- start blog post tags -->
-                                            <div class="mu-blog-tags">
-                                                <ul class="mu-news-single-tagnav">
-                                                    <li>TAGS :</li>
-                                                    <li><a href="#">Science,</a></li>
-                                                    <li><a href="#">English,</a></li>
-                                                    <li><a href="#">Sports,</a></li>
-                                                    <li><a href="#">Health</a></li>
-                                                </ul>
-                                            </div>
-                                            <!-- End blog post tags -->
                                         </article>
                                     </div>
                                 </div>
                             </div>
                             <!-- end course content container -->
-                            <!-- start blog navigation -->
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="mu-blog-single-navigation">
-                                        <a class="mu-blog-prev" href="#"><span class="fa fa-angle-left"></span>Prev</a>
-                                        <a class="mu-blog-next" href="#">Next<span class="fa fa-angle-right"></span></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- end blog navigation -->
-                            <!-- start related course item -->
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="mu-related-item">
-                                        <h3>Related News</h3>
-                                        <div class="mu-related-item-area">
-                                            <div id="mu-related-item-slide">
-                                                <div class="col-md-6">
-                                                    <article class="mu-blog-single-item">
-                                                        <figure class="mu-blog-single-img">
-                                                            <a href="#"><img alt="img" src="../assets/img/blog/blog-1.jpg"></a>
-                                                            <figcaption class="mu-blog-caption">
-                                                                <h3><a href="#">Lorem ipsum dolor sit amet.</a></h3>
-                                                            </figcaption>
-                                                        </figure>
-                                                        <div class="mu-blog-meta">
-                                                            <a href="#">By Admin</a>
-                                                            <a href="#">02 June 2016</a>
-                                                            <span><i class="fa fa-comments-o"></i>87</span>
-                                                        </div>
-                                                        <div class="mu-blog-description">
-                                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae ipsum non voluptatum eum repellendus quod aliquid. Vitae, dolorum voluptate quis repudiandae eos molestiae dolores enim.</p>
-                                                            <a href="#" class="mu-read-more-btn">Read More</a>
-                                                        </div>
-                                                    </article>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <article class="mu-blog-single-item">
-                                                        <figure class="mu-blog-single-img">
-                                                            <a href="#"><img alt="img" src="../assets/img/blog/blog-2.jpg"></a>
-                                                            <figcaption class="mu-blog-caption">
-                                                                <h3><a href="#">Lorem ipsum dolor sit amet.</a></h3>
-                                                            </figcaption>
-                                                        </figure>
-                                                        <div class="mu-blog-meta">
-                                                            <a href="#">By Admin</a>
-                                                            <a href="#">02 June 2016</a>
-                                                            <span><i class="fa fa-comments-o"></i>87</span>
-                                                        </div>
-                                                        <div class="mu-blog-description">
-                                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae ipsum non voluptatum eum repellendus quod aliquid. Vitae, dolorum voluptate quis repudiandae eos molestiae dolores enim.</p>
-                                                            <a href="#" class="mu-read-more-btn">Read More</a>
-                                                        </div>
-                                                    </article>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <article class="mu-blog-single-item">
-                                                        <figure class="mu-blog-single-img">
-                                                            <a href="#"><img alt="img" src="../assets/img/blog/blog-3.jpg"></a>
-                                                            <figcaption class="mu-blog-caption">
-                                                                <h3><a href="#">Lorem ipsum dolor sit amet.</a></h3>
-                                                            </figcaption>
-                                                        </figure>
-                                                        <div class="mu-blog-meta">
-                                                            <a href="#">By Admin</a>
-                                                            <a href="#">02 June 2016</a>
-                                                            <span><i class="fa fa-comments-o"></i>87</span>
-                                                        </div>
-                                                        <div class="mu-blog-description">
-                                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae ipsum non voluptatum eum repellendus quod aliquid. Vitae, dolorum voluptate quis repudiandae eos molestiae dolores enim.</p>
-                                                            <a href="#" class="mu-read-more-btn">Read More</a>
-                                                        </div>
-                                                    </article>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <article class="mu-blog-single-item">
-                                                        <figure class="mu-blog-single-img">
-                                                            <a href="#"><img alt="img" src="../assets/img/blog/blog-1.jpg"></a>
-                                                            <figcaption class="mu-blog-caption">
-                                                                <h3><a href="#">Lorem ipsum dolor sit amet.</a></h3>
-                                                            </figcaption>
-                                                        </figure>
-                                                        <div class="mu-blog-meta">
-                                                            <a href="#">By Admin</a>
-                                                            <a href="#">02 June 2016</a>
-                                                            <span><i class="fa fa-comments-o"></i>87</span>
-                                                        </div>
-                                                        <div class="mu-blog-description">
-                                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae ipsum non voluptatum eum repellendus quod aliquid. Vitae, dolorum voluptate quis repudiandae eos molestiae dolores enim.</p>
-                                                            <a href="#" class="mu-read-more-btn">Read More</a>
-                                                        </div>
-                                                    </article>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- end start related course item -->
                         </div>
                         <div class="col-md-3">
                             <!-- start sidebar -->
