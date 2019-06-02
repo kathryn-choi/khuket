@@ -239,13 +239,15 @@ router.get('/buy/:gig_index', function(req, res, next) {
 });
 
 router.get('/buys/:gig_index/:section_id', function(req, res, next) {
+    let session = req.session;
     console.log(4);
     console.log(req.params.section_id);
     console.log(req.params.gig_index);
         get_gigseat_info(req.params.gig_index, req.params.section_id, function (result, seatlist) {
             if (result == true) {
                 res.render('gigs/gigseat', {
-                    gigsale: seatlist, gig_index:req.params.gig_index, section_id: req.params.section_id
+                    gigsale: seatlist, gig_index:req.params.gig_index, section_id: req.params.section_id,
+                    session : session
                 });
             } else {
                 console.log('getting gigsale info failed');
@@ -257,11 +259,13 @@ router.get('/buys/:gig_index/:section_id', function(req, res, next) {
 
 //get purchaselist
 router.post('/purchaselist', function(req, res, next) {
+    let session = req.session;
         get_purchaselist(req.body.gig_index, req.body.section_id, req.body.seat_index, function (result, seatlist) {
             if (result == true) {
                 console.log(seatlist);
                 res.render('gigs/gigpurchaselist', {
-                    gigsale: seatlist
+                    gigsale: seatlist,
+                    session : session
                 });
             } else {
                 console.log('getting gigsale info failed');

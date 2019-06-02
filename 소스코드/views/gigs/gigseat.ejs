@@ -2,22 +2,150 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Gig SEAT info</title>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ticketing Service | Seat</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../../../assets/img/favicon1.ico" type="image/x-icon">
+
+    <!-- Font awesome -->
+    <link href="../../../assets/css/font-awesome.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="../../../assets/css/bootstrap.css" rel="stylesheet">
+    <!-- Slick slider -->
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/slick.css">
+    <!-- Fancybox slider -->
+    <link rel="stylesheet" href="../../../assets/css/jquery.fancybox.css" type="text/css" media="screen" />
+    <!-- Theme color -->
+    <link id="switcher" href="../../../assets/css/theme-color/default-theme.css" rel="stylesheet">
+
+    <!-- Main style sheet -->
+    <link href="../../../assets/css/style.css" rel="stylesheet">
+
+
+    <!-- Google Fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,400italic,300,300italic,500,700' rel='stylesheet' type='text/css'>
+
 </head>
 <body>
-SELECT SEAT!!! <br> <br>
+<!-- Start menu -->
+<section id="mu-menu">
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <!-- FOR MOBILE VIEW COLLAPSED BUTTON -->
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!-- LOGO -->
+                <!-- TEXT BASED LOGO -->
+                <a class="navbar-brand" href="/"><span><img src="../../../assets/img/logo.png"> Ticketing Service</span></a>
+                <!-- IMG BASED LOGO  -->
+                <!-- <a class="navbar-brand" href="index.html"><img src="../assets/img/logo.png" alt="logo"></a> -->
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul id="top-menu" class="nav navbar-nav navbar-right main-nav">
+                    <% if(session.buyer_id) { %>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/mypage">My Page</a></li>
+                        <li class="active"><a href="/gigs">Gigs</a></li>
+                        <li><a href="/reselling">Reselling</a></li>
+                        <li><a href="/users/logout">Logout</a></li>
+                    <% } else { %>
+                        <meta http-equiv="refresh" content="0; url=/buyers/login">
+                    <% } %>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </nav>
+</section>
+<!-- End menu -->
 
-<form method="post" action="/gigs/purchaselist" >
-    <%for (var i=0; i<gigsale.length; i++){%>
-    <input type="checkbox" id="<%=gigsale[i].seat_index%>" name="seat_index" value="<%=gigsale[i].seat_index%>">
-    Seat INDEX: <%=gigsale[i].seat_index%> <br>
-    Seat row Index: <%=gigsale[i].seat_row_index%> <br>
-    <br>
-    <%}%>
-    <input type ="hidden" name="gig_index" value = "<%=gig_index%>">
-    <input type ="hidden" name="section_id" value = "<%=section_id%>">
-    <input type="submit">
-</form>
-<!--seat array 넘기기! but max ticket 수 넘으면 error! -->
+<!-- Page breadcrumb -->
+<section id="mu-page-breadcrumb">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mu-page-breadcrumb-area">
+                    <h2>Seats</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End breadcrumb -->
+<!-- Start gallery  -->
+<section id="mu-gallery">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mu-gallery-area">
+                <!-- start title -->
+                <div class="mu-title">
+                    <h2>SELECT SEAT !</h2><br>
+                    <h4>좌석 선택 후 구매를 눌러주세요</h4>
+                </div>
+                <!-- end title -->
+                <!-- start gallery content -->
+                    <div class="mu-gallery-content">
+                        <div class="mu-gallery-body">
+                            <form method="post" action="/gigs/purchaselist" >
+                            <ul id="mixit-container" class="row">
+                                <!-- start single gallery image -->
+                                <%for (var i=0; i<gigsale.length; i++){%>
+                                <li class="col-md-2 col-sm-4 col-xs-5 mix lab">
+                                    <div class="mu-single-gallery">
+                                        <div class="mu-single-gallery-item">
+                                            <div class="mu-single-gallery-img">
+                                                <img alt="img" src="../../../assets/img/ticket-512.png">
+                                            </div>
+                                            <div class="mu-single-gallery-info">
+                                                <div class="mu-single-gallery-info-inner">
+                                                    <h4>Seat INDEX: <%=gigsale[i].seat_index%></h4>
+                                                    <h4>Seat row Index: <%=gigsale[i].seat_row_index%></h4>
+                                                    <input type="checkbox" id="<%=gigsale[i].seat_index%>" name="seat_index" value="<%=gigsale[i].seat_index%>">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <%  }  %>
+                            </ul>
+                            <input type ="hidden" name="gig_index" value = "<%=gig_index%>">
+                            <input type ="hidden" name="section_id" value = "<%=section_id%>">
+                            <input type="submit" value="구매">
+                        </form>
+                        </div>
+                    </div>
+                <!-- end gallery content -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End gallery  -->
+<!-- jQuery library -->
+<script src="../../../assets/js/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="../../../assets/js/bootstrap.js"></script>
+<!-- Slick slider -->
+<script type="text/javascript" src="../../../assets/js/slick.js"></script>
+<!-- Counter -->
+<script type="text/javascript" src="../../../assets/js/waypoints.js"></script>
+<script type="text/javascript" src="../../../assets/js/jquery.counterup.js"></script>
+<!-- Mixit slider -->
+<script type="text/javascript" src="../../../assets/js/jquery.mixitup.js"></script>
+<!-- Add fancyBox -->
+<script type="text/javascript" src="../../../assets/js/jquery.fancybox.pack.js"></script>
+
+<!-- Custom js -->
+<script src="../../../assets/js/custom.js"></script>
+
 </body>
 </html>
