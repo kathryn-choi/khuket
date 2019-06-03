@@ -113,7 +113,7 @@ function get_ticket_detail(user_id, ticket_id, cb){
         //return error if error in response
     if (response.error != null) {
         console.log("network get ticket info failed");
-        cb(false, []);
+        cb(false, [""]);
     } else {
         var get_my_ticket = response;
         var ticketinfo=new Array(); 
@@ -248,12 +248,13 @@ router.get('/', function(req, res, next) {
                             console.log("stringify" + stringfy_tickets);
                         callback(myinfo_list, stringfy_tickets);
                         }else{
-                            throw err;
+                        callback(myinfo_list, []);
                         }
                     });
                 }
             ],
             function(myinfo, myticket){
+                if(myticket[0] != "" ){
                 console.log("myticket "+ myticket);
                 console.log("myticket typeof"+typeof(myticket));
                 console.log ('-1'+ myticket[0] );
@@ -271,6 +272,9 @@ router.get('/', function(req, res, next) {
                 console.log(_myticket)
 
                 console.log (my_ticket);*/
+                }else{
+                    var my_ticket = [];
+                }
                 console.log("MyInfo1:",myinfo);
                 res.render('mypage', {
                     myinfo: myinfo,

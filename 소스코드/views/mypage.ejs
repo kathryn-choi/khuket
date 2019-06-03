@@ -103,7 +103,7 @@
                             <!-- start course content container -->
                             <div class="mu-course-container">
                                 <div class="row"> 
-                                    <%if(mytickets[0].gig_name != null ) {%>
+                                    <%if(mytickets.length != 0) {%>
                                         <% for(var i=0; i<(mytickets).length; i++){%>
                                         <div class="col-md-6 col-sm-6">
                                         <div class="mu-latest-course-single">
@@ -158,11 +158,11 @@
                                     <h3>Personal Info</h3>
                                     <ul class="mu-sidebar-catg">
                                         <form action="/mypage/update" method="post">
-                                        <li>이름 : <%=myinfo[0].buyer_name %></li>
+                                        <li>이름 &nbsp;&nbsp;&nbsp;: <%=myinfo[0].buyer_name %></li>
                                         <li>아이디 : <%= myinfo[0].buyer_id%></li>
                                         <li>이메일 : &nbsp; <input name="buyer_email" value="<%= myinfo[0].buyer_email %>"></li>
                                         <li>연락처: &nbsp;&nbsp;&nbsp;<input name="buyer_contact" value="<%=myinfo[0].buyer_contact %>"></li>
-                                        <li>계좌 : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="buyer_account" value="<%=myinfo[0].buyer_account %>"></li>
+                                        <li>계좌&nbsp;&nbsp;&nbsp; : &nbsp;&nbsp;&nbsp;<input name="buyer_account" value="<%=myinfo[0].buyer_account %>"></li>
                                             <button type="submit">Submit</button>
                                         </form>
                                     </ul>
