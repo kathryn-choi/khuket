@@ -7,21 +7,21 @@
     <title>KHUKET | Purchase List</title>
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon">
 
     <!-- Font awesome -->
-    <link href="assets/css/font-awesome.css" rel="stylesheet">
+    <link href="../assets/css/font-awesome.css" rel="stylesheet">
     <!-- Bootstrap -->
-    <link href="assets/css/bootstrap.css" rel="stylesheet">   
+    <link href="../assets/css/bootstrap.css" rel="stylesheet">   
     <!-- Slick slider -->
-    <link rel="stylesheet" type="text/css" href="assets/css/slick.css">          
+    <link rel="stylesheet" type="text/css" href="../assets/css/slick.css">          
     <!-- Fancybox slider -->
-    <link rel="stylesheet" href="assets/css/jquery.fancybox.css" type="text/css" media="screen" /> 
+    <link rel="stylesheet" href="../assets/css/jquery.fancybox.css" type="text/css" media="screen" /> 
     <!-- Theme color -->
-    <link id="switcher" href="assets/css/theme-color/default-theme.css" rel="stylesheet">  
+    <link id="switcher" href="../assets/css/theme-color/default-theme.css" rel="stylesheet">  
 
     <!-- Main style sheet -->
-    <link href="assets/css/style.css" rel="stylesheet">    
+    <link href="../assets/css/style.css" rel="stylesheet">    
 
    
     <!-- Google Fonts -->
@@ -57,25 +57,16 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul id="top-menu" class="nav navbar-nav navbar-right main-nav">
-            <li><a href="index.html">Home</a></li>            
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Course <span class="fa fa-angle-down"></span></a>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="course.html">Course Archive</a></li>                
-                <li><a href="course-detail.html">Course Detail</a></li>                
-              </ul>
-            </li>           
-            <li><a href="gallery.html">Gallery</a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Blog <span class="fa fa-angle-down"></span></a>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="blog-archive.html">Blog Archive</a></li>                
-                <li><a href="blog-single.html">Blog Single</a></li>                
-              </ul>
-            </li>            
-            <li><a href="contact.html">Contact</a></li>
-            <li class="active"><a href="404.html">404 Page</a></li>               
-            <li><a href="#" id="mu-search-icon"><i class="fa fa-search"></i></a></li>
+            <% if(session.buyer_id) { %>
+              <li><a href="/">Home</a></li>
+              <li><a href="/mypage">My Page</a></li>
+              <li class="active"><a href="/gigs">Gigs</a></li>
+              <li><a href="/reselling">Reselling</a></li>
+              <li><a href="/users/logout">Logout</a></li>
+              <li><a href="#" id="mu-search-icon"><i class="fa fa-search"></i></a></li>
+            <% } else { %>
+              <meta http-equiv="refresh" content="0; url=/buyers/login">
+            <% } %>
           </ul>                     
         </div><!--/.nav-collapse -->        
       </div>     
@@ -104,11 +95,7 @@
      <div class="row">
        <div class="col-md-12">
          <div class="mu-page-breadcrumb-area">
-           <h2>404</h2>
-           <ol class="breadcrumb">
-            <li><a href="#">Home</a></li>            
-            <li class="active">404</li>
-          </ol>
+           <h2>Purchase List</h2>
          </div>
        </div>
      </div>
@@ -116,50 +103,61 @@
  </section>
  <!-- End breadcrumb -->
 
-  <!-- Start error section  -->
-  <section id="mu-error">
-    <div class="container">
-      <div class="row">
-       <div class="col-md-12">
-          <div class="mu-error-area">
-            <p>Oops! The page you requested was not found!</p>
-            <span>The page you are looking for is not available or has been removed or changed.</span>
-            <h2>404</h2>
-            PURCHASE LIST <br> <br>
-            <%for (var i=0; i<(gigsale).length; i++){ %>
-            <%=i+1%> . <br>
-            Seat INDEX: <%=gigsale[i].seat_index%> <br>
-            Seat row Index: <%=gigsale[i].seat_row_index%> <br>
-            <br>
-            <% } %>
-            <form method="post" action="/gigs/purchase" >
-                <input type="hidden" name="purchaseseats" value="<%=gigsale%>">
-                <input type="submit" value="I will purchase it!!!">
-            </form>
-            <a class="mu-post-btn" href="index.html">GO TO HOME</a>
+  <!-- Start contact  -->
+ <section id="mu-contact">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="mu-contact-area">
+         <!-- start contact content -->
+         <div class="mu-contact-content">           
+           <div class="row">
+             <div class="col-md-6">
+               <div class="mu-contact-left">
+                 <img alt="img" src="../../assets/img/theater-seat-layout.png" width="100%" height="450">
+               </div>
+             </div>
+             <div class="col-md-6">
+               <div class="mu-contact-right">
+                  <form class="contactform">
+                      <br><br><br><h2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PURCHASE LIST</h2><br><br>
+                      <%for (var i=0; i<(gigsale).length; i++){ %>
+                      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=i+1%>. &nbsp;&nbsp;Seat index  : <%=gigsale[i].seat_index%><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Seat row Index : <%=gigsale[i].seat_row_index%></p><br>
+                      <% } %><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <form method="post" action="/gigs/purchase" >
+                          <input type="hidden" name="purchaseseats" value="<%=gigsale%>">
+                          <input class="mu-post-btn" type="submit" value="구매">
+                      </form>        
+                  </form>
+               </div>
+             </div>
+           </div>
+          </div>
+          <!-- end contact content -->
           </div>
         </div>
       </div>
     </div>
   </section>
-  <!-- End error section  -->
+  <!-- End contact  -->
   
   <!-- jQuery library -->
-  <script src="assets/js/jquery.min.js"></script>  
+  <script src="../assets/js/jquery.min.js"></script>  
   <!-- Include all compiled plugins (below), or include individual files as needed -->
-  <script src="assets/js/bootstrap.js"></script>   
+  <script src="../assets/js/bootstrap.js"></script>   
   <!-- Slick slider -->
-  <script type="text/javascript" src="assets/js/slick.js"></script>
+  <script type="text/javascript" src="../assets/js/slick.js"></script>
   <!-- Counter -->
-  <script type="text/javascript" src="assets/js/waypoints.js"></script>
-  <script type="text/javascript" src="assets/js/jquery.counterup.js"></script>  
+  <script type="text/javascript" src="../assets/js/waypoints.js"></script>
+  <script type="text/javascript" src="../assets/js/jquery.counterup.js"></script>  
   <!-- Mixit slider -->
-  <script type="text/javascript" src="assets/js/jquery.mixitup.js"></script>
+  <script type="text/javascript" src="../assets/js/jquery.mixitup.js"></script>
   <!-- Add fancyBox -->        
-  <script type="text/javascript" src="assets/js/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="../assets/js/jquery.fancybox.pack.js"></script>
 
   <!-- Custom js -->
-  <script src="assets/js/custom.js"></script> 
+  <script src="../assets/js/custom.js"></script> 
 
   </body>
 </html>
