@@ -128,7 +128,8 @@ function get_purchaselist(gig_index, section_id, seats_index, cb) {
     console.log(10);
     console.log("count " , count);
   
-   cb(false,[]);
+    var emptyarray=[];
+    return emptyarray;
 }
 function get_seat_array(seats){
     return seats;
@@ -284,7 +285,7 @@ router.post('/purchaselist', function(req, res, next) {
         get_purchaselist(req.body.gig_index, req.body.section_id, req.body.seat_index, function (result, seatlist) {
             if (result == true) {
                 console.log(seatlist);
-                callback(seatlist);
+                callback(result,seatlist);
             } else {
                 console.log('getting gigsale info failed');
                 res.redirect('/');

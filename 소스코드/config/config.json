@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "root",
-    "password": "pw",
+    "password": "password123",
     "database": "ticketing_service",
     "host": "localhost",
     "dialect": "mysql"
