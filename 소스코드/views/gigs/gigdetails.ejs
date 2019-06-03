@@ -56,6 +56,24 @@
               }
               return zero + num;
         }
+        
+        /* 예매 가능 시각은 년도, 월이 같고 날짜가 10일 차이나고 시간 * 3600 + 분 * 60 + 초 이상이면 구매가 가능해짐*/ 
+        function check_time() {
+            var current_date = new Date();
+            var gig_second = gigdetails[0].gig_date_time.getHours() * 3600 + gigdetails[0].gig_date_time.getMinutes() * 60 + gigdetails[0].gig_date_time.getSeconds();
+            var current_second = current_date.getHours() * 3600 + current_date.getMinutes() * 60 + current_date.getSeconds();
+            var check1 = gigdetails[0].gig_date_time.getFullYear() === current_date.getFullYear();
+            var check2 = gigdetails[0].gig_date_time.getMonth() === current_date.getMonth();
+            var check3 = (gigdetails[0].gig_date_time.getDate()-10) === current_date.getDate();
+            var check4 = current_second >= gig_second;
+
+            if(check1 && check2 && check3 && check4)
+            {
+                return true;
+            } else {
+                return false;
+            }
+        }
     </script>
 </head>
 <body>
@@ -202,10 +220,10 @@
                                     <div style="width:245px; height:50px; line-height:50px; color:#666;font-size:40px; text-align:center;" id="clock">
                                     </div><br>
                                     <ul class="mu-sidebar-catg">
-                                        <% if(session.buyer_id) { %>
+                                        <% if(new Date().getFullYear() == gigdetails[0].gig_date_time.getFullYear() && new Date().getMonth() == gigdetails[0].gig_date_time.getMonth() && new Date().getDate()+10 == gigdetails[0].gig_date_time.getDate() && (new Date().getHours() * 3600 + new Date().getMinutes() * 60 + new Date().getSeconds()) >= gigdetails[0].gig_date_time.getHours() * 3600 + gigdetails[0].gig_date_time.getMinutes() * 60 + gigdetails[0].gig_date_time.getSeconds()){ %>
                                             <li><a href="/gigs/buy/<%=gig_index%>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Buy Ticket!</a></li>
                                         <% } else { %>
-                                            <li><a href="/buyers/login">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Buy Ticket!</a></li>
+                                            <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Buy Ticket!</li>
                                         <% } %>
                                     </ul>
                                 </div>
