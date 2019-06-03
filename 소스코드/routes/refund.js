@@ -2,6 +2,7 @@ var express = require('express');
 var async = require('async');
 var network = require('../ticketing-system/network.js');
 var router = express.Router();
+
 /*예매 취소 안내
 취소 마감 시간
 관람일 전일 (평일/주말/공휴일 오후 5시)
@@ -19,7 +20,8 @@ var router = express.Router();
 웹취소가능시간 이후에는 취소가 불가합니다.
 상품의 특성에 따라서, 취소수수료 정책이 달라질 수 있습니다.(각 상품 예매시 취소수수료 확인)*/
 //시스템에서 지정한 규정에 맞게 환불해주기
-function calc_refund_price( gig_time, ticket_price, right_now_time){
+
+function calc_refund_price( gig_time, ticket_price, right_now_time, cb){
   var refund_price;
     if(right_now_time.getDate()-gig_time.getDate()<=1)
   {
@@ -49,12 +51,13 @@ function calc_refund_price( gig_time, ticket_price, right_now_time){
         refund_price=ticket_price;
     }
 
-    return refund_price;
+    cb(refund_price);
 }
 
-function refund_ticket(ticket_id, gig_index, gig_name, gig_date, gig_venue, gig_time, section_id, row_id, seat_id, ticket_price, right_now_time){
+function refund_ticket(ticket_id, gig_index, gig_name, gig_datetime, gig_venue, gig_time, section_id, row_id, seat_id, ticket_price, right_now_time, callback){
 
-    if(calc_refund_price(gig_time, ticket_price, right_now_time)!=-1)
+    calc_refund_price(gig_time, ticket_price, right_now_time, function(refund_price){
+    if (refund_price!=-1)
     {
         var sql = "SELECT gig_organizer_index FROM gig WHERE gig_index=?";
         connection.query(sql, gig_index, function (err, res){
@@ -64,42 +67,49 @@ function refund_ticket(ticket_id, gig_index, gig_name, gig_date, gig_venue, gig_
                     if (response.error == null){
                         var notice="At time" + right_now_time.toString() + 'has successfully refunded \n'
                                     + ticket_id.toString() + '. Gig name: ' + gig_name.toString() + '\n at ' + 'Venue : ' + gig_venue.toString()
-                                    + '\n Time : ' + gig_time.toString() + '\n Section/Row/Seat' + section_id.toString() + row_id.toString() + seat_id.toString();
+                                    + '\n Date Time : ' + gig_datetime.toString() + '\n Section/Row/Seat' + section_id.toString() + row_id.toString() + seat_id.toString();
                     connection.query("INSERT INTO notification SET ?;", {
                        notification_buyer_index: id,
                        notice_buyer_text: notice,
                     });
                     console.log("refund success!");
+                    callback(true);
                     }
                 }) 
             }
             else {
                 console.log("failed refund");
-                throw err;
+                callback(false);
             }
         });
     }
     else
     {
-        console.log("failed refund");
-        throw err;
+        console.log("refund -1");
+        callback(false);
     }
-}
+});
 
-router.post('/refund', function(req, res, next) {
+router.post('/refund', function(req, res) {
     async.series(
         [
             function (callback) {
                 refund_ticket(req.body.ticket_id, req.body.gig_name, req.body.gig_date, req.body.gig_venue, req.body.gig_time,
-                    req.body.section_id, req.body.row_id, req.body.seat_id, req.body.ticket_price, req.body.right_now_time, function (my_tickets) {
-                        callback(null, my_tickets);
-                    });
+                    req.body.section_id, req.body.row_id, req.body.seat_id, req.body.ticket_price, req.body.right_now_time, function (result) {
+                        if(result==true){
+                        callback(true);
+                        }else{
+                            callback(false);
+                        }
+                });
             }
         ],
-        function (err, results) {
-            res.render('mypage', {
-                myinfo: results[0]
-            });
+        function (result) {
+            if(result==true){
+                res.redirect('/mypage');
+            }else{
+                res.redirect('/');
+            }
         }
     );
 });

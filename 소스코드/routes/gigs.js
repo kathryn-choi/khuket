@@ -124,12 +124,11 @@ function get_purchaselist(gig_index, section_id, seats_index, cb) {
             }
         });
     }
+
     console.log(10);
     console.log("count " , count);
-    var emptyarray=[];
-    return emptyarray;
-    
-
+  
+   cb(false,[]);
 }
 function get_seat_array(seats){
     return seats;
@@ -282,7 +281,7 @@ router.post('/purchaselist', function(req, res, next) {
         get_purchaselist(req.body.gig_index, req.body.section_id, req.body.seat_index, function (result, seatlist) {
             if (result == true) {
                 console.log(seatlist);
-                callback(result,seatlist);
+                callback(seatlist);
             } else {
                 console.log('getting gigsale info failed');
                 res.redirect('/');
@@ -290,7 +289,7 @@ router.post('/purchaselist', function(req, res, next) {
         })
     }
     ],
-    function (result, seatlist) {
+    function (seatlist) {
         console.log(seatlist);
         res.render('gigs/gigpurchaselist', {
             gigsale: seatlist,

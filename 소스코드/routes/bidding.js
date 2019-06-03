@@ -1,4 +1,3 @@
-
 var express = require('express');
 var async = require('async');
 var router = express.Router();
@@ -6,47 +5,45 @@ var network = require('../ticketing-system/network.js');
 
 
 //alert 직전 비더
-function alert_former_bidder(bidding_index) {
+function alert_former_bidder(bidding_index, cb) {
     var sqlquery = "SELECT  * FROM bidding b WHERE b.bidding_index = ?";
     connection.query(sqlquery, bidding_index, function (err, rows) {
         if (!err) {
             var result=rows;
+            var buyer_id= result[0].bidder_id;
             if (result[0].bidder_id !== '-1') {
                 network.get_ticket_info_by_id(res.bidder_id, res.ticket_id).then((response) => {
                     var ticket = response;
+                    var ticket_id=ticket.ticket_id;
                     var gig_venue = ticket.gig_venue;
                     var gig_name =  ticket.gig_name;
-                    var gig_time =  ticket.gig_time;
+                    var gig_datetime =  ticket.gig_datetime;
                     var section_id= ticket.section_id;
                     var row_id=ticket.row_id;
                     var seat_id=ticket.seat_id;
-                    var notice= res.ticket_id.toString() + '. Gig name: ' + gig_name.toString() + '\n at ' + 'Venue : ' + gig_venue.toString()
-                        + '\n Time : ' + gig_time.toString() + '\n Section/Row/Seat' + section_id.toString() + row_id.toString() + seat_id.toString();
+                    var notice= ticket_id.toString() + '. Gig name: ' + gig_name.toString() + '\n at ' + 'Venue : ' + gig_venue.toString()
+                        + '\n Time : ' + gig_datetime.toString() + '\n Section/Row/Seat' + section_id.toString() + row_id.toString() + seat_id.toString();
                     //var notice="you have been overbid!"; // 티켓 정보 추가할 예정
                     connection.query("INSERT INTO notification SET ?;", {
-                        notice_buyer_id: result[0].bidder_id,
+                        notice_buyer_id: buyer_id,
                         notice_buyer_text: notice,
                     });
+                   
                 });
-                
-               
 
             } else {
                 //직전 비더가 없는 관계로 notice 줄 필요 없음
-
             }
+            cb(true);
         } else {
           console.log("select failed");
-          return false;
-
+          cb(false);
         }
 
     });
 }
 
-
 router.post('/', function(req, res, next) {
-    if(!req.isAuthenticated()){
         var sqlquery = 'SELECT * FROM bidding b WHERE bidding_index=?';
         var reselling_list = new Array();
         connection.query(sqlquery, req.body.bidding_index, function (err, rows) {
@@ -61,33 +58,10 @@ router.post('/', function(req, res, next) {
                 //throw err;
             }
         });
-    }else{
-        var sqlquery = 'SELECT * FROM bidding b WHERE bidding_index=?';
-        var reselling_list = new Array();
-        connection.query(sqlquery, req.body.bidding_index, function (err, rows) {
-            if (!err) {
-                reselling_list = rows;
-                console.log(reselling_list);
-                res.render('bidding', {user_id : req.user.user_id, bidding_index :req.body.bidding_index, current_price : reselling_list[0].current_price, max_price: reselling_list[0].max_price});
-            } else {
-                console.log('내 정보를 가져오는데 실패했습니다!');
-                res.redirect('back');
-                //throw err;
-            }
-        });
-    }
+    
 });
 
-//새로운 참여자로 인한 비딩 수정
-router.post('/add_bidding', function (req, res, next) {
-    var bidding_index = req.body.bidding_index;
-    var bidder_id = req.body.bidder_id;
-    var bidder_bidding_price = req.body.bidder_bidding_price;
-
-    console.log("bidding_index : "+bidding_index);
-    console.log("bidder_id :" + bidder_id);
-    console.log("bidder_bidding_price" + bidder_bidding_price);
-
+function addbidding(bidding_index, bidder_id, bidder_bidding_price, cb){
     var current_bidding_info=new Array();
     var sqlquery = "SELECT  * FROM bidding b WHERE b.bidding_index = ?";
     connection.query(sqlquery,bidding_index, function (err, rows) {
@@ -104,14 +78,18 @@ router.post('/add_bidding', function (req, res, next) {
                     connection.query(sql, [bidder_bidding_price, bidder_id, bidding_index], function (err) {
                         if (err) {
                             console.log("updating failed");
-                            throw err;
+                            cb(fasle, null);
                         }
                         else {
                             console.log("비딩 정보 수정완료");
+                            alert_former_bidder(bidding_index, function(result){
+                                if(result==true){
+                                    console.log("notice update true")
+                                    cb(true, bidding_index);
+                                }
+                            });
                         }
                     });
-                    alert_former_bidder(bidding_index);
-                    res.redirect('http://localhost:3000/reselling');
                 }
             }
             else{
@@ -123,7 +101,42 @@ router.post('/add_bidding', function (req, res, next) {
             throw err;
         }
     });
+}
 
+//새로운 참여자로 인한 비딩 수정
+router.post('/add_bidding', function (req, res, next) {
+    var bidding_index = req.body.bidding_index;
+    var bidder_id = req.body.bidder_id;
+    var bidder_bidding_price = req.body.bidder_bidding_price;
+
+    console.log("bidding_index : "+bidding_index);
+    console.log("bidder_id :" + bidder_id);
+    console.log("bidder_bidding_price" + bidder_bidding_price);
+    async.series(
+        [
+            function (callback) {
+            addbidding(bidding_index, bidder_id, bidder_bidding_price, function(result, bidding_index){
+                if(result==true){
+                    callback(true);
+                }else{
+                    callback(false);
+                }
+            });
+            }
+        ],
+        function (result) {
+            if(result==true){
+            res.render('reselling', {
+                reselling_list: results[0],
+                session : session
+                });
+            }else{
+                console.log("add bidding failed");
+                res.redirect('back');
+            }
+        }
+    );
+});
 
 
     //비딩 가능한지 여부 판별하기
@@ -147,7 +160,7 @@ router.post('/add_bidding', function (req, res, next) {
     } else {
         console.log("비딩 불가!");
         res.render('reselling');
-    }*/
-});
+    }
+});*/
 
 module.exports = router;
