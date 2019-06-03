@@ -56,22 +56,38 @@
                         <li><a href="/administrators" >My Page</a></li>
                         <li class="active"><a href="/gigs">Gigs</a></li>
                         <li><a href="/users/logout" >Logout</a></li>
+                        <li><br><form method=post action ="/gigs/search">
+                            <input type="text" name="gig_name">
+                            <input type="submit" value="검색">
+                        </form></li>
                     <% } else if(session.organizer_id) { %>
                         <li><a href="/">Home</a></li>
                         <li><a href="/organizers" >My Page</a></li>
                         <li class="active"><a href="/gigs">Gigs</a></li>
                         <li><a href="/organizers/add_gig" >Add Gig</a></li>
                         <li><a href="/users/logout" >Logout</a></li>
+                        <li><br><form method=post action ="/gigs/search">
+                            <input type="text" name="gig_name">
+                            <input type="submit" value="검색">
+                        </form></li>
                     <% } else if(session.buyer_id) { %>
                         <li><a href="/">Home</a></li>
                         <li><a href="/mypage">My Page</a></li>
                         <li class="active"><a href="/gigs">Gigs</a></li>
                         <li><a href="/reselling">Reselling</a></li>
                         <li><a href="/users/logout">Logout</a></li>
+                        <li><br><form method=post action ="/gigs/search">
+                            <input type="text" name="gig_name">
+                            <input type="submit" value="검색">
+                        </form></li>
                     <% } else { %>
                         <li><a href="/">Home</a></li>
                         <li class="active"><a href="/gigs">Gigs</a></li>
                         <li><a href="/buyers/login" >Login</a></li>
+                        <li><br><form method=post action ="/gigs/search">
+                            <input type="text" name="gig_name">
+                            <input type="submit" value="검색">
+                        </form></li>
                     <% } %>
                 </ul>
             </div><!--/.nav-collapse -->

@@ -55,6 +55,10 @@
                         <li><a href="/gigs">Gigs</a></li>
                         <li><a href="/reselling">Reselling</a></li>
                         <li><a href="/users/logout">Logout</a></li>
+                        <li><br><form method=post action ="/gigs/search">
+                            <input type="text" name="gig_name">
+                            <input type="submit" value="검색">
+                        </form></li>
                     <% } else{ %>
                         <meta http-equiv="refresh" content="0;url=/buyers/login">
                     <% } %>
@@ -64,22 +68,6 @@
     </nav>
 </section>
 <!-- End menu -->
-<!-- Start search box -->
-<div id="mu-search">
-    <div class="mu-search-area">
-        <button class="mu-search-close"><span class="fa fa-close"></span></button>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <form class="mu-search-form">
-                        <input type="search" placeholder="Type Your Keyword(s) & Hit Enter">
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- End search box -->
 <!-- Page breadcrumb -->
 <section id="mu-page-breadcrumb">
     <div class="container">

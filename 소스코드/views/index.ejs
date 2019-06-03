@@ -28,7 +28,7 @@
     <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,400italic,300,300italic,500,700' rel='stylesheet' type='text/css'>
 
-    <title>Ticketing Service</title>
+    <title>KHUKET</title>
     <script src="http://developers.kakao.com/sdk/js/kakao.min.js"></script>
 </head>
 <body>
@@ -43,16 +43,9 @@
         <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <!-- FOR MOBILE VIEW COLLAPSED BUTTON -->
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
                     <!-- LOGO -->
                     <!-- TEXT BASED LOGO -->
-                    <a class="navbar-brand" href="/"><span><img src="assets/img/logo.png"> KHUKET</span></a>
+                        <a class="navbar-brand" href="/"><span><img src="assets/img/logo.png"> KHUKET</span></a>
                     <!-- IMG BASED LOGO  -->
                     <!-- <a class="navbar-brand" href="index.html"><img src="assets/img/logo.png" alt="logo"></a> -->
                 </div>
@@ -64,26 +57,38 @@
                             <li><a href="/administrators" >My Page</a></li>
                             <li><a href="/gigs">Gigs</a></li>
                             <li><a href="/users/logout" >Logout</a></li>
-                            <li><a href="#" id="mu-search-icon"><i class="fa fa-search"></i></a></li>
+                            <li><br><form method=post action ="/gigs/search">
+                                <input type="text" name="gig_name">
+                                <input type="submit" value="검색">
+                            </form></li>
                         <% } else if(session.organizer_id) { %>
                             <li class="active"><a href="/">Home</a></li>
                             <li><a href="/organizers" >My Page</a></li>
                             <li><a href="/gigs">Gigs</a></li>
                             <li><a href="/organizers/add_gig" >Add Gig</a></li>
                             <li><a href="/users/logout" >Logout</a></li>
-                            <li><a href="#" id="mu-search-icon"><i class="fa fa-search"></i></a></li>
+                            <li><br><form method=post action ="/gigs/search">
+                                <input type="text" name="gig_name">
+                                <input type="submit" value="검색">
+                            </form></li>
                         <% } else if(session.buyer_id) { %>
                             <li class="active"><a href="/">Home</a></li>
                             <li><a href="/mypage">My Page</a></li>
                             <li><a href="/gigs">Gigs</a></li>
                             <li><a href="/reselling">Reselling</a></li>
                             <li><a href="/users/logout">Logout</a></li>
-                            <li><a href="#" id="mu-search-icon"><i class="fa fa-search"></i></a></li>
+                            <li><br><form method=post action ="/gigs/search">
+                                <input type="text" name="gig_name">
+                                <input type="submit" value="검색">
+                            </form></li>
                         <% } else { %>
                             <li class="active"><a href="/">Home</a></li>
                             <li><a href="/gigs">Gigs</a></li>
                             <li><a href="/buyers/login" >Login</a></li>
-                            <li><a href="#" id="mu-search-icon"><i class="fa fa-search"></i></a></li>
+                            <li><br><form method=post action ="/gigs/search">
+                                <input type="text" name="gig_name">
+                                <input type="submit" value="검색">
+                            </form></li>
                         <% } %>    
                     </ul>
                 </div><!--/.nav-collapse -->
@@ -91,44 +96,20 @@
         </nav>
     </section>
     <!-- End menu -->
-    <!-- Start search box -->
-    <div id="mu-search">
-        <div class="mu-search-area">      
-        <button class="mu-search-close"><span class="fa fa-close"></span></button>
-        <div class="container">
-            <div class="row">
-            <div class="col-md-12">            
-                <form method=post action ="/gigs/search">
-                <!--<input type="search" placeholder="Type Your Keyword(s) & Hit Enter">-->
-                <input type="text" name="gig_name">
-                <input type="submit">
-                </form>
-            </div>
-            </div>
-        </div>
-        </div>
-    </div>
-    <form method=post action ="/gigs/search">
-        <!--<input type="search" placeholder="Type Your Keyword(s) & Hit Enter">-->
-        <input type="text" name="gig_name">
-        <input type="submit">
-        </form>
-    <!-- End search box -->
     <!-- Start Slider -->
     <section id="mu-slider">
         <!-- Start single slider item -->
         <div class="mu-slider-single">
             <div class="mu-slider-img">
                 <figure>
-                    <img src="assets/img/slider/1.png" alt="img">
+                    <img src="assets/img/slider/1.jpg" alt="img">
                 </figure>
             </div>
             <div class="mu-slider-content">
-                <h4>Welcome To Ticketing Service</h4>
+                <h4>Welcome To KHUKET !</h4>
                 <span></span>
                 <h2>Blockchain Based Ticketing System
                     to Prevent Illegal and Premium Tickets</h2>
-                <p>We used Hyperledger Fabric</p>
             </div>
         </div>
         <!-- Start single slider item -->
@@ -136,15 +117,14 @@
         <div class="mu-slider-single">
             <div class="mu-slider-img">
                 <figure>
-                    <img src="assets/img/slider/2.png" alt="img">
+                    <img src="assets/img/slider/2.jpg" alt="img">
                 </figure>
             </div>
             <div class="mu-slider-content">
-                <h4>Welcome To Ticketing Service</h4>
+                <h4>Welcome To KHUKET !</h4>
                 <span></span>
                 <h2>Blockchain Based Ticketing System
                     to Prevent Illegal and Premium Tickets</h2>
-                <p>We used Hyperledger Composer</p>
             </div>
         </div>
         <!-- Start single slider item -->
@@ -152,15 +132,14 @@
         <div class="mu-slider-single">
             <div class="mu-slider-img">
                 <figure>
-                    <img src="assets/img/slider/3.png" alt="img">
+                    <img src="assets/img/slider/3.jpg" alt="img">
                 </figure>
             </div>
             <div class="mu-slider-content">
-                <h4>Welcome To Ticketing Service</h4>
+                <h4>Welcome To KHUKET !</h4>
                 <span></span>
                 <h2>Blockchain Based Ticketing System
                     to Prevent Illegal and Premium Tickets</h2>
-                <p>We used Node.js</p>
             </div>
         </div>
         <!-- Start single slider item -->

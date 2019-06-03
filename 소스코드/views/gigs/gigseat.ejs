@@ -57,6 +57,10 @@
                         <li class="active"><a href="/gigs">Gigs</a></li>
                         <li><a href="/reselling">Reselling</a></li>
                         <li><a href="/users/logout">Logout</a></li>
+                        <li><br><form method=post action ="/gigs/search">
+                            <input type="text" name="gig_name">
+                            <input type="submit" value="검색">
+                        </form></li>
                     <% } else { %>
                         <meta http-equiv="refresh" content="0; url=/buyers/login">
                     <% } %>
