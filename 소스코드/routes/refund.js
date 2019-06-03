@@ -55,7 +55,6 @@ function calc_refund_price( gig_time, ticket_price, right_now_time, cb){
 }
 
 function refund_ticket(ticket_id, gig_index, gig_name, gig_datetime, gig_venue, gig_time, section_id, row_id, seat_id, ticket_price, right_now_time, callback){
-
     calc_refund_price(gig_time, ticket_price, right_now_time, function(refund_price){
     if (refund_price!=-1)
     {
@@ -87,9 +86,8 @@ function refund_ticket(ticket_id, gig_index, gig_name, gig_datetime, gig_venue, 
         console.log("refund -1");
         callback(false);
     }
-});
-
-}
+    })
+};
 
 router.post('/refund', function(req, res) {
     async.series(

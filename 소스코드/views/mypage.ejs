@@ -102,10 +102,10 @@
                         <div class="col-md-9">
                             <!-- start course content container -->
                             <div class="mu-course-container">
-                                <div class="row">
-                                    <div class="col-md-6 col-sm-6">
+                                <div class="row"> 
                                     <%if(mytickets[0].gig_name != null ) {%>
                                         <% for(var i=0; i<(mytickets).length; i++){%>
+                                        <div class="col-md-6 col-sm-6">
                                         <div class="mu-latest-course-single">
                                             <figure class="mu-latest-course-img">
                                                 <a href="#"><img src="assets/img/courses/1.jpg" alt="img"></a>
@@ -119,11 +119,26 @@
                                                 Gig Name : <%=mytickets[i].gig_name %> <br>
                                                 Gig Venue: <%=mytickets[i].gig_venue%> <br>
                                                 Gig Date Time : <%= mytickets[i].gig_datetime%> <br>
+                                                Section ID : <%= mytickets[i].section_id%> <br>
+                                                Row ID : <%= mytickets[i].row_id%> <br>
+                                                Price : <%= mytickets[i].ticket_price%> <br>
                                                 <p>Ticket ID : <%= mytickets[i].ticket_id%> </p>
                                                 <div class="mu-latest-course-single-contbottom">
                                                     <a class="mu-course-details" href="/mypage/<%=mytickets[i].ticket_id%>">Details</a>
                                                     <span class="mu-course-price" href="#"><%=mytickets[i].ticket_price%></span>
                                                 </div>
+                                
+                                                Resell Ticket:
+                                                <!--id, starting_time,  current_price, starting_price, ticket_id, end_time, cb-->
+                                                <form method="POST" action="/mypage/resell">
+                                                    <input type="hidden" name="current_price" value="<%= mytickets[i].ticket_price%>">
+                                                    <input type="hidden" name="ticket_id" value="<%= mytickets[i].ticket_id%>">
+                                                    <input type="datetime-local" name="starting_time"> Starting Time <br>
+                                                    <input type="datetime-local" name="end_time"> End Time <br>
+                                                    <input type="number" name="starting_price"> starting_price <br>
+                                                    <input type="submit" value="Resell">
+                                                </form>
+                                          
                                             </div>
                                         </div>
                                     </div>
@@ -131,8 +146,9 @@
                                     <%} else {%>
                                         NO!!!
                                         <%}%>
+                                    
                             <!-- end course content container -->
-                        
+                    
                         </div>
                         <div class="col-md-6">
                             <!-- start sidebar -->
@@ -144,9 +160,9 @@
                                         <form action="/mypage/update" method="post">
                                         <li>이름 : <%=myinfo[0].buyer_name %></li>
                                         <li>아이디 : <%= myinfo[0].buyer_id%></li>
-                                        <li>이메일 : <input name="buyer_email" value="<%= myinfo[0].buyer_email %>"></li>
-                                        <li>연락처: <input name="buyer_contact" value="<%=myinfo[0].buyer_contact %>"></li>
-                                        <li>계좌 : <input name="buyer_account" value="<%=myinfo[0].buyer_account %>"></li>
+                                        <li>이메일 : &nbsp; <input name="buyer_email" value="<%= myinfo[0].buyer_email %>"></li>
+                                        <li>연락처: &nbsp;&nbsp;&nbsp;<input name="buyer_contact" value="<%=myinfo[0].buyer_contact %>"></li>
+                                        <li>계좌 : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="buyer_account" value="<%=myinfo[0].buyer_account %>"></li>
                                             <button type="submit">Submit</button>
                                         </form>
                                     </ul>

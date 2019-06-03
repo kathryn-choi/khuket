@@ -22,14 +22,17 @@ function get_my_info(id,cb){
                     myinfo=my_registration_info.concat(my_notifications);
                     get_my_tickets(id, function(result, ticketlist){
                         if(result==true){
-                            mytickets=ticketlist;
+                           /* console.log(123123+ ticketlist);
+                            var t=JSON.stringify(ticketlist);
+                            console.log(111+t);*/
+                            cb(true, myinfo,ticketlist);
                         }else {
-                            mytickets=[];
+                            cb(false, myinfo, []);
                         }
                     });
                     console.log(myinfo);
                     console.log(mytickets.length);
-                    cb(true, myinfo, mytickets);
+                   
                 } else {
                     console.log("내 정보를 가져오는데 실패했습니다!");
                     cb(false, [], []);
@@ -55,33 +58,47 @@ function get_my_tickets(buyer_index,cb){
             var get_my_tickets = response;
             var my_tickets=new Array(); 
             for(i=0; i<get_my_tickets.length; i++) {
+                var ticket={
+                    gig_id: '',
+                    gig_name: '',
+                    gig_datetime: '',
+                    gig_venue: '',
+                    seat_id : '',
+                    section_id: '',
+                    row_id: '',
+                    ticket_id: '',
+                    ticket_price: '',
+                }
+                my_tickets.push(ticket);
+            }
+            for(i=0; i<get_my_tickets.length; i++) {
                 console.log(get_my_tickets[i])
                 var stringfy_tickets=JSON.stringify(get_my_tickets[i]);
                 var obj =  JSON.parse(stringfy_tickets);
                for( var key in obj ) {
-                   console.log(key + '=>' + obj[key] );
+                   console.log(i + " " + key + '=>' + obj[key] );
                    if(key == 'gig_id'){
-                my_tickets[i].gig_id=obj[key];
+                my_tickets[i].gig_id=obj[key].toString();
                    }
                    else if(key == 'gig_name'){
-                    my_tickets[i].gig_name=obj[key];
+                    my_tickets[i].gig_name=obj[key].toString();
                        }
                    else if(key == 'gig_datetime'){
-                my_tickets[i].gig_datetime=obj[key];
+                my_tickets[i].gig_datetime=obj[key].toString();
                    }
                     else if(key == 'gig_venue'){
-                my_tickets[i].gig_venue=obj[key];
+                my_tickets[i].gig_venue=obj[key].toString();
                    }
                  else if (key== 'seat_id'){
-                    my_tickets[i].seat_id=obj[key];
+                    my_tickets[i].seat_id=obj[key].toString();
                 }else if (key== 'section_id'){
-                    my_tickets[i].section_id=obj[key];
+                    my_tickets[i].section_id=obj[key].toString();
                 }else if (key== 'ticket_price'){
-                    my_tickets[i].row_id=obj[key];
+                    my_tickets[i].ticket_price=obj[key].toString();
                 }else if (key== 'row_id'){
-                    my_tickets[i].seat_id=obj[key];
+                    my_tickets[i].row_id=obj[key].toString();
                 }else if (key== 'ticket_id'){
-                    my_tickets[i].ticket_id=obj[key];
+                    my_tickets[i].ticket_id=obj[key].toString();
                 }
               }
             }
@@ -106,24 +123,24 @@ function get_ticket_detail(user_id, ticket_id, cb){
            for( var key in obj ) {
                console.log(key + '=>' + obj[key] );
                if(key == 'gig_id'){
-                ticketinfo[i].gig_id=obj[key];
+                ticketinfo[i].gig_id=obj[key].toString();
                }else if(key == 'gig_name'){
-                ticketinfo[i].gig_name=obj[key];
+                ticketinfo[i].gig_name=obj[key].toString();
                    }
                else if(key == 'gig_datetime'){
-                ticketinfo[i].gig_datetime=obj[key];
+                ticketinfo[i].gig_datetime=obj[key].toString();
                }
                 else if(key == 'gig_venue'){
-                ticketinfo[i].gig_venue=obj[key];
+                ticketinfo[i].gig_venue=obj[key].toString();
                }
              else if (key== 'seat_id'){
-                ticketinfo[i].seat_id=obj[key];
+                ticketinfo[i].seat_id=obj[key].toString();
             }else if (key== 'section_id'){
-                ticketinfo[i].section_id=obj[key];
+                ticketinfo[i].section_id=obj[key].toString();
             }else if (key== 'ticket_price'){
-                ticketinfo[i].row_id=obj[key];
+                ticketinfo[i].row_id=obj[key].toString();
             }else if (key== 'row_id'){
-                ticketinfo[i].seat_id=obj[key];
+                ticketinfo[i].seat_id=obj[key].toString();
             }
           }
           console.log(ticketinfo);
@@ -227,18 +244,37 @@ router.get('/', function(req, res, next) {
                 function(callback){
                     get_my_info(req.session.buyer_id, function (result,myinfo_list, myticketlist) {
                         if(result==true){
-                        callback(myinfo_list, myticketlist);}else{
+                            var stringfy_tickets=JSON.stringify(myticketlist);
+                            console.log("stringify" + stringfy_tickets);
+                        callback(myinfo_list, stringfy_tickets);
+                        }else{
                             throw err;
                         }
                     });
                 }
             ],
             function(myinfo, myticket){
-                console.log(myticket);
-                console.log("MyInfo1:",myinfo)
+                console.log("myticket "+ myticket);
+                console.log("myticket typeof"+typeof(myticket));
+                console.log ('-1'+ myticket[0] );
+                var my_ticket = JSON.parse(myticket[0])
+                //myticket = myticket[0].split(']')[0]
+                //myticket = myticket.split('[')[1]
+                var _myticket = []
+                console.log(my_ticket)
+                /*for(var i =0; i<my_ticket.length; i++){
+                    console.log(my_ticket[i])
+                    var temp = JSON.parse(my_ticket[i])
+                    _myticket.push(temp)
+                }
+                
+                console.log(_myticket)
+
+                console.log (my_ticket);*/
+                console.log("MyInfo1:",myinfo);
                 res.render('mypage', {
                     myinfo: myinfo,
-                    mytickets: myticket,
+                    mytickets: my_ticket,
                     user_id:req.session.buyer_id,
                     session : session
                 });

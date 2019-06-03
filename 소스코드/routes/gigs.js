@@ -60,8 +60,6 @@ function get_gigsection_info(gig_index, callback) {
                             callback(false, null, total_seat_num);
                         }
                     });
-            //console.log(gigsale_info);
-            //cb(gigsale_info);
         }else{
             console.log("gig type list를 가져오는데 실패했습니다!");
             throw err;
@@ -90,10 +88,8 @@ function get_purchaselist(gig_index, section_id, seats_index, cb) {
     console.log("get purchaselist");
     var seats=new Array();
     console.log("length" + seats_index.length);
-
     var count=0;
     var length = seats_index.length
-
     for (var i=0; i<seats_index.length; i++) {
         var seat_index=seats_index[i];
         var sqlquery = "SELECT  * FROM seats WHERE gig_index=? AND section_id=? AND seat_index=?";
@@ -124,10 +120,8 @@ function get_purchaselist(gig_index, section_id, seats_index, cb) {
             }
         });
     }
-
     console.log(10);
     console.log("count " , count);
-  
     var emptyarray=[];
     return emptyarray;
 }
@@ -296,7 +290,7 @@ router.post('/purchaselist', function(req, res, next) {
     ],
 
     function (result, seatlist) {
-        console.log(seatlist[0]);
+        console.log(seatlist);
         res.render('gigs/gigpurchaselist', {
             gigsale: seatlist[0],
             session : session

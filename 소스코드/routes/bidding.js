@@ -27,6 +27,7 @@ function alert_former_bidder(bidding_index, cb) {
                         notice_buyer_id: buyer_id,
                         notice_buyer_text: notice,
                     });
+                   
                 });
 
             } else {
@@ -157,5 +158,7 @@ router.post('/add_bidding', function (req, res, next) {
     } else {
         console.log("비딩 불가!");
         res.render('reselling');
-    }*/
+    }
+});*/
+
 module.exports = router;
