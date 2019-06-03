@@ -221,6 +221,7 @@ router.post('/update', function(req, res, next) {
 });
 
 router.get('/', function(req, res, next) {
+    let session = req.session;
         async.series(
             [
                 function(callback){
@@ -239,6 +240,7 @@ router.get('/', function(req, res, next) {
                     myinfo: myinfo,
                     mytickets: myticket,
                     user_id:req.session.buyer_id,
+                    session : session
                 });
             }
         );

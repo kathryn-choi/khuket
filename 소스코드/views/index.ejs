@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Ticketing Service | Home</title>
+    <title>KHUKET | Home</title>
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="assets/img/favicon1.ico" type="image/x-icon">
@@ -52,7 +52,7 @@
                     </button>
                     <!-- LOGO -->
                     <!-- TEXT BASED LOGO -->
-                    <a class="navbar-brand" href="/"><span><img src="assets/img/logo.png"> Ticketing Service</span></a>
+                    <a class="navbar-brand" href="/"><span><img src="assets/img/logo.png"> KHUKET</span></a>
                     <!-- IMG BASED LOGO  -->
                     <!-- <a class="navbar-brand" href="index.html"><img src="assets/img/logo.png" alt="logo"></a> -->
                 </div>
@@ -64,22 +64,26 @@
                             <li><a href="/administrators" >My Page</a></li>
                             <li><a href="/gigs">Gigs</a></li>
                             <li><a href="/users/logout" >Logout</a></li>
+                            <li><a href="#" id="mu-search-icon"><i class="fa fa-search"></i></a></li>
                         <% } else if(session.organizer_id) { %>
                             <li class="active"><a href="/">Home</a></li>
                             <li><a href="/organizers" >My Page</a></li>
                             <li><a href="/gigs">Gigs</a></li>
                             <li><a href="/organizers/add_gig" >Add Gig</a></li>
                             <li><a href="/users/logout" >Logout</a></li>
+                            <li><a href="#" id="mu-search-icon"><i class="fa fa-search"></i></a></li>
                         <% } else if(session.buyer_id) { %>
                             <li class="active"><a href="/">Home</a></li>
                             <li><a href="/mypage">My Page</a></li>
                             <li><a href="/gigs">Gigs</a></li>
                             <li><a href="/reselling">Reselling</a></li>
                             <li><a href="/users/logout">Logout</a></li>
+                            <li><a href="#" id="mu-search-icon"><i class="fa fa-search"></i></a></li>
                         <% } else { %>
                             <li class="active"><a href="/">Home</a></li>
                             <li><a href="/gigs">Gigs</a></li>
                             <li><a href="/buyers/login" >Login</a></li>
+                            <li><a href="#" id="mu-search-icon"><i class="fa fa-search"></i></a></li>
                         <% } %>    
                     </ul>
                 </div><!--/.nav-collapse -->
@@ -87,6 +91,22 @@
         </nav>
     </section>
     <!-- End menu -->
+    <!-- Start search box -->
+    <div id="mu-search">
+        <div class="mu-search-area">      
+        <button class="mu-search-close"><span class="fa fa-close"></span></button>
+        <div class="container">
+            <div class="row">
+            <div class="col-md-12">            
+                <form class="mu-search-form">
+                <input type="search" placeholder="Type Your Keyword(s) & Hit Enter">
+                </form>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    <!-- End search box -->
     <!-- Start Slider -->
     <section id="mu-slider">
         <!-- Start single slider item -->
