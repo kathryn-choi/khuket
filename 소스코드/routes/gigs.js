@@ -136,7 +136,7 @@ function get_seat_array(seats){
 }
 
 //purchase tickets
-function purchase_tickets(user_id, seats, cb) {
+async function purchase_tickets(user_id, seats, cb) {
     var count=0;
     var length=seats.length;
     var gig_index = seats[0].gig_index;
@@ -145,35 +145,36 @@ function purchase_tickets(user_id, seats, cb) {
         var sqlquery = "SELECT  * FROM seats  WHERE gig_index=? AND seat_index=?";
         var values = [gig_index, seats[i].seat_index];
         var section_id=seats[i].section_id;
-        var seat_index=seats[i].seat_index;
-        connection.query(sqlquery, values, function (err, rows) {
-            if (!err) {
-                //get ticket_id by gig_index,section_id, seat_index
-                var ticket_id=gig_index+'/'+section_id + "/" + seat_index;
-                //change ticket owner to userid
-                console.log("user_id:",user_id)
-                network.update_ticket_owner(user_id, ticket_id)
-                    .then((response) => {
-                        //return error if error in response
-                        if (response.error != null) {
-                            console.log("network update ticket owner failed");
-                            throw err;
-                        } else {
-                            //else return success
-                            console.log("return true complete")
-                            count=count+1;
-                        }
-                    })
-                    .then((response) =>{
-                        if (count == length) {
-                            cb(true);
-                        }
-                    })
-            } else {
-                console.log("purchase tickets failed!");
-                cb(false);
-            }
-        });
+        var seat_row_index=seats[i].seat_row_index;
+        const query = util.promisify(connection.query).bind(connection);
+        rows = await query(sqlquery, values)
+        if (rows.length != 0) {
+            //get ticket_id by gig_index,section_id, seat_index
+            var ticket_id=gig_index+'/'+section_id + "/" + seat_row_index;
+            //change ticket owner to userid
+            console.log("user_id:",user_id)
+            console.log("ticket_id:",ticket_id)
+            network.update_ticket_owner(user_id, ticket_id)
+                .then((response) => {
+                    //return error if error in response
+                    if (response.error != null) {
+                        console.log("network update ticket owner failed");
+                        cb(false);
+                    } else {
+                        //else return success
+                        console.log("return true complete")
+                        count=count+1;
+                    }
+                })
+                .then((response) =>{
+                    if (count == length) {
+                        cb(true);
+                    }
+                })
+        } else {
+            console.log("purchase tickets failed!");
+            cb(false);
+        }
     }
 }
 //get gigs
