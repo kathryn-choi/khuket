@@ -322,5 +322,25 @@ router.post('/purchase', function(req, res, next) {
     }
     );
 });
+//gig search
+router.post('/search', function(req, res, next) {
+    var gig_name = req.body.gig_name;
+    var sqlquery = "SELECT  * FROM gigs WHERE gig_name=? ";
+    console.log(5);
+    connection.query(sqlquery, [gig_name], function (err, rows) {
+        if (!err) {
+            console.log(6);
+            console.log(rows)
+            res.render('gigs/searchresult',{
+                gig:rows
+            })
+        }
+        else{
+            console.log("connection error!");
+            res.redirect('/');
+        }
+    });
+    
+});
 
 module.exports = router;
