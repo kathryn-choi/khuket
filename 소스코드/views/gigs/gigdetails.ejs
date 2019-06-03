@@ -217,8 +217,13 @@
                                     <div style="width:245px; height:50px; line-height:50px; color:#666;font-size:40px; text-align:center;" id="clock">
                                     </div><br>
                                     <ul class="mu-sidebar-catg">
-                                        <% if(new Date().getFullYear() == gigdetails[0].gig_date_time.getFullYear() && new Date().getMonth() == gigdetails[0].gig_date_time.getMonth() && new Date().getDate()+10 == gigdetails[0].gig_date_time.getDate() && (new Date().getHours() * 3600 + new Date().getMinutes() * 60 + new Date().getSeconds()) >= gigdetails[0].gig_date_time.getHours() * 3600 + gigdetails[0].gig_date_time.getMinutes() * 60 + gigdetails[0].gig_date_time.getSeconds()){ %>
+                                        <!-- 예매 날짜를 지났을 경우 티켓 구매 가능-->
+                                        <% if(new Date().getFullYear() >= gigdetails[0].gig_date_time.getFullYear() && new Date().getMonth() * 31 + new Date().getDate() + 10 > gigdetails[0].gig_date_time.getMonth() * 31 + gigdetails[0].gig_date_time.getDate()) { %>
                                             <li><a href="/gigs/buy/<%=gig_index%>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Buy Ticket!</a></li>
+                                        <!-- 예매 날짜인 경우 예매 시간 이후 티켓 구매 가능-->
+                                        <% } else if(new Date().getMonth() * 31 + new Date().getDate() + 10 == gigdetails[0].gig_date_time.getMonth() * 31 + gigdetails[0].gig_date_time.getDate() && new Date().getHours() * 3600 + new Date().getMinutes() * 60 + new Date().getSeconds() >= gigdetails[0].gig_date_time.getHours() * 3600 + gigdetails[0].gig_date_time.getMinutes() * 60 + gigdetails[0].gig_date_time.getSeconds()) { %>
+                                            <li><a href="/gigs/buy/<%=gig_index%>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Buy Ticket!</a></li>
+                                        <!-- 예매 시간 전 티켓 구매 불가-->
                                         <% } else { %>
                                             <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Buy Ticket!</li>
                                         <% } %>
