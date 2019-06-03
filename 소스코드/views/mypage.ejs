@@ -30,7 +30,6 @@
 </head>
 <body>
 <!-- Start menu -->
-<% if(session.buyer_id){ %>
 <section id="mu-menu">
     <nav class="navbar navbar-default" role="navigation">
         <div class="container">
@@ -50,11 +49,15 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul id="top-menu" class="nav navbar-nav navbar-right main-nav">
-                    <li><a href="/">Home</a></li>
-                    <li class="active"><a href="/mypage">My Page</a></li>
-                    <li><a href="/gigs">Gigs</a></li>
-                    <li><a href="/reselling">Reselling</a></li>
-                    <li><a href="/users/logout">Logout</a></li>
+                    <% if(session.buyer_id){ %>
+                        <li><a href="/">Home</a></li>
+                        <li class="active"><a href="/mypage">My Page</a></li>
+                        <li><a href="/gigs">Gigs</a></li>
+                        <li><a href="/reselling">Reselling</a></li>
+                        <li><a href="/users/logout">Logout</a></li>
+                    <% } else{ %>
+                        <meta http-equiv="refresh" content="0;url=/buyers/login">
+                    <% } %>
                 </ul>
             </div><!--/.nav-collapse -->
         </div>
@@ -176,9 +179,6 @@
         </div>
     </div>
 </section>
-<% } else{ %>
-    <meta http-equiv="refresh" content="0;url=/buyers/login">
-<% } %>
 
 <!-- jQuery library -->
 <script src="assets/js/jquery.min.js"></script>
