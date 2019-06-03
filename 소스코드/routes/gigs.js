@@ -179,7 +179,7 @@ async function purchase_tickets(user_id, seats, cb) {
 }
 //get gigs
 router.get('/', function(req, res, next) {
-   let session = req.session;
+    let session = req.session;
         async.series(
             [
                 function (callback) {
