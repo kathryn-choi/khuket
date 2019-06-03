@@ -13,7 +13,7 @@ function get_reselling_list(cb) {
             connection.query(sqlquery, function (err, rows) {
                 if (!err) {
                     reselling_list = rows;
-                    console.log(reselling_list);
+                    //console.log(reselling_list);
                     cb(true, reselling_list);
                 } else {
                     console.log('내 정보를 가져오는데 실패했습니다!');
@@ -29,44 +29,83 @@ function get_reselling_list(cb) {
 //reselling ticket list info
 function get_reselling_ticket_list_info(cb) {
     var reselling_ticket_list = new Array();
+    var count=0;
    get_reselling_list(function (result, reselling_list) {
         if(result==true){
+            console.log(9 + reselling_list);
            var length=reselling_list.length;
-           var count=0;
+           for(var i=0; i<reselling_list.length; i++){
+            const resell_ticket = {
+                ticket_id: "",
+                section_id: "",
+                row_id: "",
+                seat_id: "",
+                ticket_price: "",
+                gig_index: "",
+                gig_venue: "",
+                gig_name: "",
+                gig_datetime: "",
+                starting_time:"",
+                end_time: "",
+                max_price: "",
+                current_price: "",
+            };
+            reselling_ticket_list.push(resell_ticket);
+        }
            for(var i=0; i<reselling_list.length; i++){
                var ticket_owner_id=reselling_list[i].ticket_owner_id;
                var ticket_id=reselling_list[i].ticket_id;
+               var maxprice=reselling_list[i].max_price;
+               var endtime=reselling_list[i].end_time;
+               var starttime=reselling_list[i].starting_time;
+               var curprice=reselling_list[i].current_price;
                 network.get_ticket_info_by_id(ticket_owner_id, ticket_id).then((response) => {
+                    if (response.error != null) {
+                        console.log("network get ticket info failed");
+                        cb(false, [""]);
+                    } else {
                     var resellticket=response;
-                    const resell_ticket = {
-                        ticket_id: resellticket.ticket_id,
-                        section_id: resellticket.section_id,
-                        row_id: resellticket.row_id,
-                        seat_id: resellticket.seat_id,
-                        ticket_price: resellticket.ticket_price,
-                        gig_index: resellticket.gig_id,
-                        gig_venue: resellticket.gig_venue,
-                        gig_name: resellticket.gig_name,
-                        gig_datetime: resellticket.gig_datetime,
-                        starting_time: reselling_list[i].starting_time,
-                        end_time: reselling_list[i].end_time,
-                        max_price: reselling_list[i].max_price,
-                        current_price: reselling_list[i].current_price,
-                    };
-                    reselling_ticket_list.push(resell_ticket);
+                    var stringfy_tickets=JSON.stringify(resellticket);
+                    var obj =  JSON.parse(stringfy_tickets);
+                    for( var key in obj ) {
+                        console.log(key + '=>' + obj[key] );
+                        if(key == 'gig_id'){
+                            reselling_ticket_list[i].gig_id=obj[key].toString();
+                        }else if(key == 'gig_name'){
+                            reselling_ticket_list[i].gig_name=obj[key].toString();
+                        }else if(key == 'gig_datetime'){
+                            reselling_ticket_list[i].gig_datetime=obj[key].toString();
+                        }else if(key == 'gig_venue'){
+                            reselling_ticket_list[i].gig_venue=obj[key].toString();
+                        }else if (key== 'seat_id'){
+                            reselling_ticket_list[i].seat_id=obj[key].toString();
+                        }else if (key== 'section_id'){
+                            reselling_ticket_list[i].section_id=obj[key].toString();
+                        }else if (key== 'ticket_price'){
+                            reselling_ticket_list[i].ticket_price=obj[key].toString();
+                        }else if (key== 'row_id'){
+                        reselling_ticket_list[i].row_id=obj[key].toString();
+                        }
+                    }
+                    reselling_ticket_list[i].max_price=maxprice;
+                    reselling_ticket_list[i].end_time=endtime;
+                    reselling_ticket_list[i].starting_time=starttime;
+                    reselling_ticket_list[i].current_price=curprice;
                     count=count+1;
-                    console.log(reselling_ticket_list);
                     if(count==length){
+                        console.log("tlist" + reselling_ticket_list);
                         cb(true, reselling_ticket_list);
                     }
+                }
                 });
             }         
         } else {
-            console.log('내 정보를 가져오는데 실패했습니다!');
-            cb(false, null);
+            console.log('query biddings table failed!');
         }
     });
-    cb(false, null);
+    console.log(10);
+    var emptyarray=[];
+    return emptyarray;
 }
 
 //bidding winner가 생겼다고 기존 ticket owner에게 알리기
@@ -153,19 +192,36 @@ function change_ticket_owner(bidding_index,bidder_id, ticket_owner_id, ticket_id
 //끝난 비딩 체크하기
 function check_bidding_over(cb) {
     var current_date = new Date();
-    var right_now_time = current_date.getFullYear() + ' / ' +
-            (current_date.getMonth() + 1) + '/' +
-            current_date.getDate() + ' ' +
-            current_date.getHours() + ':' +
-            current_date.getMinutes() + ':' +
-            current_date.getSeconds();
+    var month=current_date.getMonth()+1; + "-";
+    var year = current_date.getFullYear() + "-";
+    var date=current_date.getDate() + " ";
+    var hour=current_date.getHours();
+    var min=current_date.getMinutes();
+    var sec=current_date.getSeconds();
+        if(month.toString().length!=3){ //month.length ??
+         month=current_date.getMonth() +1;
+            month="0" +month + "-"
+        }
+        if(date.toString().length!=3){
+            date="0" +current_date.getDate() +" "
+        }
+        if(hour.toString().length!=2){
+            hour="0"+hour;
+        }
+        if(min.toString().length!=2){
+            min="0"+min;
+        }
+        if(sec.toString().length!=2){
+            sec="0"+sec;
+        }
+    var right_now_time=year+month+date+ hour +":" + min + ":"+ sec;
     var sqlquery = 'SELECT * FROM biddings b';
     var bidding_list = new Array();
     connection.query(sqlquery, function (err, rows) {
         if (!err) {
             bidding_list=rows;
             for (var i = 0; i < bidding_list.length; i++) {
-                if (right_now_time >= bidding_list[i].end_time || bidding_list[i].max_price === bidding_list[i].current_price) {
+                if (right_now_time >= bidding_list[i].end_time || bidding_list[i].max_price == bidding_list[i].current_price) {
                     console.log('bidding over!');
                     change_ticket_owner(bidding_list[i].bidding_index, bidding_list[i].bidder_id, bidding_list[i].ticket_owner_id, bidding_list[i].ticket_id, bidding_list[i].current_price, function(result){
                        if(result==false){
@@ -174,6 +230,7 @@ function check_bidding_over(cb) {
                     });
                 }
             }
+            cb(true);
         }
         else
         {
@@ -191,7 +248,9 @@ router.get('/', function (req, res, next) {
                 function (callback) {
                     get_reselling_ticket_list_info(function (result, reselling_list) {
                         if(result==true){
-                            callback(reselling_list);
+                            var stringfy_tickets=JSON.stringify(reselling_list);
+                            console.log("stringify" + stringfy_tickets);
+                        callback(result, stringfy_tickets);
                         }else{
                             console.log("reselling ticket info failed");
                             res.redirect('/');
@@ -199,11 +258,15 @@ router.get('/', function (req, res, next) {
                     });
                 }
             ],
-            function (results) {
+            function (result,reselling_list) {
+                if(result==true){
+                    console.log("-1" + reselling_list[0]);
+                    var resell_tickets = JSON.parse(reselling_list[0])
                 res.render('reselling', {
-                    reselling_list: results[0],
+                    reselling_list: resell_tickets,
                     user_id : req.session.user_id,
                 });
+            }
             }
         ); 
 });

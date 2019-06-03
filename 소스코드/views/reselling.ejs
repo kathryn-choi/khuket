@@ -98,13 +98,14 @@
                     <div class="mu-title">
                         <h2>Want to buy tickets?</h2>
                         <p>Check out our reselling ticket lists!</p><br /><br /><br />
-                        <%if (reselling_list.length==0){ %>
+                    <%if (reselling_list.length==0){ %>
                             <h2><strong>현재 Reselling하는 티켓이 없습니다!</strong></h2>
-                        <%}%>
+                    
                     </div>
                     <!-- end title -->
                     <!-- start gallery content -->
-                    
+                    <%}else{%>
+                        <%=reselling_list.length%> Reselling Tickets <br>
                     <% for(i=0;i<reselling_list.length; i++){ %>
                     <div class="mu-gallery-content">
                         <div class="mu-gallery-body">
@@ -118,15 +119,15 @@
                                             </div>
                                             <div class="mu-single-gallery-info">
                                                 <div class="mu-single-gallery-info-inner">
-                                                    <h4><%=i+1%> .Gig Name : <%=reselling_ticket_list[i].gig_name%> <br></h4>
+                                                    <h4><%=i+1%> .Gig Name : <%=reselling_list[i].gig_name%> <br></h4>
                                                     <p> Start Time: <%= reselling_list[i].starting_time%> - End Time :   <%= reselling_list[i].end_time%>"<br>
                                                         Current Bidding Price:  <%= reselling_list[i].current_price%> <br>
                                                         Ticket Info: <%= reselling_list[i].ticket_id %> <br>
-                                                        Gig Venue : <%=reselling_ticket_list[i].gig_venue%> <br>
-                                                        Gig DateTime : <%=reselling_ticket_list[i].gig_datetime%> <br> </td>
+                                                        Gig Venue : <%=reselling_list[i].gig_venue%> <br>
+                                                        Gig DateTime : <%=reselling_list[i].gig_datetime%> <br> </td>
                                                         Seat Info (Section ID / Seat Row ID / Seat ID) :
-                                                        <%=reselling_ticket_list[i].section_id%> /   
-                                                        <%=reselling_ticket_list[i].row_id%> / <%=reselling_ticket_list[i].seat_id%>
+                                                        <%=reselling_list[i].section_id%> /   
+                                                        <%=reselling_list[i].row_id%> / <%=reselling_list[i].seat_id%>
                                                         <form action="/bidding" method="post">
                                                             <input type="hidden" name="bidding_index" value="<%= reselling_list[i].bidding_index%>">
                                                             <input type="hidden" name="bidding_id" value="<%=user_id%>">
@@ -142,6 +143,7 @@
                             </ul>
                         </div>
                     </div>
+                    <%}%>
                     <!-- end gallery content -->
                 </div>
             </div>
