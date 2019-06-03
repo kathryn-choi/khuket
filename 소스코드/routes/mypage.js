@@ -176,30 +176,42 @@ function getqrcode(ticket_id, gig_datetime, cb){
 
 //티켓 resell하기
 function resell_ticket(id, starting_time,  current_price, starting_price, ticket_id, end_time, cb){
-    var current_date = new Date();
-    var current_time = "Last Sync: " + current_date.getDate() + "/"
-        + (current_date.getMonth()+1)  + "/"
-        + current_date.getFullYear() + " @ "
-        + current_date.getHours() + ":"
-        + current_date.getMinutes() + ":"
-        + current_date.getSeconds();
-    connection.query("INSERT INTO bidding SET ?;", {
-        current_time : current_time,
-        starting_time : starting_time,
-        ticket_owner_index: id,
-        max_price: current_price*1.25,
-        current_price: current_price,
-        bidder_index: -1,
-        ticket_id: ticket_id,
-        starting_price: starting_price,
-        end_time: end_time
-    },function (err) {
+    /*var current_date = new Date();
+    var month=current_date.getMonth()+1; + "-";
+    var year = current_date.getFullYear() + "-";
+    var date=current_date.getDate() + " ";
+    var hour=current_date.getHours();
+    var min=current_date.getMinutes();
+    var sec=current_date.getSeconds();
+        if(month.toString().length!=3){ //month.length ??
+         month=current_date.getMonth() +1;
+            month="0" +month + "-"
+        }
+        if(date.toString().length!=3){
+            date="0" +current_date.getDate() +" "
+        }
+        if(hour.toString().length!=2){
+            hour="0"+hour;
+        }
+        if(min.toString().length!=2){
+            min="0"+min;
+        }
+        if(sec.toString().length!=2){
+            sec="0"+sec;
+        }
+
+        var current_time=year+month+date+ hour +":" + min + ":"+ sec;*/
+        var sql=`INSERT INTO biddings SET starting_time=?, ticket_owner_id=?, max_price=?, 
+        current_price=?, bidder_id=?, ticket_id=?, starting_price=?, end_time=?`;
+        var values=[starting_time.toString() ,id, current_price*1.25,current_price,-1, ticket_id,starting_price,end_time.toString()]
+
+    connection.query(sql, values, function (err) {
         if(err) {
             throw err;
             console.log("비딩 추가중 에러!")
         } else{
             // alert("추가되었습니다.")
-            cb();
+            cb(true);
         }
     });
 }
@@ -305,16 +317,15 @@ router.get('/:ticket_id', function(req, res, next) {
 });
 
 router.post('/resell', function(req, res, next) {
-    async.series(
-        [
+    
             resell_ticket(req.session.buyer_id, req.body.starting_time, req.body.current_price, req.body.starting_price, req.body.ticket_id, req.body.end_time, function(result){
                 if(result==true){
                     res.redirect('/reselling');
                 }else{
-                    res.redirect('/back');
+                    res.redirect('back');
                 }
             })
-        ]
-    );
+      
+   
 });
 module.exports = router;

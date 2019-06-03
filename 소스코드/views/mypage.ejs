@@ -121,8 +121,8 @@
                                                 <form method="POST" action="/mypage/resell">
                                                     <input type="hidden" name="current_price" value="<%= mytickets[i].ticket_price%>">
                                                     <input type="hidden" name="ticket_id" value="<%= mytickets[i].ticket_id%>">
-                                                    <input type="datetime-local" name="starting_time"> Starting Time <br>
-                                                    <input type="datetime-local" name="end_time"> End Time <br>
+                                                    <input type="datetime" name="starting_time"> Starting Time <br>
+                                                    <input type="datetime" name="end_time"> End Time <br>
                                                     <input type="number" name="starting_price"> starting_price <br>
                                                     <input type="submit" value="Resell">
                                                 </form>
