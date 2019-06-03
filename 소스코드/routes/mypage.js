@@ -110,47 +110,68 @@ function get_my_tickets(buyer_index,cb){
 
 function get_ticket_detail(user_id, ticket_id, cb){
     network.get_ticket_info_by_id(user_id, ticket_id).then((response) => { 
+        console.log("HI")
         //return error if error in response
     if (response.error != null) {
         console.log("network get ticket info failed");
         cb(false, [""]);
     } else {
-        var get_my_ticket = response;
-        var ticketinfo=new Array(); 
-            console.log(get_my_ticket)
-            var stringfy_tickets=JSON.stringify(get_my_tickets[i]);
-            var obj =  JSON.parse(stringfy_tickets);
-           for( var key in obj ) {
-               console.log(key + '=>' + obj[key] );
-               if(key == 'gig_id'){
-                ticketinfo[i].gig_id=obj[key].toString();
-               }else if(key == 'gig_name'){
-                ticketinfo[i].gig_name=obj[key].toString();
-                   }
-               else if(key == 'gig_datetime'){
-                ticketinfo[i].gig_datetime=obj[key].toString();
-               }
-                else if(key == 'gig_venue'){
-                ticketinfo[i].gig_venue=obj[key].toString();
-               }
-             else if (key== 'seat_id'){
-                ticketinfo[i].seat_id=obj[key].toString();
-            }else if (key== 'section_id'){
-                ticketinfo[i].section_id=obj[key].toString();
-            }else if (key== 'ticket_price'){
-                ticketinfo[i].row_id=obj[key].toString();
-            }else if (key== 'row_id'){
-                ticketinfo[i].seat_id=obj[key].toString();
+        var get_my_tickets = response;
+            var my_tickets=new Array(); 
+            for(i=0; i<get_my_tickets.length; i++) {
+                var ticket={
+                    gig_id: '',
+                    gig_name: '',
+                    gig_datetime: '',
+                    gig_venue: '',
+                    seat_id : '',
+                    section_id: '',
+                    row_id: '',
+                    ticket_id: '',
+                    ticket_price: '',
+                }
+                my_tickets.push(ticket);
             }
-          }
-          console.log(ticketinfo);
-          getqrcode(ticket_id, gig_datetime, function(result,qrcode){
-              if(result==true){
-                cb(true,ticketinfo,qrcode);
-              }else{
-                cb(true,ticketinfo,"not time yet!");
-              }          
-            });
+            for(i=0; i<get_my_tickets.length; i++) {
+                console.log(get_my_tickets[i])
+                var stringfy_tickets=JSON.stringify(get_my_tickets[i]);
+                var obj =  JSON.parse(stringfy_tickets);
+               for( var key in obj ) {
+                   console.log(i + " " + key + '=>' + obj[key] );
+                   if(key == 'gig_id'){
+                my_tickets[i].gig_id=obj[key].toString();
+                   }
+                   else if(key == 'gig_name'){
+                    my_tickets[i].gig_name=obj[key].toString();
+                       }
+                   else if(key == 'gig_datetime'){
+                my_tickets[i].gig_datetime=obj[key].toString();
+                   }
+                    else if(key == 'gig_venue'){
+                my_tickets[i].gig_venue=obj[key].toString();
+                   }
+                 else if (key== 'seat_id'){
+                    my_tickets[i].seat_id=obj[key].toString();
+                }else if (key== 'section_id'){
+                    my_tickets[i].section_id=obj[key].toString();
+                }else if (key== 'ticket_price'){
+                    my_tickets[i].ticket_price=obj[key].toString();
+                }else if (key== 'row_id'){
+                    my_tickets[i].row_id=obj[key].toString();
+                }else if (key== 'ticket_id'){
+                    my_tickets[i].ticket_id=obj[key].toString();
+                }
+              }
+            }
+            
+        console.log(my_tickets);
+        getqrcode(ticket_id, my_tickets[0].gig_datetime, function(result,qrcode){
+            if(result==true){
+            cb(true,my_tickets[0],qrcode);
+            }else{
+            cb(true,my_tickets[0],"not time yet!");
+            }          
+        });
         }
     })
 }
@@ -299,20 +320,26 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/:ticket_id', function(req, res, next) {
+    console.log("I'm here")
     async.series(
         [
+            function(callback){
             get_ticket_detail(req.session.buyer_id, req.params.ticket_id, function (result, ticket_info) {
                     if(result==true){
-                        res.render('ticketdetail', {
-                            ticket_info: ticket_info,
-                            user_id:req.session.buyer_id,
-                        });
+                        callback(ticket_info)   
                 }else{
                         console.log(" no detail!!");
                         res.redirect('/');
                     }
-                })
-        ]
+                })}
+        ],
+        function(ticket_info){
+            res.render('ticketdetail', {
+                ticketinfo: ticket_info,
+                user_id:req.session.buyer_id,
+            });
+        }
+        
     );
 });
 
