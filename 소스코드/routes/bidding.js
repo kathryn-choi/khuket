@@ -3,7 +3,6 @@ var async = require('async');
 var router = express.Router();
 var network = require('../ticketing-system/network.js');
 
-
 //alert 직전 비더
 function alert_former_bidder(bidding_index, cb) {
     var sqlquery = "SELECT  * FROM bidding b WHERE b.bidding_index = ?";
@@ -28,7 +27,6 @@ function alert_former_bidder(bidding_index, cb) {
                         notice_buyer_id: buyer_id,
                         notice_buyer_text: notice,
                     });
-                   
                 });
 
             } else {
@@ -139,8 +137,7 @@ router.post('/add_bidding', function (req, res, next) {
 });
 
 
-    //비딩 가능한지 여부 판별하기
-/*    if (check_bidding_valid(bidding_index, bidder_bidding_price) === true) {
+ /* if (check_bidding_valid(bidding_index, bidder_bidding_price) === true) {
         //직전 비더에게 알리기
         if (alert_former_bidder(bidding_index) === true) {
             //비딩 가능하면 테이블에 정보 수정하기
@@ -160,7 +157,5 @@ router.post('/add_bidding', function (req, res, next) {
     } else {
         console.log("비딩 불가!");
         res.render('reselling');
-    }
-});*/
-
+    }*/
 module.exports = router;

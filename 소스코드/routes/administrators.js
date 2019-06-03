@@ -95,11 +95,10 @@ function create_ticket(gig_index, cb){
                             {
                                 console.log(4);
                                 var seat_index=seats[j].seat_index;
-                                var ticket_id=(_gig_index).toString() + "/" + (section_index).toString()+"/" +(seat_index).toString();
+                                var ticket_id=(_gig_index).toString() + "/" + (section_id).toString()+"/" +(seat_index).toString();
                                 var seat_row_index=seats[j].seat_row_index;
-                                console.log(ticket_id);
+                                console.log("ticket_id" ,ticket_id);
                                 network.create_ticket('ticketadmin',ticket_id,section_id,seat_row_index,seat_index,seat_price,_gig_index,gig_date_time, gig_name, gig_venue)  
-                                 
                                 .then((response) => {
                                     //return error if error in response
                                     if (response.error != null) {
@@ -140,6 +139,10 @@ function create_ticket(gig_index, cb){
         });
     console.log("create ticket result:",result)
     cb(result);
+}
+
+function create_seats(cb){
+    
 }
 
 // pending = 2인 공연들 목록들 출력하고 승인 누르면 pending = 1로 변경되고 티켓 생성

@@ -62,8 +62,7 @@ function refund_ticket(ticket_id, gig_index, gig_name, gig_datetime, gig_venue, 
         var sql = "SELECT gig_organizer_index FROM gig WHERE gig_index=?";
         connection.query(sql, gig_index, function (err, res){
             if (!err) {
-                var organizer_index=res;
-                network.update_ticket_owner(organizer_index, ticket_id).then((response) => {
+                network.update_ticket_owner("ticketadmin", ticket_id).then((response) => {
                     if (response.error == null){
                         var notice="At time" + right_now_time.toString() + 'has successfully refunded \n'
                                     + ticket_id.toString() + '. Gig name: ' + gig_name.toString() + '\n at ' + 'Venue : ' + gig_venue.toString()
@@ -90,6 +89,8 @@ function refund_ticket(ticket_id, gig_index, gig_name, gig_datetime, gig_venue, 
     }
 });
 
+}
+
 router.post('/refund', function(req, res) {
     async.series(
         [
@@ -97,7 +98,7 @@ router.post('/refund', function(req, res) {
                 refund_ticket(req.body.ticket_id, req.body.gig_name, req.body.gig_date, req.body.gig_venue, req.body.gig_time,
                     req.body.section_id, req.body.row_id, req.body.seat_id, req.body.ticket_price, req.body.right_now_time, function (result) {
                         if(result==true){
-                        callback(true);
+                            callback(true);
                         }else{
                             callback(false);
                         }
