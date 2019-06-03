@@ -135,19 +135,22 @@ function get_seat_array(seats){
 }
 
 //purchase tickets
-function purchase_tickets(user_id, gig_index, seats, cb) {
+function purchase_tickets(user_id, seats, cb) {
     var count=0;
     var length=seats.length;
+    var gig_index = seats[0].gig_index;
+    console.log("purchase seat:", seats)
     for (var i=0; i<seats.length; i++) {
         var sqlquery = "SELECT  * FROM seats  WHERE gig_index=? AND seat_index=?";
         var values = [gig_index, seats[i].seat_index];
+        var section_id=seats[i].section_id;
+        var seat_index=seats[i].seat_index;
         connection.query(sqlquery, values, function (err, rows) {
             if (!err) {
-                var section_id=seats[i].section_id;
-                var seat_index=seats[i].seat_index;
                 //get ticket_id by gig_index,section_id, seat_index
                 var ticket_id=gig_index+'/'+section_id + "/" + seat_index;
                 //change ticket owner to userid
+                console.log("user_id:",user_id)
                 network.update_ticket_owner(user_id, ticket_id)
                     .then((response) => {
                         //return error if error in response
@@ -289,10 +292,11 @@ router.post('/purchaselist', function(req, res, next) {
         })
     }
     ],
-    function (seatlist) {
-        console.log(seatlist);
+
+    function (result, seatlist) {
+        console.log(seatlist[0]);
         res.render('gigs/gigpurchaselist', {
-            gigsale: seatlist,
+            gigsale: seatlist[0],
             session : session
         });
         }
@@ -300,13 +304,14 @@ router.post('/purchaselist', function(req, res, next) {
 });
 //purchase tickets
 router.post('/purchase', function(req, res, next) {
-    res.end();
-    console.log(req.body.purchaseseats);
-    console.log(req.body.purchaseseats.length);// array?
+    var purchaseseats = JSON.parse(req.body.purchaseseats)
+    console.log(purchaseseats);
+    console.log(purchaseseats.length);// array?
+    console.log(req.session)
     async.series(
         [
         function(callback){
-        purchase_tickets(req.session.user_id, req.params.gig_index, req.body.purchaseseats, function (result) {
+        purchase_tickets(req.session.buyer_id, purchaseseats, function (result) {
             if (result == true) {
                 callback(result);
             } else {

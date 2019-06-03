@@ -9,12 +9,12 @@
 PURCHASE LIST <br> <br>
     <%for (var i=0; i<(gigsale).length; i++){ %>
     <%=i+1%> . <br>
-    Seat INDEX: <%=gigsale[i].seat_index%> <br>
+    Section ID: <%=gigsale[i].section_id%> <br>
     Seat row Index: <%=gigsale[i].seat_row_index%> <br>
     <br>
     <% } %>
 <form method="post" action="/gigs/purchase" >
-    <input type="hidden" name="purchaseseats" value="<%=gigsale%>">
+    <input type="hidden" name="purchaseseats" value="<%=JSON.stringify(gigsale)%>">
     <input type="submit" value="I will purchase it!!!">
 </form>
 </body>

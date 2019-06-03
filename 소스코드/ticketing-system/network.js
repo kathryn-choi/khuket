@@ -73,7 +73,7 @@ module.exports = {
     try {
 
       //connect as admin
-      businessNetworkConnection = new BusinessNetworkConnection();
+      var businessNetworkConnection = new BusinessNetworkConnection();
       await businessNetworkConnection.connect('admin@ticketing-system');
 
       //get the factory for the business network
@@ -117,7 +117,7 @@ module.exports = {
     try {
 
       //connect as admin
-      businessNetworkConnection = new BusinessNetworkConnection();
+      var businessNetworkConnection = new BusinessNetworkConnection();
       await businessNetworkConnection.connect('admin@ticketing-system');
 
       //get the factory for the business network.
@@ -161,7 +161,7 @@ module.exports = {
   try {
 
     //connect as admin
-    businessNetworkConnection = new BusinessNetworkConnection();
+    var businessNetworkConnection = new BusinessNetworkConnection();
     await businessNetworkConnection.connect('admin@ticketing-system');
 
     //get the factory for the business network.
@@ -241,7 +241,7 @@ module.exports = {
     try {
 
       //connect to network with user_id
-      businessNetworkConnection = new BusinessNetworkConnection();
+      var businessNetworkConnection = new BusinessNetworkConnection();
       await businessNetworkConnection.connect('admin@ticketing-system');
     
     //   const ticketRegistry = await getAssetRegistry('org.ticketing.system.Ticket')
@@ -254,7 +254,7 @@ module.exports = {
       const update_owner = factory.newTransaction(namespace, 'ChangeOwner');
       update_owner.ticket = factory.newRelationship(namespace, 'Ticket', ticket_id);
 
-      if(user_id == 'admin'){
+      if(user_id == 'ticketadmin'){
          update_owner.newOwner = factory.newRelationship(namespace, 'TicketAdmin', user_id);
       }
       else{
@@ -282,7 +282,7 @@ module.exports = {
   delete_ticket: async function (user_id,ticket_id) {
     try {
       //connect to network with user_id
-      businessNetworkConnection = new BusinessNetworkConnection();
+      var businessNetworkConnection = new BusinessNetworkConnection();
       await businessNetworkConnection.connect('admin@ticketing-system');
 
       //get the factory for the business network.
@@ -316,7 +316,7 @@ module.exports = {
     try {
 
       //connect to network with user_id
-      businessNetworkConnection = new BusinessNetworkConnection();
+      var businessNetworkConnection = new BusinessNetworkConnection();
       await businessNetworkConnection.connect('admin@ticketing-system');
 
       //get buyer from the network
@@ -344,7 +344,7 @@ module.exports = {
     try {
 
       //connect to network with user_id
-      businessNetworkConnection = new BusinessNetworkConnection();
+      var businessNetworkConnection = new BusinessNetworkConnection();
       await businessNetworkConnection.connect('admin@ticketing-system');
 
       //get admin from the network
@@ -371,7 +371,7 @@ module.exports = {
 
     try {
       //connect to network with user_id
-      businessNetworkConnection = new BusinessNetworkConnection();
+      var businessNetworkConnection = new BusinessNetworkConnection();
       await businessNetworkConnection.connect('admin@ticketing-system');
 
       //query ticket from the network
@@ -396,7 +396,7 @@ module.exports = {
 
     try {
       //connect to network with user_id
-      businessNetworkConnection = new BusinessNetworkConnection();
+      var businessNetworkConnection = new BusinessNetworkConnection();
       await businessNetworkConnection.connect('admin@ticketing-system');
 
       //query all tickets from the network
@@ -422,7 +422,7 @@ module.exports = {
     try {
       //connect to network with user_id
       console.log("Before Buyer connection")
-      businessNetworkConnection = new BusinessNetworkConnection();
+      var businessNetworkConnection = new BusinessNetworkConnection();
       await businessNetworkConnection.connect('admin@ticketing-system');
       console.log("Buyer connection Success")
       //get buyer from the network
@@ -431,7 +431,7 @@ module.exports = {
 
       //query all tickets from the network
       console.log("user_id:",_user_id)
-      var query_select = "resource:"+namespace+".TicketAdmin#"+_user_id
+      var query_select = "resource:"+namespace+".Buyer#"+_user_id
       //console.log(query_select)
       allTickets = await businessNetworkConnection.query('select_ticket_by_user', {owner_id: query_select});
       //console.log(allTickets)
