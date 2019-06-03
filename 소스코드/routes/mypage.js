@@ -317,15 +317,21 @@ router.get('/:ticket_id', function(req, res, next) {
 });
 
 router.post('/resell', function(req, res, next) {
-    
+    async.series(
+        [
             resell_ticket(req.session.buyer_id, req.body.starting_time, req.body.current_price, req.body.starting_price, req.body.ticket_id, req.body.end_time, function(result){
                 if(result==true){
-                    res.redirect('/reselling');
+                    callback(true);
                 }else{
                     res.redirect('back');
                 }
             })
-      
-   
+        ],
+        function(result){
+            if(result==true){
+                res.redirect('/reselling');
+            }
+        }
+    );
 });
 module.exports = router;
