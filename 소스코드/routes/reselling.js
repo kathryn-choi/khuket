@@ -47,8 +47,11 @@ function get_reselling_ticket_list_info(cb) {
                         gig_index: resellticket.gig_id,
                         gig_venue: resellticket.gig_venue,
                         gig_name: resellticket.gig_name,
-                        gig_time: resellticket.gig_time,
-                        gig_date: resellticket.gig_date,
+                        gig_datetime: resellticket.gig_datetime,
+                        starting_time: reselling_list[i].starting_time,
+                        end_time: reselling_list[i].end_time,
+                        max_price: reselling_list[i].max_price,
+                        current_price: reselling_list[i].current_price,
                     };
                     reselling_ticket_list.push(resell_ticket);
                     count=count+1;

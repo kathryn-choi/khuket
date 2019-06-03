@@ -114,13 +114,15 @@
                                             </div>
                                             <div class="mu-single-gallery-info">
                                                 <div class="mu-single-gallery-info-inner">
-                                                    <h4><%=i+1%> .Gig Name : %//=reselling_ticket_list[i].gig_name%> <br></h4>
+                                                    <h4><%=i+1%> .Gig Name : <%=reselling_ticket_list[i].gig_name%> <br></h4>
                                                     <p> Start Time: <%= reselling_list[i].starting_time%> - End Time :   <%= reselling_list[i].end_time%>"<br>
                                                         Current Bidding Price:  <%= reselling_list[i].current_price%> <br>
                                                         Ticket Info: <%= reselling_list[i].ticket_id %> <br>
-                                                        Gig Venue : %//=reselling_ticket_list[i].gig_venue%> <br>
-                                                        Gig Time : %//=reselling_ticket_list[i].gig_time%> <br>
-                                                        Gig Date : %//=reselling_ticket_list[i].gig_date%> <br> </td>
+                                                        Gig Venue : <%=reselling_ticket_list[i].gig_venue%> <br>
+                                                        Gig DateTime : <%=reselling_ticket_list[i].gig_datetime%> <br> </td>
+                                                        Seat Info (Section ID / Seat Row ID / Seat ID) :
+                                                        <%=reselling_ticket_list[i].section_id%> /   
+                                                        <%=reselling_ticket_list[i].row_id%> / <%=reselling_ticket_list[i].seat_id%>
                                                         <form action="/bidding" method="post">
                                                             <input type="hidden" name="bidding_index" value="<%= reselling_list[i].bidding_index%>">
                                                             <input type="hidden" name="bidding_id" value="<%=user_id%>">
