@@ -14,6 +14,7 @@ function get_reselling_list(cb) {
                 if (!err) {
                     reselling_list = rows;
                     //console.log(reselling_list);
+                    console.log("rows" , rows);
                     cb(true, reselling_list);
                 } else {
                     console.log('내 정보를 가져오는데 실패했습니다!');
@@ -32,15 +33,15 @@ function get_reselling_ticket_list_info(cb) {
     var count=0;
    get_reselling_list(function (result, reselling_list) {
         if(result==true){
-            console.log(9 + reselling_list);
            var length=reselling_list.length;
-           for(var i=0; i<reselling_list.length; i++){
+           console.log("length", length);
+           for(var i=0; i<length; i++){
             const resell_ticket = {
                 ticket_id: "",
                 section_id: "",
                 row_id: "",
                 seat_id: "",
-                ticket_price: "",
+                ticket_price: 0,
                 gig_index: "",
                 gig_venue: "",
                 gig_name: "",
@@ -48,11 +49,12 @@ function get_reselling_ticket_list_info(cb) {
                 starting_time:"",
                 end_time: "",
                 max_price: "",
-                current_price: "",
+                current_price: 0,
             };
             reselling_ticket_list.push(resell_ticket);
         }
-           for(var i=0; i<reselling_list.length; i++){
+        console.log('pushed reselling list' + reselling_ticket_list.length);
+           for(var i=0; i<length; i++){
                var ticket_owner_id=reselling_list[i].ticket_owner_id;
                var ticket_id=reselling_list[i].ticket_id;
                var maxprice=reselling_list[i].max_price;
@@ -65,8 +67,9 @@ function get_reselling_ticket_list_info(cb) {
                         cb(false, [""]);
                     } else {
                     var resellticket=response;
-                    var stringfy_tickets=JSON.stringify(resellticket);
+                    var stringfy_tickets=JSON.stringify(resellticket[0]);
                     var obj =  JSON.parse(stringfy_tickets);
+                    console.log("obj", obj);
                     for( var key in obj ) {
                         console.log(key + '=>' + obj[key] );
                         if(key == 'gig_id'){
@@ -85,14 +88,15 @@ function get_reselling_ticket_list_info(cb) {
                             reselling_ticket_list[i].ticket_price=obj[key].toString();
                         }else if (key== 'row_id'){
                         reselling_ticket_list[i].row_id=obj[key].toString();
-                        }
+                        }            
                     }
                     reselling_ticket_list[i].max_price=maxprice;
                     reselling_ticket_list[i].end_time=endtime;
                     reselling_ticket_list[i].starting_time=starttime;
                     reselling_ticket_list[i].current_price=curprice;
                     count=count+1;
-                    if(count==length){
+                    if(count==reselling_ticket_list.length){
+                        console.log('count', count);
                         console.log("tlist" + reselling_ticket_list);
                         cb(true, reselling_ticket_list);
                     }
@@ -248,6 +252,7 @@ router.get('/', function (req, res, next) {
                 function (callback) {
                     get_reselling_ticket_list_info(function (result, reselling_list) {
                         if(result==true){
+                            console.log(12+reselling_list.length);
                             var stringfy_tickets=JSON.stringify(reselling_list);
                             console.log("stringify" + stringfy_tickets);
                         callback(result, stringfy_tickets);

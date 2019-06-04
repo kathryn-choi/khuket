@@ -67,7 +67,7 @@ function get_my_tickets(buyer_index,cb){
                     section_id: '',
                     row_id: '',
                     ticket_id: '',
-                    ticket_price: '',
+                    ticket_price: 0,
                 }
                 my_tickets.push(ticket);
             }
@@ -128,7 +128,7 @@ function get_ticket_detail(user_id, ticket_id, cb){
                     section_id: '',
                     row_id: '',
                     ticket_id: '',
-                    ticket_price: '',
+                    ticket_price: 0,
                 }
                 my_tickets.push(ticket);
             }
@@ -228,8 +228,7 @@ function resell_ticket(id, starting_time,  current_price, starting_price, ticket
 
     connection.query(sql, values, function (err) {
         if(err) {
-            throw err;
-            console.log("비딩 추가중 에러!")
+            cb(false);
         } else{
             // alert("추가되었습니다.")
             cb(true);
@@ -346,6 +345,7 @@ router.get('/:ticket_id', function(req, res, next) {
 router.post('/resell', function(req, res, next) {
     async.series(
         [
+        function(callback){
         resell_ticket(req.session.buyer_id, req.body.starting_time, req.body.current_price, req.body.starting_price, req.body.ticket_id, req.body.end_time, function(result){
                 if(result==true){
                     callback(true);
@@ -353,6 +353,7 @@ router.post('/resell', function(req, res, next) {
                     res.redirect('back');
                 }
             })
+        }
         ],
         function(result){
             if(result==true){
