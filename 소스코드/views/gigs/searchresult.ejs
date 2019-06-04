@@ -1,65 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
+<head>
+    <meta charset="UTF-8">
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">    
-    <title>KHUKET | Purchase List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>KHUKET | Results</title>
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="../assets/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../assets/img/favicon1.ico" type="image/x-icon">
 
     <!-- Font awesome -->
     <link href="../assets/css/font-awesome.css" rel="stylesheet">
     <!-- Bootstrap -->
-    <link href="../assets/css/bootstrap.css" rel="stylesheet">   
+    <link href="../assets/css/bootstrap.css" rel="stylesheet">
     <!-- Slick slider -->
-    <link rel="stylesheet" type="text/css" href="../assets/css/slick.css">          
+    <link rel="stylesheet" type="text/css" href="../assets/css/slick.css">
     <!-- Fancybox slider -->
-    <link rel="stylesheet" href="../assets/css/jquery.fancybox.css" type="text/css" media="screen" /> 
+    <link rel="stylesheet" href="../assets/css/jquery.fancybox.css" type="text/css" media="screen" />
     <!-- Theme color -->
-    <link id="switcher" href="../assets/css/theme-color/default-theme.css" rel="stylesheet">  
+    <link id="switcher" href="../assets/css/theme-color/default-theme.css" rel="stylesheet">
 
     <!-- Main style sheet -->
     <link href="../assets/css/style.css" rel="stylesheet">
 
-   
+
     <!-- Google Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,400italic,300,300italic,500,700' rel='stylesheet' type='text/css'>
-    
-  </head>
-  <body>
-      Results:
-        <% for(i=0;i<gig.length; i++){ %>
-                <h4>공연 이름 : <%=gig[i].gig_name%></h4>
-                <h4>공연 장소 : <%=gig[i].gig_venue%></h4>
-                <h4>공연 날짜 : <%=gig[i].gig_date_time%></h4><br />
-                <%=gig[i].gig_index%>
-                <form method=get action="/gigs/<%=gig[i].gig_index%>">
-                <input type="submit" value="go!">
-                </form>
-        <%}%>
-        <%if (gig.length==0) {%>
-            None
-        <%}%>
 
-       <!-- jQuery library -->
-  <script src="../assets/js/jquery.min.js"></script>  
-  <!-- Include all compiled plugins (below), or include individual files as needed -->
-  <script src="../assets/js/bootstrap.js"></script>   
-  <!-- Slick slider -->
-  <script type="text/javascript" src="../assets/js/slick.js"></script>
-  <!-- Counter -->
-  <script type="text/javascript" src="../assets/js/waypoints.js"></script>
-  <script type="text/javascript" src="../assets/js/jquery.counterup.js"></script>  
-  <!-- Mixit slider -->
-  <script type="text/javascript" src="../assets/js/jquery.mixitup.js"></script>
-  <!-- Add fancyBox -->        
-  <script type="text/javascript" src="../assets/js/jquery.fancybox.pack.js"></script>
+</head>
+<body>
+<!-- Start menu -->
+<section id="mu-menu">
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <!-- FOR MOBILE VIEW COLLAPSED BUTTON -->
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!-- LOGO -->
+                <!-- TEXT BASED LOGO -->
+                <a class="navbar-brand" href="/"><span><img src="../assets/img/logo.png"> KHUKET</span></a>
+                <!-- IMG BASED LOGO  -->
+                <!-- <a class="navbar-brand" href="index.html"><img src="../assets/img/logo.png" alt="logo"></a> -->
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul id="top-menu" class="nav navbar-nav navbar-right main-nav">
+                    <% if(session.admin_id) { %>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/administrators" >My Page</a></li>
+                        <li class="active"><a href="/gigs">Gigs</a></li>
+                        <li><a href="/users/logout" >Logout</a></li>
+                        <li><br><form method=post action ="/gigs/search">
+                            <input type="text" name="gig_name">
+                            <input type="submit" value="검색">
+                        </form></li>
+                    <% } else if(session.organizer_id) { %>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/organizers" >My Page</a></li>
+                        <li class="active"><a href="/gigs">Gigs</a></li>
+                        <li><a href="/organizers/add_gig" >Add Gig</a></li>
+                        <li><a href="/users/logout" >Logout</a></li>
+                        <li><br><form method=post action ="/gigs/search">
+                            <input type="text" name="gig_name">
+                            <input type="submit" value="검색">
+                        </form></li>
+                    <% } else if(session.buyer_id) { %>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/mypage">My Page</a></li>
+                        <li class="active"><a href="/gigs">Gigs</a></li>
+                        <li><a href="/reselling">Reselling</a></li>
+                        <li><a href="/users/logout">Logout</a></li>
+                        <li><br><form method=post action ="/gigs/search">
+                            <input type="text" name="gig_name">
+                            <input type="submit" value="검색">
+                        </form></li>
+                    <% } else { %>
+                        <li><a href="/">Home</a></li>
+                        <li class="active"><a href="/gigs">Gigs</a></li>
+                        <li><a href="/buyers/login" >Login</a></li>
+                        <li><br><form method=post action ="/gigs/search">
+                            <input type="text" name="gig_name">
+                            <input type="submit" value="검색">
+                        </form></li>
+                    <% } %>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </nav>
+</section>
+<!-- End menu -->
 
-  <!-- Custom js -->
-  <script src="../assets/js/custom.js"></script>
+<!-- Page breadcrumb -->
+<section id="mu-page-breadcrumb">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mu-page-breadcrumb-area">
+                    <h2>Results</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End breadcrumb -->
+<!-- Start gallery  -->
+<section id="mu-gallery">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mu-gallery-area">
+                <!-- start title -->
+                <div class="mu-title">
+                <%if (gig.length==0){ %>
+                    <h2><strong>검색된 결과가 없습니다!</strong></h2>
+                <%} else { %>
+                    <h2>Here are our gigs list!</h2>
+                </div>
+                <!-- end title -->
+                <!-- start gallery content -->
+                    <div class="mu-gallery-content">
+                        <div class="mu-gallery-body">
+                            <ul id="mixit-container" class="row">
+                                <!-- start single gallery image -->
+                                <% for(i=0;i<gig.length; i++){ %>
+                                <li class="col-md-4 col-sm-6 col-xs-12 mix lab">
+                                    <div class="mu-single-gallery">
+                                        <div class="mu-single-gallery-item">
+                                            <div class="mu-single-gallery-img">
+                                                <img alt="img" src="<%=gig[i].gig_image%>">
+                                            </div>
+                                            <div class="mu-single-gallery-info">
+                                                <div class="mu-single-gallery-info-inner">
+                                                    <h4>공연 이름 : <%=gig[i].gig_name%></h4>
+                                                    <h4>공연 장소 : <%=gig[i].gig_venue%></h4>
+                                                    <h4>공연 날짜 : <%=gig[i].gig_date_time%></h4><br />
+                                                    <form method=get action="/gigs/<%=gig[i].gig_index%>">
+                                                      <button type="submit" >세부 정보</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <%  }  %>
+                            </ul>
+                        </div>
+                    </div>
+                <% } %>
+                <!-- end gallery content -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End gallery  -->
+<!-- jQuery library -->
+<script src="../assets/js/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="../assets/js/bootstrap.js"></script>
+<!-- Slick slider -->
+<script type="text/javascript" src="../assets/js/slick.js"></script>
+<!-- Counter -->
+<script type="text/javascript" src="../assets/js/waypoints.js"></script>
+<script type="text/javascript" src="../assets/js/jquery.counterup.js"></script>
+<!-- Mixit slider -->
+<script type="text/javascript" src="../assets/js/jquery.mixitup.js"></script>
+<!-- Add fancyBox -->
+<script type="text/javascript" src="../assets/js/jquery.fancybox.pack.js"></script>
 
-  </body>
+<!-- Custom js -->
+<script src="../assets/js/custom.js"></script>
+
+</body>
 </html>
