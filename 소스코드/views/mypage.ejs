@@ -114,7 +114,18 @@
                                         <a class="mu-course-details" href="/mypage/<%=mytickets[i].ticket_id%>">Details</a>
                                         <span class="mu-course-price" href="#"><%=mytickets[i].ticket_price%></span>
                                     </div>
-
+                                    Refund Ticket:
+                                    <form method="POST" action="/refund">
+                                        <input type="hidden" name="ticket_price" value="<%= mytickets[i].ticket_price%>">
+                                        <input type="hidden" name="ticket_id" value="<%= mytickets[i].ticket_id%>">
+                                        <input type="hidden" name="gig_datetime" value="<%= mytickets[i].gig_datetime%>">
+                                        <input type="hidden" name="gig_venue" value="<%= mytickets[i].gig_venue%>">
+                                        <input type="hidden" name="section_id" value="<%= mytickets[i].section_id%>">
+                                        <input type="hidden" name="row_id" value="<%= mytickets[i].row_id%>">
+                                        <input type="hidden" name="seat_id" value="<%= mytickets[i].seat_id%>">
+                                        <input type="hidden" name="gig_name" value="<%= mytickets[i].gig_name%>">
+                                        <input type="submit" value="Refund">
+                                    </form>
                                     Resell Ticket:
                                     <!--id, starting_time,  current_price, starting_price, ticket_id, end_time, cb-->
                                     <form method="POST" action="/mypage/resell">

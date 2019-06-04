@@ -242,12 +242,8 @@ function check_bidding_over(callback) {
             var num=0;
             console.log(19);
             bidding_list=rows;
-            //Select * From temp where mydate > STR_TO_DATE('2009-06-29 04:00:44', '%Y-%m-%d %H:%i:%s');
             for (var i = 0; i < bidding_list.length; i++) {
                 console.log("checkbiddingover : "+bidding_list[i]);
-                //if()
-                //if (right_now_time >= bidding_list[i].end_time.toString() || bidding_list[i].max_price == bidding_list[i].current_price) {
-                    console.log('bidding over!');
                     change_ticket_owner(bidding_list[i].bidding_index, bidding_list[i].bidder_id, bidding_list[i].ticket_owner_id, bidding_list[i].ticket_id, bidding_list[i].current_price, function(result){
                        if(result==false){
                             num=-1;

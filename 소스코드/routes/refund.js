@@ -21,11 +21,49 @@ var router = express.Router();
 상품의 특성에 따라서, 취소수수료 정책이 달라질 수 있습니다.(각 상품 예매시 취소수수료 확인)*/
 //시스템에서 지정한 규정에 맞게 환불해주기
 
-function calc_refund_price( gig_time, ticket_price, right_now_time, cb){
+function calc_refund_price( gig_datetime, ticket_price, cb){
   var refund_price;
-    if(right_now_time.getDate()-gig_time.getDate()<=1)
+  var current_date = new Date();
+  var hour=current_date.getHours();
+  console.log("curdate" ,current_date);
+    var s= gig_datetime.split(' ');
+    var month;
+    if(s[1]=="January"){
+        month="01";
+    }else if(s[1]=="February"){
+        month="02";
+    }else if(s[1]=="March"){
+        month="03";
+    }else if(s[1]=="April"){
+        month="04";
+    }else if(s[1]=="May"){
+        month="05";
+    }else if(s[1]=="June"){
+        month="06";
+    }else if(s[1]=="July"){
+        month="07";
+    }else if(s[1]=="August"){
+        month="08";
+    }else if(s[1]=="September"){
+        month="09";
+    }else if(s[1]=="October"){
+        month="10";
+    }else if(s[1]=="November"){
+        month="11";
+    }else if(s[1]=="December"){
+        month="12";
+    }
+    var str=s[3]+'-'+month+'-'+s[2];
+    var datetime=new Date(str.toString());
+    console.log("datetime",datetime);
+    var dif=new Date(current_date.getTime()-datetime.getTime());
+    var daydif=new Date(dif.getUTCDate()-1);
+    console.log("daydif",daydif.getDate());
+    console.log(ticket_price);
+    ticket_price=parseInt(ticket_price);
+    if(daydif<=1)
   {
-      if(right_now_time.getHours()<=17 && right_now_time.getDate()-gig_time.getDate()==1)
+      if(hour<=17 && daydif.getDate()==1)
       {
           refund_price=ticket_price*0.7;
       }
@@ -34,15 +72,15 @@ function calc_refund_price( gig_time, ticket_price, right_now_time, cb){
           refund_price=-1;
       }
   }
-    else if(right_now_time.getDate()-gig_time.getDate()>=1 && right_now_time.getDate()-gig_time.getDate()<=2)
+    else if(daydif>=1 && daydif<=2)
     {
         refund_price=ticket_price*0.7;
     }
-    else if(right_now_time.getDate()-gig_time.getDate()>=3 && right_now_time.getDate()-gig_time.getDate()<=6)
+    else if(daydif>=3 && daydif<=6)
     {
         refund_price=ticket_price*0.8;
     }
-    else if(right_now_time.getDate()-gig_time.getDate()>=7 && right_now_time.getDate()-gig_time.getDate()<=9)
+    else if(daydif>=7 && daydif<=9)
     {
         refund_price=ticket_price*0.9;
     }
@@ -50,36 +88,30 @@ function calc_refund_price( gig_time, ticket_price, right_now_time, cb){
     {
         refund_price=ticket_price;
     }
-
+    console.log(ticket_price);
+    
+    console.log("refund_price : ", refund_price);
     cb(refund_price);
 }
 
-function refund_ticket(ticket_id, gig_index, gig_name, gig_datetime, gig_venue, gig_time, section_id, row_id, seat_id, ticket_price, right_now_time, callback){
-    calc_refund_price(gig_time, ticket_price, right_now_time, function(refund_price){
+function refund_ticket(buyer_id, ticket_id, gig_index, gig_name, gig_datetime, gig_venue, section_id, row_id, seat_id, ticket_price, callback){
+    calc_refund_price(gig_datetime, ticket_price, function(refund_price){
     if (refund_price!=-1)
     {
-        var sql = "SELECT gig_organizer_index FROM gig WHERE gig_index=?";
-        connection.query(sql, gig_index, function (err, res){
-            if (!err) {
                 network.update_ticket_owner("ticketadmin", ticket_id).then((response) => {
                     if (response.error == null){
-                        var notice="At time" + right_now_time.toString() + 'has successfully refunded \n'
-                                    + ticket_id.toString() + '. Gig name: ' + gig_name.toString() + '\n at ' + 'Venue : ' + gig_venue.toString()
-                                    + '\n Date Time : ' + gig_datetime.toString() + '\n Section/Row/Seat' + section_id.toString() + row_id.toString() + seat_id.toString();
-                    connection.query("INSERT INTO notification SET ?;", {
-                       notification_buyer_index: id,
+                        var notice=ticket_id.toString() + '. Gig name: ' + gig_name.toString() + '\n at ' + 'Venue : ' + gig_venue.toString()
+                                    + '\n Date Time : ' + gig_datetime.toString() + '\n Section/Row/Seat' + section_id.toString() + row_id.toString() + seat_id.toString()+"has been refunded by "+ refund_price;
+                    connection.query("INSERT INTO notifications SET ?;", {
+                       notice_buyer_id: buyer_id,
                        notice_buyer_text: notice,
                     });
                     console.log("refund success!");
                     callback(true);
+                    }else{
+                        callback(false);
                     }
                 }) 
-            }
-            else {
-                console.log("failed refund");
-                callback(false);
-            }
-        });
     }
     else
     {
@@ -89,12 +121,13 @@ function refund_ticket(ticket_id, gig_index, gig_name, gig_datetime, gig_venue, 
     })
 };
 
-router.post('/refund', function(req, res) {
+router.post('/', function(req, res) {
     async.series(
         [
+            //ticket_id, gig_index, gig_name, gig_datetime, gig_venue, section_id, row_id, seat_id, ticket_price
             function (callback) {
-                refund_ticket(req.body.ticket_id, req.body.gig_name, req.body.gig_date, req.body.gig_venue, req.body.gig_time,
-                    req.body.section_id, req.body.row_id, req.body.seat_id, req.body.ticket_price, req.body.right_now_time, function (result) {
+                refund_ticket(req.session.buyer_id,req.body.ticket_id, req.body.gig_index,req.body.gig_name, req.body.gig_datetime, req.body.gig_venue,
+                    req.body.section_id, req.body.row_id, req.body.seat_id, req.body.ticket_price, function (result) {
                         if(result==true){
                             callback(true);
                         }else{
@@ -105,8 +138,10 @@ router.post('/refund', function(req, res) {
         ],
         function (result) {
             if(result==true){
+                console.log("refund succed");
                 res.redirect('/mypage');
             }else{
+                console.log("refund failed!");
                 res.redirect('/');
             }
         }
