@@ -103,27 +103,17 @@
                             <ul id="mixit-container" class="row">
                                 <!-- start single gallery image -->
                                 <%for (var i=0; i<gigsale.length; i++){%>
-                                <li class="col-md-2 col-sm-4 col-xs-5 mix lab">
+                                <li class="col-md-1 col-sm-1 col-xs-1 mix lab">
                                     <div class="mu-single-gallery">
-                                        <div class="mu-single-gallery-item">
-                                            <div class="mu-single-gallery-img">
-                                                <img alt="img" src="../../../assets/img/ticket-512.png">
-                                            </div>
-                                            <div class="mu-single-gallery-info">
-                                                <div class="mu-single-gallery-info-inner">
-                                                    <h4>Seat INDEX: <%=gigsale[i].seat_index%></h4>
-                                                    <h4>Seat row Index: <%=gigsale[i].seat_row_index%></h4>
-                                                    <input type="checkbox" id="<%=gigsale[i].seat_index%>" name="seat_index" value="<%=gigsale[i].seat_index%>">
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <h7><%=section_id%><%=gigsale[i].seat_row_index%></h7>
+                                        <input type="checkbox" id="<%=gigsale[i].seat_index%>" name="seat_index" value="<%=gigsale[i].seat_index%>">
                                     </div>
                                 </li>
                                 <%  }  %>
                             </ul>
                             <input type ="hidden" name="gig_index" value = "<%=gig_index%>">
-                            <input type ="hidden" name="section_id" value = "<%=section_id%>">
-                            <input type="submit" value="구매">
+                            <input type ="hidden" name="section_id" value = "<%=section_id%>"><br><br><br><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="mu-post-btn" type="submit" value="구매">
                         </form>
                         </div>
                     </div>
