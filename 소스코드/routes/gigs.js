@@ -3,6 +3,7 @@ var router = express.Router();
 var async = require('async');
 var network = require('../ticketing-system/network.js');
 var util = require('util');
+
 //var request = require('request');
 
 //gig 전체 리스트 가져오기
@@ -144,7 +145,7 @@ async function purchase_tickets(user_id, seats, cb) {
         rows = await query(sqlquery, values)
         if (rows.length != 0) {
             //get ticket_id by gig_index,section_id, seat_index
-            var ticket_id=gig_index+'/'+section_id + "/" + seat_row_index;
+            var ticket_id=gig_index+'.'+section_id + "." + seat_row_index;
             //change ticket owner to userid
             console.log("user_id:",user_id)
             console.log("ticket_id:",ticket_id)
@@ -204,7 +205,7 @@ router.get('/:index', function(req, res, next) {
                     });
                 }
             ],
-            function (err, results) {
+            function (err, results) { 
                 res.render('gigs/gigdetails', {
                     gigdetails: results[0], gig_index: req.params.index,
                     session : session

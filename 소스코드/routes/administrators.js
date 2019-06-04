@@ -97,7 +97,7 @@ function create_ticket(gig_index, cb){
 
                                 var section_id = seats[j].section_id;
                                 var seat_index=seats[j].seat_row_index;
-                                var ticket_id=(_gig_index).toString() + "/" +section_id +"/" +(seat_index).toString();
+                                var ticket_id=(_gig_index).toString() + "." +section_id +"." +(seat_index).toString();
                                 var seat_row_index=seats[j].seat_row_index;
                                 console.log("ticket_id" ,ticket_id);
                                 network.create_ticket('ticketadmin',ticket_id,section_id,seat_row_index,seat_index,seat_price,_gig_index,gig_date_time, gig_name, gig_venue)  
