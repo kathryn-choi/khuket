@@ -127,9 +127,7 @@
                                           <td width="120"><%= gigs.gig_total_seatnum %></td>
                                           <td width="120"><%= gigs.gig_type %></td>
                                           <td width="250"><%= gigs.gig_description %></td>
-                                          <form method="post" action="/administrators/accept_gig">
-                                          <input type="hidden" name="gig_index" value="<%=gigs.gig_index%>">
-                                          <td><input type="submit" name="pending" value="accept"><input type="submit" name="pending" value="deny"></td></form>
+                                          <td><input type="Submit" value="accept" onclick = "accpetgig('<%= gigs.gig_index %>','accept')"><input type="Submit" value="  deny " onclick = "denygig('<%= gigs.gig_index %>','deny')"></td></form>
                                         </tr>
                                       </tbody>
                                       <% } %>
@@ -163,9 +161,7 @@
                                           <td width="120"><%= gigs.gig_total_seatnum %></td>
                                           <td width="120"><%= gigs.gig_type %></td>
                                           <td width="250"><%= gigs.gig_description %></td>
-                                          <form method="post" action="/administrators/accept_gig">
-                                          <input type="hidden" name="gig_index" value="<%=gigs.gig_index%>">
-                                          <td><input type="submit" name="pending" value="deny"></td></form>
+                                          <td>등록 완료</td>
                                         </tr>
                                       </tbody>
                                       <% } %>
@@ -199,9 +195,7 @@
                                           <td width="120"><%= gigs.gig_total_seatnum %></td>
                                           <td width="120"><%= gigs.gig_type %></td>
                                           <td width="250"><%= gigs.gig_description %></td>
-                                          <form method="post" action="/administrators/accept_gig">
-                                          <input type="hidden" name="gig_index" value="<%=gigs.gig_index%>">
-                                          <td><input type="submit" name="pending" value="accept"></td></form>
+                                          <td><input type="Submit" value="accept" onclick = "accpetgig('<%= gigs.gig_index %>','accept')"></td></form>
                                         </tr>
                                       </tbody>
                                       <% } %>
@@ -219,6 +213,7 @@
 <% } else{ %>
   <meta http-equiv="refresh" content="0;url=/administrators/login">
 <% } %>
+
 
 <!-- jQuery library -->
 <script src="../assets/js/jquery.min.js"></script>
@@ -239,5 +234,60 @@
 
 </body>
 </html>
+
+<script type="text/javascript">
+  function accpetgig(gig_index,pending_type){
+    $.ajax({
+      url:"/administrators/accept_gig",
+      method: "POST",
+      data : {
+        gig_index : gig_index,
+        pending : pending_type
+      },
+      success : function (data) {
+          if(data['success'] == true){
+              if(!alert('티켓 생성 성공')){
+                  window.location.reload();  
+              }
+          }
+          if(data['success'] == false){
+              if(!alert("티켓 생성 실패")){
+                  window.location.reload();  
+              }
+          }
+      },
+      error : function () {
+          alert("티켓 생성 실패");
+      }
+    });
+  }
+
+  function denygig(gig_index,pending_type){
+    $.ajax({
+      url:"/administrators/accept_gig",
+      method: "POST",
+      data : {
+        gig_index : gig_index,
+        pending : pending_type
+      },
+      success : function (data) {
+          if(data['success'] == true){
+              if(!alert("티켓 승인이 정상적으로 거절 되었습니다")){
+                  window.location.reload();  
+              }
+          }
+          if(data['success'] == false){
+              if(!alert("티켓 승인 거절이 실패 되었습니다")){
+                  window.location.reload();  
+              }
+          }
+      },
+      error : function () {
+          alert("티켓 생성 실패");
+      }
+    });
+  }
+
+</script>
 
 
