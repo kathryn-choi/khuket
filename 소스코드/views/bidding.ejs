@@ -107,7 +107,7 @@
                                     <form class="contactform" method="post" action="/bidding/add_bidding">
                                         <p class="comment-form-author">
                                             <label for="author">Bidder ID <span class="required"> :  <%=user_id%></span></label>
-                                           
+                                            <input type="hidden", name="bidder_id", value="<%=user_id%>">
                                         </p>
                                         <p class="comment-form-email">
                                             <label for="email">Bidding Index <span class="required">*</span></label>

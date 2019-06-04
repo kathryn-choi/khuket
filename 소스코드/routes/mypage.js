@@ -227,8 +227,8 @@ function resell_ticket(id, starting_time,  current_price, starting_price, ticket
 
         var current_time=year+month+date+ hour +":" + min + ":"+ sec;*/
         var sql=`INSERT INTO biddings SET starting_time=?, ticket_owner_id=?, max_price=?, 
-        current_price=?, bidder_id=?, ticket_id=?, starting_price=?, end_time=?`;
-        var values=[starting_time.toString() ,id, current_price*1.25,current_price,-1, ticket_id,starting_price,end_time.toString()]
+        current_price=?, ticket_id=?, starting_price=?, end_time=?`;
+        var values=[starting_time.toString() ,id, current_price*1.25,starting_price, ticket_id,starting_price,end_time.toString()]
 
     connection.query(sql, values, function (err) {
         if(err) {
