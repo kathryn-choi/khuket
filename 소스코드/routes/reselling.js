@@ -8,13 +8,11 @@ function get_reselling_list(cb2) {
     console.log("get_reselling_list");
     check_bidding_over(function(result){
         if(result==true){
-            var sqlquery = 'SELECT * FROM biddings b';
+            var sqlquery = 'SELECT * FROM biddings';
             var reselling_list = new Array();
             connection.query(sqlquery, function (err, rows) {
                 if (!err) {
                     reselling_list = rows;
-                    //console.log(reselling_list);
-                    console.log("rows" , rows);
                     cb2(true, reselling_list);
                 } else {
                     console.log('내 정보를 가져오는데 실패했습니다!');
@@ -123,7 +121,7 @@ function get_reselling_ticket_list_info(cb) {
 
 //bidding winner가 생겼다고 기존 ticket owner에게 알리기
 function alert_original_ticket_owner(ticket_owner_id, ticket_id, current_price,cb) {
-    network.get_ticket_info_by_id(ticket_owner_id, res.ticket_id).then((response) => {
+    network.get_ticket_info_by_id(ticket_owner_id, ticket_id).then((response) => {
     var ticket=response;
     var gig_venue = ticket.gig_venue;
     var gig_name =  ticket.gig_name;
@@ -158,21 +156,30 @@ function delete_reselling_ticket(bidding_index, cb) {
 
 //change ticket owner of bidding winner
 function change_ticket_owner(bidding_index,bidder_id, ticket_owner_id, ticket_id, current_price, bidder_index, cb) {
-    if (bidder_index != -1) {
+    if (bidder_index != '-1') {
         network.update_ticket_owner(bidder_id, ticket_id).then((response) => {
-            if(response== true) {
-                delete_reselling_ticket(bidding_index, function(result){
-                if(result==true){
-                    alert_original_ticket_owner(ticket_owner_id, ticket_id, current_price, function(r){
-                        if(r==true) {
-                        console.log('alert ticket owner has changed');
-                        cb(true);
-                        }
-                    })
-                }
+            if (response.error != null) {
+                console.log("network update ticket owner failed");
+                cb(false);
+            } else {
+                //else return success
+                console.log("return true complete")
+                    delete_reselling_ticket(bidding_index, function(result){
+                    if(result==true){
+                        alert_original_ticket_owner(ticket_owner_id, ticket_id, current_price, function(r){
+                            if(r==true) {
+                            console.log('alert ticket owner has changed');
+                            cb(true);
+                            }else{
+                                cb(false);
+                            }
+                        })
+                    }else{
+                        cb(false);
+                    }
+                });
+            }
             });
-        }
-    });
     }
     //no bidder -> alert ticket_owner there wasn't any bidder
     else{
@@ -199,11 +206,11 @@ function change_ticket_owner(bidding_index,bidder_id, ticket_owner_id, ticket_id
         }
     });
     }
-    cb(false);
 };
 
 //끝난 비딩 체크하기
-function check_bidding_over(cb) {
+function check_bidding_over(callback) {
+    console.log("checkbiddingover!!");
     var current_date = new Date();
     var month=current_date.getMonth()+1; + "-";
     var year = current_date.getFullYear() + "-";
@@ -228,31 +235,41 @@ function check_bidding_over(cb) {
             sec="0"+sec;
         }
     var right_now_time=year+month+date+ hour +":" + min + ":"+ sec;
-    var sqlquery = 'SELECT * FROM biddings b';
+    var sqlquery = `SELECT * FROM biddings WHERE (end_time < STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s')) OR (max_price = current_price)`;
     var bidding_list = new Array();
-    connection.query(sqlquery, function (err, rows) {
+    connection.query(sqlquery, right_now_time, function (err, rows) {
         if (!err) {
+            var num=0;
+            console.log(19);
             bidding_list=rows;
-            console.log("checkbiddingover : "+bidding_list);
+            //Select * From temp where mydate > STR_TO_DATE('2009-06-29 04:00:44', '%Y-%m-%d %H:%i:%s');
             for (var i = 0; i < bidding_list.length; i++) {
-                if (right_now_time >= bidding_list[i].end_time || bidding_list[i].max_price == bidding_list[i].current_price) {
+                console.log("checkbiddingover : "+bidding_list[i]);
+                //if()
+                //if (right_now_time >= bidding_list[i].end_time.toString() || bidding_list[i].max_price == bidding_list[i].current_price) {
                     console.log('bidding over!');
                     change_ticket_owner(bidding_list[i].bidding_index, bidding_list[i].bidder_id, bidding_list[i].ticket_owner_id, bidding_list[i].ticket_id, bidding_list[i].current_price, function(result){
                        if(result==false){
-                            cb(false);
+                            num=-1;
                         }
                     });
+                    if(num==-1){
+                        break;
+                    }
                 }
-            }
-            cb(true);
+                if(num==-1){
+                callback(false);
+                }else{
+                callback(true);
+                }
         }
         else
         {
             console.log('getting bidding list failed');
-            cb(false);
+            callback(false);
         }
     });
-    cb(true);
+    callback(true);
 }
 
 //reselling 정보 return
@@ -278,7 +295,7 @@ router.get('/', function (req, res, next) {
             function (result, reselling_list) {
                 if(reselling_list[0] != "" ){
                     console.log("-1" + reselling_list[0]);
-                    var resell_tickets = JSON.parse(reselling_list[0])}
+                    var resell_tickets = JSON.parse(reselling_list[0]);}
                 else{
                     var resell_tickets = [];
                 }
