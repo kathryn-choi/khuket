@@ -165,67 +165,14 @@ function get_ticket_detail(user_id, ticket_id, cb){
             }
             
         console.log(my_tickets);
-        getqrcode(ticket_id, my_tickets[0].gig_datetime, function(result,qrcode){
-            if(result==true){
-            cb(true,my_tickets[0],qrcode);
-            }else{
-            cb(true,my_tickets[0],"not time yet!");
-            }          
-        });
         }
     })
 }
 
-function getqrcode(ticket_id, gig_datetime, cb){
-    var current_date = new Date();
-    var current_time = current_date.getDate() + "/"
-        + (current_date.getMonth()+1)  + "/"
-        + current_date.getFullYear() + "/"
-        + current_date.getHours() + ":"
-        + current_date.getMinutes() + ":"
-        + current_date.getSeconds();
-    
-    var datetime=gig_datetime.split(" ");
-    var gig_date=datetime[0];
-    var gig_time=datetime[1];
-    if(gig_date==current_date && gig_time-current_time<=3){
-        cb(true, "qrcode"); //qrcode
-    }else{
-        cb(false);
-    }
-}
+
 
 //티켓 resell하기
 function resell_ticket(id, starting_time,  current_price, starting_price, ticket_id, end_time, cb){
-    /*var current_date = new Date();
-    var month=current_date.getMonth()+1; + "-";
-    var year = current_date.getFullYear() + "-";
-    var date=current_date.getDate() + " ";
-    var hour=current_date.getHours();
-    var min=current_date.getMinutes();
-    var sec=current_date.getSeconds();
-        if(month.toString().length!=3){ //month.length ??
-         month=current_date.getMonth() +1;
-            month="0" +month + "-"
-        }
-        if(date.toString().length!=3){
-            date="0" +current_date.getDate() +" "
-        }
-        if(hour.toString().length!=2){se {
-            var get_my_tickets = response;
-            var my_tickets=new Array(); 
-            for(i=0; i<get_my_tickets.length; i++) {
-                var ticket={
-            hour="0"+hour;
-        }
-        if(min.toString().length!=2){
-            min="0"+min;
-        }
-        if(sec.toString().length!=2){
-            sec="0"+sec;
-        }
-
-        var current_time=year+month+date+ hour +":" + min + ":"+ sec;*/
         var sql=`INSERT INTO biddings SET starting_time=?, ticket_owner_id=?, max_price=?, 
         current_price=?, ticket_id=?, starting_price=?, end_time=?`;
         var values=[starting_time.toString() ,id, current_price*1.25,starting_price, ticket_id,starting_price,end_time.toString()]
@@ -282,9 +229,9 @@ router.get('/', function(req, res, next) {
                         if(result==true){
                             var stringfy_tickets=JSON.stringify(myticketlist);
                             console.log("stringify" + stringfy_tickets);
-                        callback(myinfo_list, stringfy_tickets);
+                            callback(myinfo_list, stringfy_tickets);
                         }else{
-                        callback(myinfo_list, []);
+                            callback(myinfo_list, []);
                         }
                     });
                 }
@@ -295,19 +242,8 @@ router.get('/', function(req, res, next) {
                 console.log("myticket typeof"+typeof(myticket));
                 console.log ('-1'+ myticket[0] );
                 var my_ticket = JSON.parse(myticket[0])
-                //myticket = myticket[0].split(']')[0]
-                //myticket = myticket.split('[')[1]
                 var _myticket = []
                 console.log(my_ticket)
-                /*for(var i =0; i<my_ticket.length; i++){
-                    console.log(my_ticket[i])
-                    var temp = JSON.parse(my_ticket[i])
-                    _myticket.push(temp)
-                }
-                
-                console.log(_myticket)
-
-                console.log (my_ticket);*/
                 }else{
                     var my_ticket = [];
                 }

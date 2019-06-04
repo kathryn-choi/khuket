@@ -29,10 +29,10 @@ function get_reselling_list(cb2) {
 
 //reselling ticket list info
 function get_reselling_ticket_list_info(cb) {
+    var count=0;
    get_reselling_list(function (result, reselling_list) {
         if(result==true){
             var reselling_ticket_list = new Array();
-            var count=0;
             console.log(reselling_list);
            var length=reselling_list.length;
            console.log("length", length);
@@ -54,7 +54,6 @@ function get_reselling_ticket_list_info(cb) {
             };
             reselling_ticket_list.push(resell_ticket);
         }
-        console.log('pushed reselling list' + reselling_ticket_list.length);
         if(reselling_ticket_list.length == 0){
             cb(false, [""]);
         }
@@ -97,22 +96,24 @@ function get_reselling_ticket_list_info(cb) {
                         reselling_ticket_list[i].row_id=obj[key].toString();
                         }            
                     }
-                    reselling_ticket_list[i].max_price=maxprice;
-                    reselling_ticket_list[i].end_time=endtime;
-                    reselling_ticket_list[i].starting_time=starttime;
-                    reselling_ticket_list[i].current_price=curprice;
-                    reselling_ticket_list[i].ticket_id=ticket_id;
-                    count=count+1;
-                    if(count==reselling_ticket_list.length){
-                        cb(true, reselling_ticket_list);
+                        reselling_ticket_list[i].max_price=maxprice;
+                        reselling_ticket_list[i].end_time=endtime;
+                        reselling_ticket_list[i].starting_time=starttime;
+                        reselling_ticket_list[i].current_price=curprice;
+                        reselling_ticket_list[i].ticket_id=ticket_id;
+                        count=count+1;
+                        if(count==resellticket.length){
+                            cb(true, reselling_ticket_list);
+                        }
                     }
-                }
-            }
-                });
+                       
+                 }
+            });
         }
         }         
         } else {
             console.log('query biddings table failed!');
+            cb(false, null);
         }
     });
     console.log(10);
@@ -232,6 +233,7 @@ function check_bidding_over(cb) {
     connection.query(sqlquery, function (err, rows) {
         if (!err) {
             bidding_list=rows;
+            console.log("checkbiddingover : "+bidding_list);
             for (var i = 0; i < bidding_list.length; i++) {
                 if (right_now_time >= bidding_list[i].end_time || bidding_list[i].max_price == bidding_list[i].current_price) {
                     console.log('bidding over!');

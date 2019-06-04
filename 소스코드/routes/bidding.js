@@ -75,22 +75,27 @@ function addbidding(bidding_index, bidder_id, bidder_bidding_price, cb){
             if(current_time>=start_time && current_time <end_time) {
                 if (bidder_bidding_price > current_bidding_info[0].current_price && bidder_bidding_price <= current_bidding_info[0].max_price) {
                     console.log('성공!');
-                    var sql = "UPDATE biddings SET current_price = ?, bidder_id=?  WHERE bidding_index = ?";
-                    connection.query(sql, [bidder_bidding_price, bidder_id, bidding_index], function (err) {
-                        if (err) {
-                            console.log("updating failed");
+                    alert_former_bidder(bidding_index, function(result){
+                        if(result==true){
+                            console.log("notice update true")
+                            var sql = "UPDATE biddings SET current_price = ?, bidder_id=?  WHERE bidding_index = ?";
+                            connection.query(sql, [bidder_bidding_price, bidder_id, bidding_index], function (err) {
+                            if (err) {
+                                console.log("updating failed");
+                                cb(false, null);
+                            }else {
+                                console.log("비딩 정보 수정완료");
+                                cb(true, bidding_index);
+                            }
+                            });
+                        }else{
+                            console.log("alerting former bidder failed");
                             cb(false, null);
                         }
-                        else {
-                            console.log("비딩 정보 수정완료");
-                            alert_former_bidder(bidding_index, function(result){
-                                if(result==true){
-                                    console.log("notice update true")
-                                    cb(true, bidding_index);
-                                }
-                            });
-                        }
                     });
+                }else{
+                    console.log("bidding price error!! too big or too small");
+                    cb(false, null);
                 }
             }
             else{
