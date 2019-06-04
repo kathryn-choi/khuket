@@ -4,7 +4,7 @@ var async = require('async');
 var network = require('../ticketing-system/network.js');
 
 //비딩 테이블에 저장된 리스트 가져오기
-function get_reselling_list(cb) {
+function get_reselling_list(cb2) {
     console.log("get_reselling_list");
     check_bidding_over(function(result){
         if(result==true){
@@ -15,14 +15,14 @@ function get_reselling_list(cb) {
                     reselling_list = rows;
                     //console.log(reselling_list);
                     console.log("rows" , rows);
-                    cb(true, reselling_list);
+                    cb2(true, reselling_list);
                 } else {
                     console.log('내 정보를 가져오는데 실패했습니다!');
-                    cb(false, null);
+                    cb2(false, null);
                 }
             });
         }else{
-            cb(false, null);
+            cb2(false, null);
         }
     });
 }
@@ -56,8 +56,9 @@ function get_reselling_ticket_list_info(cb) {
         }
         console.log('pushed reselling list' + reselling_ticket_list.length);
         if(reselling_ticket_list.length == 0){
-            cb(true, [""]);
+            cb(false, [""]);
         }
+        else{
            for(var i=0; i<length; i++){
                var ticket_owner_id=reselling_list[i].ticket_owner_id;
                var ticket_id=reselling_list[i].ticket_id;
@@ -68,7 +69,7 @@ function get_reselling_ticket_list_info(cb) {
                 network.get_ticket_info_by_id(ticket_owner_id, ticket_id).then((response) => {
                     if (response.error != null) {
                         console.log("network get ticket info failed");
-                        cb(true, [""]);
+                        cb(false, [""]);
                     } else {
                     var resellticket=response;
                     for(i=0; i<resellticket.length; i++) {
@@ -108,6 +109,7 @@ function get_reselling_ticket_list_info(cb) {
                 }
             }
                 });
+        }
         }         
         } else {
             console.log('query biddings table failed!');
@@ -258,26 +260,30 @@ router.get('/', function (req, res, next) {
                 function (callback) {
                     get_reselling_ticket_list_info(function (result, reselling_list) {
                         if(result==true){
-                            console.log(12+reselling_list.length);
                             var stringfy_tickets=JSON.stringify(reselling_list);
                             console.log("stringify" + stringfy_tickets);
-                        callback(result, stringfy_tickets);
+                            callback(result, stringfy_tickets);
                         }else{
-                            console.log("reselling ticket info failed");
-                            res.redirect('/');
+                            console.log("empty arraay!!");
+                            res.render('reselling', {
+                                reselling_list: [],
+                                user_id : req.session.user_id,
+                            });
                         }
                     });
                 }
             ],
-            function (result,reselling_list) {
-                if(result==true){
+            function (result, reselling_list) {
+                if(reselling_list[0] != "" ){
                     console.log("-1" + reselling_list[0]);
-                    var resell_tickets = JSON.parse(reselling_list[0])
+                    var resell_tickets = JSON.parse(reselling_list[0])}
+                else{
+                    var resell_tickets = [];
+                }
                 res.render('reselling', {
                     reselling_list: resell_tickets,
                     user_id : req.session.user_id,
                 });
-            }
             }
         ); 
 });
