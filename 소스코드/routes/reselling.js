@@ -29,10 +29,11 @@ function get_reselling_list(cb) {
 
 //reselling ticket list info
 function get_reselling_ticket_list_info(cb) {
-    var reselling_ticket_list = new Array();
-    var count=0;
    get_reselling_list(function (result, reselling_list) {
         if(result==true){
+            var reselling_ticket_list = new Array();
+            var count=0;
+            console.log(reselling_list);
            var length=reselling_list.length;
            console.log("length", length);
            for(var i=0; i<length; i++){
@@ -54,6 +55,9 @@ function get_reselling_ticket_list_info(cb) {
             reselling_ticket_list.push(resell_ticket);
         }
         console.log('pushed reselling list' + reselling_ticket_list.length);
+        if(reselling_ticket_list.length == 0){
+            cb(true, [""]);
+        }
            for(var i=0; i<length; i++){
                var ticket_owner_id=reselling_list[i].ticket_owner_id;
                var ticket_id=reselling_list[i].ticket_id;
@@ -64,10 +68,11 @@ function get_reselling_ticket_list_info(cb) {
                 network.get_ticket_info_by_id(ticket_owner_id, ticket_id).then((response) => {
                     if (response.error != null) {
                         console.log("network get ticket info failed");
-                        cb(false, [""]);
+                        cb(true, [""]);
                     } else {
                     var resellticket=response;
-                    var stringfy_tickets=JSON.stringify(resellticket[0]);
+                    for(i=0; i<resellticket.length; i++) {
+                    var stringfy_tickets=JSON.stringify(resellticket[i]);
                     var obj =  JSON.parse(stringfy_tickets);
                     console.log("obj", obj);
                     for( var key in obj ) {
@@ -101,8 +106,9 @@ function get_reselling_ticket_list_info(cb) {
                         cb(true, reselling_ticket_list);
                     }
                 }
+            }
                 });
-            }         
+        }         
         } else {
             console.log('query biddings table failed!');
         }
