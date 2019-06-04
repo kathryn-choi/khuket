@@ -66,6 +66,7 @@ function get_reselling_ticket_list_info(cb) {
                var endtime=reselling_list[i].end_time;
                var starttime=reselling_list[i].starting_time;
                var curprice=reselling_list[i].current_price;
+               console.log("ticketid", ticket_id);
                 network.get_ticket_info_by_id(ticket_owner_id, ticket_id).then((response) => {
                     if (response.error != null) {
                         console.log("network get ticket info failed");
@@ -100,10 +101,9 @@ function get_reselling_ticket_list_info(cb) {
                     reselling_ticket_list[i].end_time=endtime;
                     reselling_ticket_list[i].starting_time=starttime;
                     reselling_ticket_list[i].current_price=curprice;
+                    reselling_ticket_list[i].ticket_id=ticket_id;
                     count=count+1;
                     if(count==reselling_ticket_list.length){
-                        console.log('count', count);
-                        console.log("tlist" + reselling_ticket_list);
                         cb(true, reselling_ticket_list);
                     }
                 }

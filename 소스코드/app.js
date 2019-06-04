@@ -51,7 +51,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 connection = mysql.createConnection({
     host     : 'localhost',
     user     : 'root',
-    password : 'password123',
+    password : 'pw',
     port     : 3306,
     database : 'ticketing_service',
 });

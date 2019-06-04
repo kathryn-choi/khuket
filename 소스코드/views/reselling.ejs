@@ -89,6 +89,7 @@
 </section>
 <!-- End breadcrumb -->
 <!-- Start gallery  -->
+<form method="post" action="/bidding" >
 <section id="mu-gallery">
     <div class="container">
         <div class="row">
@@ -128,16 +129,15 @@
                                                         Seat Info (Section ID / Seat Row ID / Seat ID) :
                                                         <%=reselling_list[i].section_id%> /   
                                                         <%=reselling_list[i].row_id%> / <%=reselling_list[i].seat_id%>
-                                                        <form action="/bidding" method="post">
-                                                            <input type="hidden" name="bidding_index" value="<%= reselling_list[i].bidding_index%>">
-                                                            <input type="hidden" name="bidding_id" value="<%=user_id%>">
-                                                            <button type="submit" >I Want to Bid</button>
-                                                        </form>
+                                                          
                                                     </p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <input type="hidden" name="ticket_id" value="<%= reselling_list[i].ticket_id%>">
+                                    <button type="submit" >I Want to Bid</button>
+                                </form>
                                     <%  }  %>
                                 </li>
                             </ul>

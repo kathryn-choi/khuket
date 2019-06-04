@@ -43,18 +43,17 @@ function alert_former_bidder(bidding_index, cb) {
 }
 
 router.post('/', function(req, res, next) {
-        var sqlquery = 'SELECT * FROM bidding b WHERE bidding_index=?';
+        var sqlquery = `SELECT * FROM biddings WHERE ticket_id = ?`;
         var reselling_list = new Array();
-        connection.query(sqlquery, req.body.bidding_index, function (err, rows) {
+        console.log("ticketid : ", req.body.ticket_id);
+        connection.query(sqlquery, req.body.ticket_id, function (err, row) {
             if (!err) {
-                reselling_list = rows;
+                reselling_list = row;
                 console.log(reselling_list);
-                console.log(req.body.bidding_id);
-                res.render('bidding', {user_id : req.body.bidding_id, bidding_index :req.body.bidding_index, current_price : reselling_list[0].current_price, max_price: reselling_list[0].max_price});
+                res.render('bidding', {user_id : req.session.user_id, bidding_index :reselling_list[0].bidding_index, current_price : reselling_list[0].current_price, max_price: reselling_list[0].max_price});
             } else {
                 console.log('내 정보를 가져오는데 실패했습니다!');
                 res.redirect('back');
-                //throw err;
             }
         });
     
@@ -62,7 +61,7 @@ router.post('/', function(req, res, next) {
 
 function addbidding(bidding_index, bidder_id, bidder_bidding_price, cb){
     var current_bidding_info=new Array();
-    var sqlquery = "SELECT  * FROM bidding b WHERE b.bidding_index = ?";
+    var sqlquery = "SELECT  * FROM biddings WHERE bidding_index = ?";
     connection.query(sqlquery,bidding_index, function (err, rows) {
         if (!err) {
             current_bidding_info = rows;
@@ -73,7 +72,7 @@ function addbidding(bidding_index, bidder_id, bidder_bidding_price, cb){
             if(current_time>=start_time && current_time <end_time) {
                 if (bidder_bidding_price > current_bidding_info[0].current_price && bidder_bidding_price <= current_bidding_info[0].max_price) {
                     console.log('성공!');
-                    var sql = "UPDATE bidding SET current_price = ?, bidder_id=?  WHERE bidding_index = ?";
+                    var sql = "UPDATE biddings SET current_price = ?, bidder_id=?  WHERE bidding_index = ?";
                     connection.query(sql, [bidder_bidding_price, bidder_id, bidding_index], function (err) {
                         if (err) {
                             console.log("updating failed");
@@ -93,11 +92,11 @@ function addbidding(bidding_index, bidder_id, bidder_bidding_price, cb){
             }
             else{
                 console.log('실패실패!');
-                throw err;
+                cb(fasle, null);
             }
         } else {
             console.log("비딩 실패");
-            throw err;
+            cb(fasle, null);
         }
     });
 }
@@ -116,14 +115,14 @@ router.post('/add_bidding', function (req, res, next) {
             function (callback) {
             addbidding(bidding_index, bidder_id, bidder_bidding_price, function(result, bidding_index){
                 if(result==true){
-                    callback(true);
+                    callback(true, null);
                 }else{
-                    callback(false);
+                    callback(false, null);
                 }
             });
             }
         ],
-        function (result) {
+        function (result, blah) {
             if(result==true){
             res.render('reselling', {
                 reselling_list: results[0],
