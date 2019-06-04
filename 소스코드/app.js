@@ -39,7 +39,6 @@ passport.deserializeUser(function(user, done) {
 
 var app = express();
 
-
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -52,7 +51,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 connection = mysql.createConnection({
     host     : 'localhost',
     user     : 'root',
-    password : 'pw',
+    password : 'password123',
     port     : 3306,
     database : 'ticketing_service',
 });

@@ -211,7 +211,11 @@ function resell_ticket(id, starting_time,  current_price, starting_price, ticket
         if(date.toString().length!=3){
             date="0" +current_date.getDate() +" "
         }
-        if(hour.toString().length!=2){
+        if(hour.toString().length!=2){se {
+            var get_my_tickets = response;
+            var my_tickets=new Array(); 
+            for(i=0; i<get_my_tickets.length; i++) {
+                var ticket={
             hour="0"+hour;
         }
         if(min.toString().length!=2){

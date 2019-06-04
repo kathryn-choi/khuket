@@ -83,104 +83,102 @@
 <!-- End breadcrumb -->
 <section id="mu-course-content">
     <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="mu-course-content-area">
-                    <div class="row">
-                        <div class="col-md-9">
-                            <!-- start course content container -->
-                            <div class="mu-course-container">
-                                <div class="row"> 
-                                    <%if(mytickets.length != 0) {%>
-                                        <% for(var i=0; i<(mytickets).length; i++){%>
-                                        <div class="col-md-6 col-sm-6">
-                                        <div class="mu-latest-course-single">
-                                            <figure class="mu-latest-course-img">
-                                                <a href="#"><img src="assets/img/courses/1.jpg" alt="img"></a>
-                                                <figcaption class="mu-latest-course-imgcaption">
-                                                    <a href="#"><%=i+1.%></a>
-                                                    <span><i class="fa fa-clock-o"></i>90Days</span>
-                                                </figcaption>
-                                            </figure>
-                                            <div class="mu-latest-course-single-content">
-                                                <h4><a href="#"><%=mytickets[i].ticket_price%></a></h4>
-                                                Gig Name : <%=mytickets[i].gig_name %> <br>
-                                                Gig Venue: <%=mytickets[i].gig_venue%> <br>
-                                                Gig Date Time : <%= mytickets[i].gig_datetime%> <br>
-                                                Section ID : <%= mytickets[i].section_id%> <br>
-                                                Row ID : <%= mytickets[i].row_id%> <br>
-                                                Price : <%= mytickets[i].ticket_price%> <br>
-                                                <p>Ticket ID : <%= mytickets[i].ticket_id%> </p>
-                                                <div class="mu-latest-course-single-contbottom">
-                                                    <a class="mu-course-details" href="/mypage/<%=mytickets[i].ticket_id%>">Details</a>
-                                                    <span class="mu-course-price" href="#"><%=mytickets[i].ticket_price%></span>
-                                                </div>
-                                
-                                                Resell Ticket:
-                                                <!--id, starting_time,  current_price, starting_price, ticket_id, end_time, cb-->
-                                                <form method="POST" action="/mypage/resell">
-                                                    <input type="hidden" name="current_price" value="<%= mytickets[i].ticket_price%>">
-                                                    <input type="hidden" name="ticket_id" value="<%= mytickets[i].ticket_id%>">
-                                                    <input type="datetime" name="starting_time"> Starting Time <br>
-                                                    <input type="datetime" name="end_time"> End Time <br>
-                                                    <input type="number" name="starting_price"> starting_price <br>
-                                                    <input type="submit" value="Resell">
-                                                </form>
-                                          
-                                            </div>
-                                        </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="mu-course-content-area">
+             <div class="row">
+               <div class="col-md-9">
+                 <!-- start course content container -->
+                 <div class="mu-course-container">
+                   <div class="row">
+                        <%if(mytickets.length != 0) {%>
+                            <% for(var i=0; i<(mytickets).length; i++){%>
+                                <div class="col-md-6 col-sm-6">
+                                <div class="mu-latest-course-single">
+                                <figure class="mu-latest-course-img">
+                                    <figcaption class="mu-latest-course-imgcaption">
+                                        <a href="#"><%=i+1.%></a>
+                                        <span><i class="fa fa-clock-o"></i>10Days</span>
+                                    </figcaption>
+                                </figure>
+                                <div class="mu-latest-course-single-content">
+                                    <h4><a href="#"><%=mytickets[i].ticket_price%></a></h4>
+                                    Gig Name : <%=mytickets[i].gig_name %> <br>
+                                    Gig Venue: <%=mytickets[i].gig_venue%> <br>
+                                    Gig Date Time : <%= mytickets[i].gig_datetime%> <br>
+                                    Section ID : <%= mytickets[i].section_id%> <br>
+                                    Row ID : <%= mytickets[i].row_id%> <br>
+                                    Price : <%= mytickets[i].ticket_price%> <br>
+                                    <p>Ticket ID : <%= mytickets[i].ticket_id%> </p>
+                                    <div class="mu-latest-course-single-contbottom">
+                                        <a class="mu-course-details" href="/mypage/<%=mytickets[i].ticket_id%>">Details</a>
+                                        <span class="mu-course-price" href="#"><%=mytickets[i].ticket_price%></span>
                                     </div>
-                                    <%}%>
-                                    <%} else {%>
-                                        NO!!!
-                                        <%}%>
-                                    
-                            <!-- end course content container -->
-                    
-                        </div>
-                        <div class="col-md-6">
-                            <!-- start sidebar -->
-                            <aside class="mu-sidebar">
-                                <!-- start single sidebar -->
-                                <div class="mu-single-sidebar">
-                                    <h3>Personal Info</h3>
-                                    <ul class="mu-sidebar-catg">
-                                        <form action="/mypage/update" method="post">
-                                        <li>이름 &nbsp;&nbsp;&nbsp;: <%=myinfo[0].buyer_name %></li>
-                                        <li>아이디 : <%= myinfo[0].buyer_id%></li>
-                                        <li>이메일 : &nbsp; <input name="buyer_email" value="<%= myinfo[0].buyer_email %>"></li>
-                                        <li>연락처: &nbsp;&nbsp;&nbsp;<input name="buyer_contact" value="<%=myinfo[0].buyer_contact %>"></li>
-                                        <li>계좌&nbsp;&nbsp;&nbsp; : &nbsp;&nbsp;&nbsp;<input name="buyer_account" value="<%=myinfo[0].buyer_account %>"></li>
-                                            <button type="submit">Submit</button>
-                                        </form>
-                                    </ul>
+
+                                    Resell Ticket:
+                                    <!--id, starting_time,  current_price, starting_price, ticket_id, end_time, cb-->
+                                    <form method="POST" action="/mypage/resell">
+                                        <input type="hidden" name="current_price" value="<%= mytickets[i].ticket_price%>">
+                                        <input type="hidden" name="ticket_id" value="<%= mytickets[i].ticket_id%>">
+                                        <input type="datetime" name="starting_time"> Starting Time <br>
+                                        <input type="datetime" name="end_time"> End Time <br>
+                                        <input type="number" name="starting_price"> starting_price <br>
+                                        <input type="submit" value="Resell">
+                                    </form>
                                 </div>
-                                <!-- end single sidebar -->
-                                <!-- start single sidebar -->
-                                <div class="mu-single-sidebar">
-                                        <h3>My Notifications</h3>
-                                        <div class="mu-sidebar-popular-courses">
-                                            <div class="media">
-                                                <div class="media-left">
-                                                    <%for (i =1; i<myinfo.length; i++) { %>
-                                                    <form method="post" action="/mypage/delete_notification">
-                                                            <%=i%> .  <%= myinfo[i].notice_buyer_text %> <br>
-                                                            <input type="hidden" name="notification_index"value="<%= myinfo[i].notification_index%>">
-                                                            <button type="submit">Delete</button>
-                                                    </form>
-                                                    <%}%>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- end single sidebar -->
-                            </aside>
-                            <!-- / end sidebar -->
+                                </div> 
+                            </div>
+                            <%}%>
+                        <%} else {%>
+                            NO!!!
+                        <%}%>
+                   </div>
+                 </div>
+                 <!-- end course content container -->
+               </div>
+               <div class="col-md-3">
+                 <!-- start sidebar -->
+                 <aside class="mu-sidebar">
+                   <!-- start single sidebar -->
+                   <div class="mu-single-sidebar">
+                     <h3>Personal Info</h3>
+                     <ul class="mu-sidebar-catg">
+                        <form action="/mypage/update" method="post">
+                        <li>이름 &nbsp;&nbsp;&nbsp;: <%=myinfo[0].buyer_name %></li>
+                        <li>아이디 : <%= myinfo[0].buyer_id%></li>
+                        <li>이메일 : &nbsp; <input name="buyer_email" value="<%= myinfo[0].buyer_email %>"></li>
+                        <li>연락처: &nbsp;&nbsp;&nbsp;<input name="buyer_contact" value="<%=myinfo[0].buyer_contact %>"></li>
+                        <li>계좌&nbsp;&nbsp;&nbsp; : &nbsp;&nbsp;&nbsp;<input name="buyer_account" value="<%=myinfo[0].buyer_account %>"></li>
+                            <button type="submit">Submit</button>
+                        </form>
+                     </ul>
+                   </div>
+                   <!-- end single sidebar -->
+                   <!-- start single sidebar -->
+                    <div class="mu-single-sidebar">
+                        <h3>My Notifications</h3>
+                        <div class="mu-sidebar-popular-courses">
+                            <div class="media">
+                                <div class="media-left">
+                                    <%for (i =1; i<myinfo.length; i++) { %>
+                                    <form method="post" action="/mypage/delete_notification">
+                                            <%=i%> .  <%= myinfo[i].notice_buyer_text %> <br>
+                                            <input type="hidden" name="notification_index"value="<%= myinfo[i].notification_index%>">
+                                            <button type="submit">Delete</button>
+                                    </form>
+                                    <%}%>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                    <!-- end single sidebar -->
+                 </aside>
+                 <!-- / end sidebar -->
+              </div>
             </div>
+          </div>
         </div>
+      </div>
     </div>
 </section>
 
