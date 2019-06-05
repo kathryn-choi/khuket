@@ -326,8 +326,8 @@ router.post('/purchase', function(req, res, next) {
 //gig search
 router.post('/search', function(req, res, next) {
     let session = req.session;
-    var gig_name = req.body.gig_name;
-    var sqlquery = "SELECT  * FROM gigs WHERE gig_name=? ";
+    var gig_name = "%" +req.body.gig_name + "%";
+    var sqlquery = "SELECT  * FROM gigs WHERE gig_name LIKE ? ";
     console.log(5);
     connection.query(sqlquery, [gig_name], function (err, rows) {
         if (!err) {
