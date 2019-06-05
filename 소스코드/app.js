@@ -91,7 +91,7 @@ app.use('/organizers', organizers);
 app.use('/gigs', gigs);
 app.use('/bidding', bidding);
 app.use('/mypage', mypage);
-app.use('/reselling', reselling);
+app.use('/reselling', async reselling => {});
 app.use('/refund', refund);
 
 // catch 404 and forward to error handler

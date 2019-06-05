@@ -165,11 +165,35 @@ function get_ticket_detail(user_id, ticket_id, cb){
             }
             
         console.log(my_tickets);
+        getqrcode(ticket_id, my_tickets[0].gig_datetime, function(result,qrcode){
+            if(result==true){
+            cb(true,my_tickets[0],qrcode);
+            }else{
+            cb(true,my_tickets[0],"not time yet!");
+            }          
+        });
         }
     })
 }
 
-
+function getqrcode(ticket_id, gig_datetime, cb){
+    var current_date = new Date();
+    var current_time = current_date.getDate() + "/"
+        + (current_date.getMonth()+1)  + "/"
+        + current_date.getFullYear() + "/"
+        + current_date.getHours() + ":"
+        + current_date.getMinutes() + ":"
+        + current_date.getSeconds();
+    
+    var datetime=gig_datetime.split(" ");
+    var gig_date=datetime[0];
+    var gig_time=datetime[1];
+    if(gig_date==current_date && gig_time-current_time<=3){
+        cb(true, "qrcode"); //qrcode
+    }else{
+        cb(false);
+    }
+}
 
 //티켓 resell하기
 function resell_ticket(id, starting_time,  current_price, starting_price, ticket_id, end_time, cb){
