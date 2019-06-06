@@ -1,227 +1,34 @@
 var express = require('express');
 var router = express.Router();
 var async = require('async');
+const util = require('util');
 var network = require('../ticketing-system/network.js');
+//import Promise from 'thenfail';
 
 //비딩 테이블에 저장된 리스트 가져오기
-async function get_reselling_list() {
+function get_reselling_list(callback) {
     console.log("get_reselling_list");
-    check_bidding_over().then((result) =>{
+    check_bidding_over(function(result) { 
         if(result==true){
+            console.log("check bidding over true");
             var sqlquery = 'SELECT * FROM biddings';
-            var reselling_list = new Array();
-            connection.query(sqlquery, function (err, rows) {
-                if (!err) {
-                    reselling_list = rows;
-                    return(true, reselling_list);
-                } else {
-                    console.log('내 정보를 가져오는데 실패했습니다!');
-                    return (false, null);
-                }
-            });
+    connection.query(sqlquery, function (err, rows) {
+        if (!err) {
+            if(rows.length != 0){
+                reselling_list = rows;
+                callback(true, reselling_list);
+            }else{
+                callback(false, null);
+            }
         }else{
-            return(false, null);
+            callback(false, null);
         }
-    });
-}
-//reselling ticket list info => one reselling ticket succed
-/*
-async function get_reselling_ticket_list_info(cb) {
-   get_reselling_list(function (result, reselling_list) {
-        if(result==true){
-            var reselling_ticket_list = new Array();
-            var length=reselling_list.length;
-            for(var i=0; i<length; i++){
-            const resell_ticket = {
-                ticket_id: reselling_list[i].ticket_id,
-                section_id: "",
-                row_id: "",
-                seat_id: "",
-                ticket_price: 0,
-                gig_index: "",
-                gig_venue: "",
-                gig_name: "",
-                gig_datetime: "",
-                starting_time:reselling_list[i].starting_time,
-                end_time: reselling_list[i].end_time,
-                max_price: reselling_list[i].max_price,
-                current_price: reselling_list[i].current_price,
-            };
-            reselling_ticket_list.push(resell_ticket);
+        });
+    }else{
+            callback(false, null);
         }
-        if(reselling_ticket_list.length == 0){
-            cb(false, [""]);
-        }
-        else{
-           for(var i=0; i<length; i++){
-               var ticket_owner_id=reselling_list[i].ticket_owner_id;
-               var ticket_id=reselling_list[i].ticket_id;
-               var maxprice=reselling_list[i].max_price;
-               var endtime=reselling_list[i].end_time;
-               var starttime=reselling_list[i].starting_time;
-               var curprice=reselling_list[i].current_price;
-               console.log("ticketid", ticket_id);
-                network.get_ticket_info_by_id(ticket_owner_id, ticket_id).then((response) => {
-                    if (response.error != null) {
-                        console.log("network get ticket info failed");
-                        cb(false, [""]);
-                    } else {
-                    var resellticket=response;
-                    var count=0;
-                    var length2=resellticket.length;
-                    console.log("length2 : ", length2);
-                    for(i=0; i<resellticket.length; i++) {
-                    var stringfy_tickets=JSON.stringify(resellticket[i]);
-                    var obj =  JSON.parse(stringfy_tickets);
-                    console.log("obj", obj);
-                    for( var key in obj ) {
-                        if(key == 'gig_id'){
-                            reselling_ticket_list[i].gig_id=obj[key].toString();
-                        }else if(key == 'gig_name'){
-                            reselling_ticket_list[i].gig_name=obj[key].toString();
-                        }else if(key == 'gig_datetime'){
-                            reselling_ticket_list[i].gig_datetime=obj[key].toString();
-                        }else if(key == 'gig_venue'){
-                            reselling_ticket_list[i].gig_venue=obj[key].toString();
-                        }else if (key== 'seat_id'){
-                            reselling_ticket_list[i].seat_id=obj[key].toString();
-                        }else if (key== 'section_id'){
-                            reselling_ticket_list[i].section_id=obj[key].toString();
-                        }else if (key== 'ticket_price'){
-                            reselling_ticket_list[i].ticket_price=obj[key].toString();
-                        }else if (key== 'row_id'){
-                        reselling_ticket_list[i].row_id=obj[key].toString();
-                        }            
-                    }
-                        reselling_ticket_list[i].max_price=maxprice;
-                        reselling_ticket_list[i].end_time=endtime;
-                        reselling_ticket_list[i].starting_time=starttime;
-                        reselling_ticket_list[i].current_price=curprice;
-                        reselling_ticket_list[i].ticket_id=ticket_id;
-                        count=count+1;
-                        console.log("i ticketinfo : " + reselling_ticket_list[i]);
-                        if(count==length2){
-                            console.log("count : ", count)
-                            cb(true, reselling_ticket_list);
-                        }
-                    }
-                       
-                 }
-            });
-        }
-        }         
-        } else {
-            console.log('query biddings table failed!');
-            cb(false, null);
-        }
-    });
-    console.log(10);
-    var emptyarray=[];
-    return emptyarray;
-}
-*/
-
-//reselling ticket list info
-async function get_reselling_ticket_list_info() {
- //  get_reselling_list(function (result, reselling_list) {
-    get_reselling_list()
-    .then((result, reselling_list)=>{
-        if(result==true){
-            var reselling_ticket_list = new Array();
-          console.log(reselling_list);
-           var length=reselling_list.length;
-            console.log("length", length);
-           if(length == 0){
-                return(false, [""]);
-            }
-            else{
-            var count=0;
-           for(var i=0; i<length; i++){
-            const resell_ticket = {
-                ticket_id: "",
-                section_id: "",
-                row_id: "",
-                seat_id: "",
-                ticket_price: 0,
-                gig_index: "",
-                gig_venue: "",
-                gig_name: "",
-                gig_datetime: "",
-                starting_time:"",
-                end_time: "",
-                max_price: "",
-                current_price: 0,
-                };
-            reselling_ticket_list.push(resell_ticket);
-            }
-            for(var i=0; i<length; i++){
-               var ticket_owner_id=reselling_list[i].ticket_owner_id;
-               var ticket_id=reselling_list[i].ticket_id;
-               var maxprice=reselling_list[i].max_price;
-               var endtime=reselling_list[i].end_time;
-               var starttime=reselling_list[i].starting_time;
-               var curprice=reselling_list[i].current_price;
-               var selected_obj = reselling_ticket_list[i];
-               network.get_ticket_info_by_id(ticket_owner_id, ticket_id).then((response) => {
-                    if (response.error != null) {
-                        console.log("network get ticket info failed");
-                       return(false, [""]);
-                    } else {
-                    var resellticket=response;
-                    var length2=resellticket.length;
-                    for(j=0; j<length2; j++) {
-                    var stringfy_tickets=JSON.stringify(resellticket[j]);
-                    var obj =  JSON.parse(stringfy_tickets);
-                    console.log("OBJ : ", obj);
-                    for( var key in obj ) {
-                        console.log("key" + key + " obj key : "+ obj[key]);
-                        if(key == 'gig_id'){
-                            selected_obj.gig_id=obj[key].toString();
-                        }else if(key == 'gig_name'){
-                            selected_obj.gig_name=obj[key].toString();
-                        }else if(key == 'gig_datetime'){
-                            selected_obj.gig_datetime=obj[key].toString();
-                        }else if(key == 'gig_venue'){
-                            selected_obj.gig_venue=obj[key].toString();
-                        }else if (key== 'seat_id'){
-                            selected_obj.seat_id=obj[key].toString();
-                        }else if (key == 'section_id'){
-                            selected_obj.section_id=obj[key].toString();
-                        }else if (key == 'ticket_price'){
-                            selected_obj.ticket_price=obj[key].toString();
-                        }else if (key== 'row_id'){
-                            selected_obj.row_id=obj[key].toString();
-                        }            
-                    }
-                        selected_obj.max_price=maxprice;
-                        selected_obj.end_time=endtime;
-                        selected_obj.starting_time=starttime;
-                        selected_obj.current_price=curprice;
-                        selected_obj.ticket_id=ticket_id;
-                        count=count+1;
-                        console.log(i + " : " +selected_obj);
-                    }     
-                 }
-            }).then((response) =>{
-                if(count==length){
-                    console.log("count : " ,count);
-                    console.log("resellticket")
-                    return(true, reselling_ticket_list);
-                }
-            })
-            }
-        }        
-        } else {
-            console.log('query biddings table failed!');
-            return(false, null);
-        }
-    });
-    return;
-    /*console.log(10);
-    var emptyarray=[];
-    return emptyarray;
-    });*/
-}
+    })
+};
 
 //bidding winner가 생겼다고 기존 ticket owner에게 알리기
 async function alert_original_ticket_owner(ticket_owner_id, ticket_id, current_price,cb) {
@@ -239,32 +46,32 @@ async function alert_original_ticket_owner(ticket_owner_id, ticket_id, current_p
         notification_buyer_index: ticket_owner_id,
         notice_buyer_text: notice,
         });
-        return(true);
+        cb(true);
     });
-    return (false);
+    cb (false);
 }
 
 //reselling_ticket 지우기 (시간 관계 or max price 등등)
-async function delete_reselling_ticket(bidding_index) {
+async function delete_reselling_ticket(bidding_index, callback) {
     var sqlquery = 'DELETE FROM biddings WHERE bidding_index= ?';
     connection.query(sqlquery, bidding_index, function (err) {
         if (!err) {
             console.log('비딩 삭제 성공');
-            return(true);
+            callback(true);
         } else {
             console.log('비딩 삭제 실패');
-            return(false);
+            callback(false);
         }
     });
 }
 
 //change ticket owner of bidding winner
-async function change_ticket_owner(bidding_index,bidder_id, ticket_owner_id, ticket_id, current_price, bidder_index) {
+async function change_ticket_owner(bidding_index,bidder_id, ticket_owner_id, ticket_id, current_price, bidder_index, cb) {
     if (bidder_index != '-1') {
         network.update_ticket_owner(bidder_id, ticket_id).then((response) => {
             if (response.error != null) {
                 console.log("network update ticket owner failed");
-                return(false);
+                cb(false);
             } else {
                 //else return success
                 console.log("return true complete")
@@ -273,13 +80,13 @@ async function change_ticket_owner(bidding_index,bidder_id, ticket_owner_id, tic
                         alert_original_ticket_owner(ticket_owner_id, ticket_id, current_price, function(r){
                             if(r==true) {
                             console.log('alert ticket owner has changed');
-                                return (true);
+                                cb (true);
                             }else{
-                                return (false);
+                                cb (false);
                             }
                         })
                     }else{
-                        return(false);
+                        cb(false);bidding_index
                     }
                 });
             }
@@ -303,17 +110,17 @@ async function change_ticket_owner(bidding_index,bidder_id, ticket_owner_id, tic
                     notice_buyer_text: notice,
                 });
                 console.log('alert there wasn\'t any bidder');
-                return (true);
+                cb (true);
             });
         } else{
-            return (false);
+            cb (false);
         }
     });
     }
 };
 
 //끝난 비딩 체크하기
-async function check_bidding_over() {
+async function check_bidding_over(cb) {
     await console.log("checkbiddingover!!");
     var current_date = new Date();
     var month=current_date.getMonth()+1; + "-";
@@ -346,6 +153,7 @@ async function check_bidding_over() {
             var num=0;
             console.log(19);
             bidding_list=rows;
+            console.log(rows.length);
             for (var i = 0; i < bidding_list.length; i++) {
                 console.log("checkbiddingover : "+bidding_list[i]);
                     change_ticket_owner(bidding_list[i].bidding_index, bidding_list[i].bidder_id, bidding_list[i].ticket_owner_id, bidding_list[i].ticket_id, bidding_list[i].current_price, function(result){
@@ -358,90 +166,131 @@ async function check_bidding_over() {
                     }
                 }
                 if(num==-1){
-                    return (false);
+                    cb(false);
                 }else{
-                    return(true);
+                    cb(true);
                 }
         }
         else
         {
             console.log('getting bidding list failed');
-            return(false);
+            cb(false);
         }
     });
-    return(true);
+    cb(true);
 }
 
-router.get('/', async (req, res) => {
-    get_reselling_ticket_list_info()
-    .then((result, reselling_list) => {
+//db query reselling info
+function biddingsdb(cb){
+    get_reselling_list(function (result, reselling_list) {
+        console.log("get reselling list result: "+ result);
         if(result==true){
-            var stringfy_tickets=JSON.stringify(reselling_list);
-            console.log("stringify" + stringfy_tickets);
-            res.render('reselling', {
-                reselling_list: stringfy_tickets,
-                user_id : req.session.user_id,
-            });
-        }
-    })  
-});
-/*
-async function parseticketinfo (){
-    await 
-    if(reselling_list[0] != "" ){
-        console.log("-1" + reselling_list[0]);
-        var resell_tickets = JSON.parse(reselling_list[0]);}
-    else{
-        var resell_tickets = [];
-    }
-    res.render('reselling', {
-        reselling_list: resell_tickets,
-        user_id : req.session.user_id,
-    });
-    }else{
-        console.log("empty arraay!!");
-        res.render('reselling', {
-            reselling_list: [],
-            user_id : req.session.user_id,
-        });
-    }
-})
-}*/
-//reselling 정보 return
-/*
-router.get('/', function (req, res, next) {
-        async.series(
-            [
-                function (callback2) {
-                    get_reselling_ticket_list_info(function (result, reselling_list) {
-                        if(result==true){
-                            var stringfy_tickets=JSON.stringify(reselling_list);
-                            console.log("stringify" + stringfy_tickets);
-                            callback2(result, stringfy_tickets);
+            var reselling_ticket_list = new Array();
+            var length=reselling_list.length;
+            console.log("length", length);
+            if(length == 0){
+                    cb(-1, 1);
+            }else{
+                var num=0;
+               for(var i=0; i<length; i++){
+                const resell_ticket = {
+                    ticket_id: "",
+                    section_id: "",
+                    seat_id: "",
+                    ticket_price: 0,
+                    gig_index: "",
+                    gig_venue: "",
+                    gig_name: "",
+                    gig_datetime: "",
+                    starting_time:"",
+                    end_time: "",
+                    max_price: "",
+                    current_price: 0,
+                    };
+                reselling_ticket_list.push(resell_ticket);
+                }
+                for (var i=0 ;i<reselling_list.length; i++){
+                    reselling_ticket_list[i].ticket_id=reselling_list[i].ticket_id;
+                    reselling_ticket_list[i].starting_time=reselling_list[i].starting_time;
+                    reselling_ticket_list[i].end_time=reselling_list[i].end_time;
+                    reselling_ticket_list[i].max_price=reselling_list[i].max_price;
+                    reselling_ticket_list[i].current_price=reselling_list[i].current_price;
+                }
+                for (var i=0 ;i<reselling_list.length; i++){
+                    reselling_ticket_list[i].ticket_price=reselling_list[i].max_price/(1.25);
+                }
+                for (var i=0 ;i<reselling_list.length; i++){
+                    var ticket_id=reselling_ticket_list[i].ticket_id;
+                    var tid=ticket_id.split('.');
+                    reselling_ticket_list[i].section_id=tid[1];
+                    reselling_ticket_list[i].seat_id=tid[2];
+                    reselling_ticket_list[i].gig_index=tid[0];
+                }
+                var giginfo= new Array();
+                var sqlquery = `SELECT * FROM gigs`;
+                connection.query(sqlquery, function (err, rows) {
+                        if (!err) {
+                             giginfo=rows
+                             cb(1, giginfo, reselling_ticket_list)
                         }else{
-                            console.log("empty arraay!!");
-                            res.render('reselling', {
-                                reselling_list: [],
-                                user_id : req.session.user_id,
-                            });
+                            throw err;
                         }
-                    });
+                })
+            }
+        }else{
+            cb(-1, 1);
+        }
+    });
+};
+
+function getlist(callback) {
+    biddingsdb(function(result, giginfo, reselling_ticket_list) {
+        if(result!=-1){
+            var num=0;
+            for (var i=0 ;i<reselling_list.length; i++){
+                for (var j=0 ;j < giginfo.length; j++){
+                        if(reselling_ticket_list[i].gig_index==giginfo[j].gig_index){
+                            reselling_ticket_list[i].gig_name=giginfo[j].gig_name;
+                            reselling_ticket_list[i].gig_venue=giginfo[j].gig_venue;
+                            reselling_ticket_list[i].gig_datetime=giginfo[j].gig_date_time;
+                            num=num+1;
+                        }
                 }
-            ],
-            function (result, reselling_list) {
-                if(reselling_list[0] != "" ){
-                    console.log("-1" + reselling_list[0]);
-                    var resell_tickets = JSON.parse(reselling_list[0]);}
-                else{
-                    var resell_tickets = [];
+            }
+                if(num==reselling_list.length){
+                    callback(-1, reselling_ticket_list);
                 }
+        }else{
+            callback(1, null);
+        }
+    })
+}
+
+
+router.get('/'  ,function(req, res, next) {
+    getlist(function(r, rlist){
+        if(r!=1){
+            var promise1 = new Promise(function(resolve, reject) {
+                resolve(rlist);
+              });
+              
+              promise1.then(function(value) {
+                console.log(value);
+                console.log("rlist" ,value);
                 res.render('reselling', {
-                    reselling_list: resell_tickets,
+                    reselling_list: value,
+                    user_id : req.session.user_id,
+                    });
+                res.end();
+              });
+        }else{
+                res.render('reselling', {
+                    reselling_list: [],
                     user_id : req.session.user_id,
                 });
+                res.end();
             }
-        ); 
-});*/
-
+    })
+});
 
 module.exports = router;

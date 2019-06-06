@@ -119,9 +119,9 @@
                                             Ticket Info : <%= reselling_list[i].ticket_id %> <br>
                                             Gig Venue : <%=reselling_list[i].gig_venue%> <br>
                                             Gig DateTime : <%=reselling_list[i].gig_datetime%> <br> </td>
-                                            Seat Info (Section ID / Seat Row ID / Seat ID) :
+                                            Seat Info (Section ID  / Seat ID) :
                                             <%=reselling_list[i].section_id%> /   
-                                            <%=reselling_list[i].row_id%> / <%=reselling_list[i].seat_id%>
+                                             <%=reselling_list[i].seat_id%>
                                             <form method="post" action="/bidding" >
                                                 <input type="hidden" name="ticket_id" value="<%= reselling_list[i].ticket_id%>">
                                                 <button type="submit" >I Want to Bid</button>

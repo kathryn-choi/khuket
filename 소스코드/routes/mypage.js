@@ -177,6 +177,7 @@ function get_ticket_detail(user_id, ticket_id, cb){
 }
 
 function getqrcode(ticket_id, gig_datetime, cb){
+    console.log("gig_datetime : " +gig_datetime);
     var current_date = new Date();
     var current_time = current_date.getDate() + "/"
         + (current_date.getMonth()+1)  + "/"
