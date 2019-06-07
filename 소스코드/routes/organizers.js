@@ -2,13 +2,134 @@ var express = require('express');
 var router = express.Router();
 const models = require("../models");
 const crypto = require("crypto");
+var async = require('async');
 var network = require('../ticketing-system/network.js');
 
-// function add_gig;
+function get_my_tickets(admin_id, gig_id, cb){
+    console.log("getmytickets!");
+    console.log("admin ", admin_id);
+    console.log("gigid",gig_id);
+    network.get_ticket_info_by_gig_id(gig_id).then((response) => { 
+            //return error if error in response
+        if (response.error != null) {
+            console.log("network get ticket info failed");
+            cb(false, []);
+        } else {
+            var get_my_tickets = response;
+            console.log("response length ; ", get_my_tickets.length);
+            var my_tickets=new Array(); 
+            for(i=0; i<get_my_tickets.length; i++) {
+                var ticket={
+                    gig_id: '',
+                    gig_name: '',
+                    gig_datetime: '',
+                    gig_venue: '',
+                    seat_id : '',
+                    section_id: '',
+                    row_id: '',
+                    ticket_id: '',
+                    ticket_price: 0,
+                    ticket_owner_id: '',
+                }
+                my_tickets.push(ticket);
+            }
+            var num=0;
+            for(i=0; i<get_my_tickets.length; i++) {
+                console.log(get_my_tickets[i]);
+                var stringfy_tickets=JSON.stringify(get_my_tickets[i]);
+                var obj =  JSON.parse(stringfy_tickets);
+               for( var key in obj ) {
+                   console.log(i + " " + key + '=>' + obj[key] );
+                   if(key == 'gig_id'){
+                        my_tickets[i].gig_id=obj[key].toString();
+                   }
+                   else if(key == 'gig_name'){
+                        my_tickets[i].gig_name=obj[key].toString();
+                       }
+                   else if(key == 'gig_datetime'){
+                        my_tickets[i].gig_datetime=obj[key].toString();
+                   }
+                    else if(key == 'gig_venue'){
+                        my_tickets[i].gig_venue=obj[key].toString();
+                   }
+                    else if (key== 'seat_id'){
+                        my_tickets[i].seat_id=obj[key].toString();
+                    }else if (key== 'section_id'){
+                        my_tickets[i].section_id=obj[key].toString();
+                    }else if (key== 'ticket_price'){
+                        my_tickets[i].ticket_price=obj[key].toString();
+                    }else if (key== 'row_id'){
+                        my_tickets[i].row_id=obj[key].toString();
+                    }else if (key== 'ticket_id'){
+                        my_tickets[i].ticket_id=obj[key].toString();
+                    }else if (key== 'owner'){ //check!
+                    my_tickets[i].ticket_owner_id=obj[key].toString();
+                    }
+              }
+              num=num+1;
+              if(num == get_my_tickets.length){
+                cb(true,my_tickets);
+                console.log(my_tickets);
+              }
+            }
+        }
+    })
+}
+
 
 router.get('/signup', function(req, res, next) {
     res.render("organizers/signup");
   });
+
+
+router.get('/ticketlist/:gig_index', function(req, res, next) {
+    let session = req.session;
+    console.log("get ticketlist!");
+    console.log("gigindex" ,req.params.gig_index);
+    async.series(
+        [
+            function(callback){
+                get_my_tickets("ticketadmin", req.params.gig_index, function (result, myticketlist) {
+                    if(result==true){
+                        var stringfy_tickets=JSON.stringify(myticketlist);
+                        console.log("stringify" + stringfy_tickets);
+                        callback(1, stringfy_tickets);
+                    }else{
+                        console.log("get gig_index tickets failed")
+                        res.redirect('back');
+                    }
+                });
+            }
+        ],
+        function(result, myticket){
+            if(myticket[0] != "" ){
+            console.log("myticket "+ myticket);
+            console.log("myticket typeof"+typeof(myticket));
+            console.log ('-1'+ myticket[0] );
+            var my_ticket = JSON.parse(myticket[0])
+            console.log(my_ticket)
+            }else{
+                var my_ticket = [];
+            }
+            res.render('organizers/ticketlist', {
+                mytickets: my_ticket,
+                user_id:req.session.organizer_id,
+                session : session
+            });
+        }
+    );
+  });
+
+router.post("/cancel", function(req, res,next){
+    network.update_ticket_owner("ticketadmin", req.body.ticket_id).then((response) => {
+        if (response.error == null){
+            console.log("update success!");
+            res.redirect('/organizers');
+        }else{
+            res.redirect('/');
+        }
+    }) 
+})
   
 router.post("/signup", function(req,res,next){
     let body = req.body;
@@ -43,8 +164,7 @@ router.post("/signup", function(req,res,next){
 })
 
 router.get('/login', function(req, res, next) {
-    let session = req.session;
-  
+   let session = req.session;
       res.render("organizers/login", {
           session : session
       });
