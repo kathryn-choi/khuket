@@ -7,21 +7,21 @@
     <title>KHUKET | My Page</title>
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="assets/img/favicon1.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/assets/img/favicon1.ico" type="image/x-icon">
 
     <!-- Font awesome -->
-    <link href="assets/css/font-awesome.css" rel="stylesheet">
+    <link href="/assets/css/font-awesome.css" rel="stylesheet">
     <!-- Bootstrap -->
-    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <link href="/assets/css/bootstrap.css" rel="stylesheet">
     <!-- Slick slider -->
-    <link rel="stylesheet" type="text/css" href="assets/css/slick.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/slick.css">
     <!-- Fancybox slider -->
-    <link rel="stylesheet" href="assets/css/jquery.fancybox.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="/assets/css/jquery.fancybox.css" type="text/css" media="screen" />
     <!-- Theme color -->
-    <link id="switcher" href="assets/css/theme-color/default-theme.css" rel="stylesheet">
+    <link id="switcher" href="/assets/css/theme-color/default-theme.css" rel="stylesheet">
 
     <!-- Main style sheet -->
-    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="/assets/css/style.css" rel="stylesheet">
 
     <!-- Google Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
@@ -43,7 +43,7 @@
                 </button>
                 <!-- LOGO -->
                 <!-- TEXT BASED LOGO -->
-                <a class="navbar-brand" href="/"><span><img src="assets/img/logo.png"> KHUKET</span></a>
+                <a class="navbar-brand" href="/"><span><img src="/assets/img/logo.png"> KHUKET</span></a>
                 <!-- IMG BASED LOGO  -->
                 <!-- <a class="navbar-brand" href="index.html"><img src="assets/img/logo.png" alt="logo"></a> -->
             </div>
@@ -97,7 +97,6 @@
                                 <figure class="mu-latest-course-img">
                                     <figcaption class="mu-latest-course-imgcaption">
                                         <a href="#"><%=i+1.%></a>
-                                        <span><i class="fa fa-clock-o"></i>10Days</span>
                                     </figcaption>
                                 </figure>
                                 <div class="mu-latest-course-single-content">
@@ -111,7 +110,7 @@
                                     Price : <%= mytickets[i].ticket_price%> <br>
                                     <p>Ticket ID : <%= mytickets[i].ticket_id%> </p>
                                     Cancel Ticket
-                                    <form method="POST" action="/cancel">
+                                    <form method="POST" action="/organizers/cancel">
                                         <input type="hidden" name="ticket_id" value="<%= mytickets[i].ticket_id%>">
                                         <input type="submit" value="Cancel">
                                     </form>
@@ -136,21 +135,21 @@
 </section>
 
 <!-- jQuery library -->
-<script src="assets/js/jquery.min.js"></script>
+<script src="/assets/js/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="assets/js/bootstrap.js"></script>
+<script src="/assets/js/bootstrap.js"></script>
 <!-- Slick slider -->
-<script type="text/javascript" src="assets/js/slick.js"></script>
+<script type="text/javascript" src="/assets/js/slick.js"></script>
 <!-- Counter -->
-<script type="text/javascript" src="assets/js/waypoints.js"></script>
-<script type="text/javascript" src="assets/js/jquery.counterup.js"></script>
+<script type="text/javascript" src="/assets/js/waypoints.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.counterup.js"></script>
 <!-- Mixit slider -->
-<script type="text/javascript" src="assets/js/jquery.mixitup.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.mixitup.js"></script>
 <!-- Add fancyBox -->
-<script type="text/javascript" src="assets/js/jquery.fancybox.pack.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.fancybox.pack.js"></script>
 
 <!-- Custom js -->
-<script src="assets/js/custom.js"></script>
+<script src="/assets/js/custom.js"></script>
 
 </body>
 </html>

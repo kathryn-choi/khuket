@@ -9,7 +9,7 @@ query select_ticket_by_gig {
   description: "Select ticket that matches gig_id"
   statement:
       SELECT org.ticketing.system.Ticket
-        WHERE (gig_id == _$gig_id)
+        WHERE ((gig_id == _$gig_id) AND (owner != 'resource:org.ticketing.system.TicketAdmin#ticketadmin'))
 }
 
 query select_ticket_by_user{

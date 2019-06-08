@@ -392,19 +392,19 @@ module.exports = {
     }
   },
 
-  get_ticket_info_by_gig_id : async function (_gig_id) {
+  get_ticket_info_by_gig_id : async function (dgig_id) {
 
     try {
       //connect to network with user_id
       var businessNetworkConnection = new BusinessNetworkConnection();
       await businessNetworkConnection.connect('admin@ticketing-system');
-      console.log(_gig_id);
-      //query all tickets from the network
+      var _gig_id = parseInt(dgig_id)
+     //query all tickets from the network
       const allTickets = await businessNetworkConnection.query('select_ticket_by_gig', {gig_id: _gig_id});
-
+      console.log(allTickets)
       //disconnect
       await businessNetworkConnection.disconnect('admin@ticketing-system');
-      await console.log(allTickets);
+
       //return all tickets object
       return allTickets;
     }
