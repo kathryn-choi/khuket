@@ -1,5 +1,7 @@
 ﻿# 블록체인을 활용한 암표 거래 및 프리미엄 방지 티켓팅 시스템 개발 프로젝트
 
+
+
 ## 설치
  - [Git](https://git-scm.com/)
  - [Hyperledger Composer](https://hyperledger.github.io/composer/latest/installing/installing-index)
@@ -33,6 +35,7 @@ config/config.json, app.js 에서 DB정보 로컬에 맞게 수정
 ```sh
 nodemon start
 ```
+
 
 웹 브라우저
  - http://localhost:3100
