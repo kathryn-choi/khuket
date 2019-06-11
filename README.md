@@ -42,4 +42,4 @@ nodemon start
  - http://localhost:3100/administrators/login
 
 ## 데모 영상
- - https://youtu.be/aVrIAOGRwTs
+ - https://youtu.be/KRk0R078U30
